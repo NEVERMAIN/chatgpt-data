@@ -30,13 +30,13 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class ChatService extends AbstractChatService{
+public class ChatService extends AbstractChatService {
 
     @Resource
     private OpenAiSession openAiSession;
 
     @Resource
-    private ThreadPoolExecutor ThreadPoolExecutor;
+    private ThreadPoolExecutor threadPoolExecutor;
 
     @Override
     protected void doOnMessage(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) {
@@ -45,9 +45,10 @@ public class ChatService extends AbstractChatService{
 
             List<ChatCompletionRequest.Prompt> messages = chatProcess.getMessages().stream()
                     .map((entity) -> ChatCompletionRequest.Prompt.builder()
-                    .role(Role.getRole(entity.getRole()).getCode())
-                    .content(entity.getContent())
-                    .build()).collect(Collectors.toList());
+                            .role(Role.getRole(entity.getRole()).getCode())
+                            .content(entity.getContent())
+                            .build()).collect(Collectors.toList());
+
 
             // 准备参数
             ChatCompletionRequest chatCompletion = ChatCompletionRequest.builder()
@@ -56,8 +57,10 @@ public class ChatService extends AbstractChatService{
                     .messages(messages)
                     .build();
 
-            // 调用服务
-            ThreadPoolExecutor.execute(()->{
+            // 异步提交任务
+            threadPoolExecutor.execute(()->{
+                // 调用服务
+                // new EventSourceListener(){} 是传了一个匿名内部类, 返回 EventSource 等待服务器响应触发
                 this.openAiSession.completions(chatCompletion, new EventSourceListener() {
                     @Override
                     public void onEvent(@NotNull EventSource eventSource, @Nullable String id, @Nullable String type, @NotNull String data) {
@@ -67,13 +70,13 @@ public class ChatService extends AbstractChatService{
                         for (ChatCompletionResponse.Choice choice : choices) {
                             ChatCompletionResponse.Delta delta = choice.getDelta();
                             // 判断是不是 assistant
-                            if(!Role.ASSISTANT.getCode().equals(delta.getRole())){
+                            if (!Role.ASSISTANT.getCode().equals(delta.getRole())) {
                                 continue;
                             }
 
                             // 判断时是否结束
                             String finishReason = choice.getFinishReason();
-                            if(StringUtils.isNotBlank(finishReason) && "stop".equals(finishReason)){
+                            if (StringUtils.isNotBlank(finishReason) && "stop".equals(finishReason)) {
                                 emitter.complete();
                                 break;
                             }
@@ -87,9 +90,11 @@ public class ChatService extends AbstractChatService{
                         }
                     }
                 });
+
             });
+
         } catch (Exception e) {
-            log.info("流式问答请求出现异常,异常信息:{}",e.getMessage());
+            log.info("流式问答请求出现异常,异常信息:{}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

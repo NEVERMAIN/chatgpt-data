@@ -1465,3 +1465,326 @@ data: [DONE]
 
 24-03-17.09:58:42.653 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (6514-byte body)
 24-03-17.09:58:42.724 [http-nio-8080-exec-3] INFO  AbstractChatService    - 流式问答请求结束,使用的模型:glm-3-turbo
+24-03-17.10:05:14.229 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 19080 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.10:05:14.232 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.10:05:14.907 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.10:05:14.914 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.10:05:14.914 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.10:05:14.914 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.10:05:14.992 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.10:05:14.992 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 718 ms
+24-03-17.10:05:15.588 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.10:05:15.601 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.10:05:15.608 [main            ] INFO  Application            - Started Application in 1.858 seconds (JVM running for 2.574)
+24-03-17.10:05:20.920 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 18580 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.10:05:20.923 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.10:05:21.700 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.10:05:21.707 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.10:05:21.707 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.10:05:21.708 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.10:05:21.793 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.10:05:21.793 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 837 ms
+24-03-17.10:05:22.439 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.10:05:22.452 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.10:05:22.459 [main            ] INFO  Application            - Started Application in 1.986 seconds (JVM running for 2.794)
+24-03-17.10:05:41.829 [http-nio-8080-exec-2] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.10:05:41.829 [http-nio-8080-exec-2] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.10:05:41.830 [http-nio-8080-exec-2] INFO  DispatcherServlet      - Completed initialization in 1 ms
+24-03-17.10:05:42.001 [http-nio-8080-exec-2] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.10:06:08.103 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.10:06:08.104 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.10:06:08.104 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 97
+24-03-17.10:06:08.104 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.10:06:08.104 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.10:06:08.105 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"please  talk to me"}],"stream":true}
+24-03-17.10:06:08.105 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (97-byte body)
+24-03-17.10:06:09.006 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (901ms)
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sun, 17 Mar 2024 02:06:08 GMT
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=784e2c8c17106411679548716e4d9431397cd3ce23d5739970884252b408cd;path=/;HttpOnly;Max-Age=1800
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.10:06:09.007 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.10:06:09.386 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.10:06:09.386 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"当然"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"，"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"很高兴"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"能"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"和"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"您"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"交流"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"。"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"有什么"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"问题"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"或者"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"话题"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"是"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"您"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"想要"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"探讨"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"的呢"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"？"}}]}
+
+data: {"id":"8483739532837505269","created":1710641168,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":11,"completion_tokens":20,"total_tokens":31}}
+
+data: [DONE]
+
+
+24-03-17.10:06:09.386 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (2952-byte body)
+24-03-17.10:06:22.149 [http-nio-8080-exec-6] INFO  AbstractChatService    - 流式问答请求结束,使用的模型:glm-3-turbo
+24-03-17.10:06:59.062 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 20432 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.10:06:59.065 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.10:06:59.733 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.10:06:59.739 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.10:06:59.740 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.10:06:59.740 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.10:06:59.827 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.10:06:59.827 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 727 ms
+24-03-17.10:07:00.492 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.10:07:00.507 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.10:07:00.516 [main            ] INFO  Application            - Started Application in 1.947 seconds (JVM running for 2.782)
+24-03-17.10:07:12.037 [http-nio-8080-exec-2] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.10:07:12.038 [http-nio-8080-exec-2] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.10:07:12.038 [http-nio-8080-exec-2] INFO  DispatcherServlet      - Completed initialization in 0 ms
+24-03-17.10:07:12.223 [http-nio-8080-exec-2] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.10:07:12.279 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.10:07:12.280 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.10:07:12.280 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 97
+24-03-17.10:07:12.280 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.10:07:12.280 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.10:07:12.280 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"please  talk to me"}],"stream":true}
+24-03-17.10:07:12.280 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (97-byte body)
+24-03-17.10:07:13.232 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (951ms)
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sun, 17 Mar 2024 02:07:12 GMT
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=2f6a1fa217106412322021023e109b6c5d51dc751bfe6929723157f4baedfe;path=/;HttpOnly;Max-Age=1800
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.10:07:13.233 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.10:07:13.712 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.10:07:13.713 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"!"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" How"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" can"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assist"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" today"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"?"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" Feel"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" free"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ask"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" any"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" share"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" your"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" thoughts"}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483739601557001456","created":1710641232,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":11,"completion_tokens":22,"total_tokens":33}}
+
+data: [DONE]
+
+
+24-03-17.10:07:13.713 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (3241-byte body)
+24-03-17.10:07:13.769 [http-nio-8080-exec-3] INFO  AbstractChatService    - 流式问答请求结束,使用的模型:glm-3-turbo
+24-03-17.10:08:42.715 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 20128 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.10:08:42.718 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.10:08:43.353 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.10:08:43.359 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.10:08:43.359 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.10:08:43.360 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.10:08:43.438 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.10:08:43.438 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 675 ms
+24-03-17.10:08:44.064 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.10:08:44.077 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.10:08:44.084 [main            ] INFO  Application            - Started Application in 1.795 seconds (JVM running for 2.522)
+24-03-17.10:08:48.706 [http-nio-8080-exec-1] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.10:08:48.706 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.10:08:48.707 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Completed initialization in 1 ms
+24-03-17.10:08:48.874 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.10:08:48.913 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.10:08:48.913 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.10:08:48.914 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 97
+24-03-17.10:08:48.914 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.10:08:48.914 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.10:08:48.914 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"please  talk to me"}],"stream":true}
+24-03-17.10:08:48.914 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (97-byte body)
+24-03-17.10:08:51.024 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (2109ms)
+24-03-17.10:08:51.024 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sun, 17 Mar 2024 02:08:50 GMT
+24-03-17.10:08:51.024 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.10:08:51.024 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.10:08:51.024 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.10:08:51.024 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=784e2cb017106413300353130e6e64b3cdeaa604cec3ed4e3607d192a4010d;path=/;HttpOnly;Max-Age=1800
+24-03-17.10:08:51.024 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.10:08:51.024 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.10:08:51.025 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.10:08:51.025 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.10:08:51.025 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.10:08:51.356 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.10:08:51.356 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"当然"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"，"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"很高兴"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"与"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"您"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"交流"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"。"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"您"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"有什么"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"问题"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"或者"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"需要"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"什么"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"帮助"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"吗"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"？"}}]}
+
+data: {"id":"8483744480639941946","created":1710641330,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":11,"completion_tokens":18,"total_tokens":29}}
+
+data: [DONE]
+
+
+24-03-17.10:08:51.356 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (2653-byte body)
+24-03-17.10:08:51.409 [http-nio-8080-exec-3] INFO  AbstractChatService    - 流式问答请求结束,使用的模型:glm-3-turbo
+24-03-17.10:10:41.770 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 20040 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.10:10:41.773 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.10:10:42.426 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.10:10:42.432 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.10:10:42.433 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.10:10:42.433 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.10:10:42.516 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.10:10:42.516 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 704 ms
+24-03-17.10:10:43.137 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.10:10:43.152 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.10:10:43.160 [main            ] INFO  Application            - Started Application in 1.864 seconds (JVM running for 2.626)
+24-03-17.10:11:10.244 [http-nio-8080-exec-1] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.10:11:10.244 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.10:11:10.245 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Completed initialization in 1 ms
+24-03-17.10:11:10.414 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.10:11:10.455 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.10:11:10.455 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.10:11:10.455 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 97
+24-03-17.10:11:10.455 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.10:11:10.456 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.10:11:10.457 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"please  talk to me"}],"stream":true}
+24-03-17.10:11:10.457 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (97-byte body)
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (865ms)
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sun, 17 Mar 2024 02:11:10 GMT
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=784e2c9617106414702695837e2c4be6af32907df8e10976a445ef2cd2683a;path=/;HttpOnly;Max-Age=1800
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.10:11:11.323 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.10:11:11.790 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.10:11:11.790 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"!"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" How"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" can"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assist"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" today"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"?"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" Feel"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" free"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ask"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" any"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" share"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" your"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" thoughts"}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483750287435872722","created":1710641470,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":11,"completion_tokens":22,"total_tokens":33}}
+
+data: [DONE]
+
+
+24-03-17.10:11:11.790 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (3241-byte body)
+24-03-17.10:11:11.848 [http-nio-8080-exec-3] INFO  AbstractChatService    - 流式问答请求结束,使用的模型:glm-3-turbo
