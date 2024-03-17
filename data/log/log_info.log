@@ -1,0 +1,1314 @@
+24-03-17.07:25:30.724 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 17820 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:25:30.726 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:25:31.459 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:25:31.466 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:25:31.467 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:25:31.467 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:25:31.557 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:25:31.557 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 795 ms
+24-03-17.07:25:32.167 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:25:32.180 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:25:32.187 [main            ] INFO  Application            - Started Application in 1.866 seconds (JVM running for 2.549)
+24-03-17.07:26:20.194 [http-nio-8080-exec-1] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.07:26:20.194 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.07:26:20.195 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Completed initialization in 1 ms
+24-03-17.07:26:49.130 [http-nio-8080-exec-9] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"show how you love me","role":"user"}]
+24-03-17.07:26:49.133 [http-nio-8080-exec-9] INFO  ChatGPTAIServiceControllerOld - 流式问答请求出现异常,使用的模型:glm-3.5-turbo,异常信息:No enum constant com.myapp.chatglm.model.Model.user
+24-03-17.07:26:49.140 [http-nio-8080-exec-9] ERROR [dispatcherServlet]    - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Model.user] with root cause
+java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Model.user
+	at java.lang.Enum.valueOf(Enum.java:238)
+	at com.myapp.chatglm.model.Model.valueOf(Model.java:12)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.lambda$completionsStream$2(ChatGPTAIServiceControllerOld.java:73)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.completionsStream(ChatGPTAIServiceControllerOld.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+24-03-17.07:27:52.791 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 17944 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:27:52.793 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:27:53.418 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:27:53.424 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:27:53.424 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:27:53.425 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:27:53.504 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:27:53.504 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 677 ms
+24-03-17.07:27:54.082 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:27:54.094 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:27:54.101 [main            ] INFO  Application            - Started Application in 1.688 seconds (JVM running for 2.773)
+24-03-17.07:28:05.541 [http-nio-8080-exec-2] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.07:28:05.542 [http-nio-8080-exec-2] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.07:28:05.542 [http-nio-8080-exec-2] INFO  DispatcherServlet      - Completed initialization in 0 ms
+24-03-17.07:28:05.706 [http-nio-8080-exec-2] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"show how you love me","role":"user"}]
+24-03-17.07:28:05.712 [http-nio-8080-exec-2] INFO  ChatGPTAIServiceControllerOld - 流式问答请求出现异常,使用的模型:glm-3.5-turbo,异常信息:No enum constant com.myapp.chatglm.model.Role.user
+24-03-17.07:28:05.721 [http-nio-8080-exec-2] ERROR [dispatcherServlet]    - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Role.user] with root cause
+java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Role.user
+	at java.lang.Enum.valueOf(Enum.java:238)
+	at com.myapp.chatglm.model.Role.valueOf(Role.java:11)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.lambda$completionsStream$2(ChatGPTAIServiceControllerOld.java:73)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.completionsStream(ChatGPTAIServiceControllerOld.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+24-03-17.07:29:17.216 [http-nio-8080-exec-4] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"show how you love me","role":"user"}]
+24-03-17.07:29:44.912 [http-nio-8080-exec-4] INFO  ChatGPTAIServiceControllerOld - 流式问答请求出现异常,使用的模型:glm-3.5-turbo,异常信息:No enum constant com.myapp.chatglm.model.Role.user
+24-03-17.07:29:44.913 [http-nio-8080-exec-4] ERROR [dispatcherServlet]    - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Role.user] with root cause
+java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Role.user
+	at java.lang.Enum.valueOf(Enum.java:238)
+	at com.myapp.chatglm.model.Role.valueOf(Role.java:11)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.lambda$completionsStream$2(ChatGPTAIServiceControllerOld.java:73)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.completionsStream(ChatGPTAIServiceControllerOld.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+24-03-17.07:30:32.890 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 9364 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:30:32.892 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:30:33.460 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:30:33.465 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:30:33.466 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:30:33.466 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:30:33.544 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:30:33.544 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 625 ms
+24-03-17.07:30:34.123 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:30:34.136 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:30:34.143 [main            ] INFO  Application            - Started Application in 1.735 seconds (JVM running for 2.567)
+24-03-17.07:30:43.601 [http-nio-8080-exec-1] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.07:30:43.601 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.07:30:43.602 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Completed initialization in 1 ms
+24-03-17.07:30:43.763 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"show how you love me","role":"user"}]
+24-03-17.07:30:45.961 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceControllerOld - 流式问答请求出现异常,使用的模型:glm-3.5-turbo,异常信息:No enum constant com.myapp.chatglm.model.Model.glm-3.5-turbo
+24-03-17.07:30:45.968 [http-nio-8080-exec-1] ERROR [dispatcherServlet]    - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Model.glm-3.5-turbo] with root cause
+java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Model.glm-3.5-turbo
+	at java.lang.Enum.valueOf(Enum.java:238)
+	at com.myapp.chatglm.model.Model.valueOf(Model.java:12)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.completionsStream(ChatGPTAIServiceControllerOld.java:79)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+24-03-17.07:31:18.452 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 3376 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:31:18.455 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:31:19.060 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:31:19.066 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:31:19.066 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:31:19.067 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:31:19.156 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:31:19.156 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 666 ms
+24-03-17.07:31:19.761 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:31:19.773 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:31:19.780 [main            ] INFO  Application            - Started Application in 1.776 seconds (JVM running for 2.58)
+24-03-17.07:31:31.456 [http-nio-8080-exec-3] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.07:31:31.457 [http-nio-8080-exec-3] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.07:31:31.457 [http-nio-8080-exec-3] INFO  DispatcherServlet      - Completed initialization in 0 ms
+24-03-17.07:31:31.606 [http-nio-8080-exec-3] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"show how you love me","role":"user"}]
+24-03-17.07:31:31.680 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.07:31:31.681 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.07:31:31.681 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 99
+24-03-17.07:31:31.681 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.07:31:31.681 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.07:31:31.681 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"show how you love me"}],"stream":true}
+24-03-17.07:31:31.681 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (99-byte body)
+24-03-17.07:31:32.723 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (1042ms)
+24-03-17.07:31:32.723 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sat, 16 Mar 2024 23:31:32 GMT
+24-03-17.07:31:32.723 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.07:31:32.724 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.07:31:32.724 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.07:31:32.724 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=784e2c9017106318916585131e6f012a3c432f737e759091afc00effae193a;path=/;HttpOnly;Max-Age=1800
+24-03-17.07:31:32.724 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.07:31:32.724 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.07:31:32.724 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.07:31:32.724 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.07:31:32.724 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.07:31:34.571 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.07:31:34.571 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"As"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" an"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" artificial"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" intelligence"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" don"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"'"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"t"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" have"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" feelings"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" the"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ability"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" love"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" My"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" purpose"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" is"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" provide"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" information"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" answer"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" and"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assist"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" users"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" based"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" on"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" their"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" queries"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" However"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" can"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" express"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" appreciation"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" for"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" your"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" use"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" of"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" my"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" services"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" and"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" aim"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" provide"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" with"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" the"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" best"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" possible"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assistance"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" If"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" there"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"'"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"s"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" anything"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" specific"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"'"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"d"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" like"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" help"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" with"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" feel"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" free"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ask"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"!"}}]}
+
+data: {"id":"8483742419055578842","created":1710631892,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":10,"completion_tokens":78,"total_tokens":88}}
+
+data: [DONE]
+
+
+24-03-17.07:31:34.571 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (11636-byte body)
+24-03-17.07:33:13.214 [http-nio-8080-exec-4] INFO  ChatGPTAIServiceControllerOld - 流式问答请求完成,使用的模型:glm-3.5-turbo
+24-03-17.07:41:11.134 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 9480 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:41:11.136 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:41:11.794 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:41:11.800 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:41:11.800 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:41:11.800 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:41:11.878 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:41:11.878 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 705 ms
+24-03-17.07:41:12.436 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:41:12.452 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:41:12.460 [main            ] INFO  Application            - Started Application in 1.754 seconds (JVM running for 2.516)
+24-03-17.07:42:04.624 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 4388 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:42:04.626 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:42:05.217 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:42:05.223 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:42:05.223 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:42:05.223 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:42:05.299 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:42:05.299 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 641 ms
+24-03-17.07:42:05.863 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:42:05.876 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:42:05.883 [main            ] INFO  Application            - Started Application in 1.674 seconds (JVM running for 2.507)
+24-03-17.07:42:13.732 [http-nio-8080-exec-1] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.07:42:13.732 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.07:42:13.733 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Completed initialization in 1 ms
+24-03-17.07:42:13.905 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"show how you love me","role":"user"}]
+24-03-17.07:42:28.789 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceControllerOld - 流式问答请求出现异常,使用的模型:glm-3.5-turbo,异常信息:No enum constant com.myapp.chatglm.model.Role.glm-3.5-turbo
+24-03-17.07:42:28.798 [http-nio-8080-exec-1] ERROR [dispatcherServlet]    - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Role.glm-3.5-turbo] with root cause
+java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Role.glm-3.5-turbo
+	at java.lang.Enum.valueOf(Enum.java:238)
+	at com.myapp.chatglm.model.Role.valueOf(Role.java:11)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.lambda$completionsStream$2(ChatGPTAIServiceControllerOld.java:73)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.completionsStream(ChatGPTAIServiceControllerOld.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+24-03-17.07:46:06.416 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 1776 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:46:06.419 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:46:07.052 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:46:07.058 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:46:07.059 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:46:07.059 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:46:07.142 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:46:07.142 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 690 ms
+24-03-17.07:46:07.739 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:46:07.752 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:46:07.759 [main            ] INFO  Application            - Started Application in 1.833 seconds (JVM running for 2.673)
+24-03-17.07:46:13.531 [http-nio-8080-exec-3] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.07:46:13.532 [http-nio-8080-exec-3] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.07:46:13.532 [http-nio-8080-exec-3] INFO  DispatcherServlet      - Completed initialization in 0 ms
+24-03-17.07:46:13.745 [http-nio-8080-exec-3] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"show how you love me","role":"user"}]
+24-03-17.07:46:16.836 [http-nio-8080-exec-3] INFO  ChatGPTAIServiceControllerOld - 流式问答请求出现异常,使用的模型:glm-3.5-turbo,异常信息:No enum constant com.myapp.chatglm.model.Role.GLM-3.5-TURBO
+24-03-17.07:46:16.842 [http-nio-8080-exec-3] ERROR [dispatcherServlet]    - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Role.GLM-3.5-TURBO] with root cause
+java.lang.IllegalArgumentException: No enum constant com.myapp.chatglm.model.Role.GLM-3.5-TURBO
+	at java.lang.Enum.valueOf(Enum.java:238)
+	at com.myapp.chatglm.model.Role.valueOf(Role.java:11)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.lambda$completionsStream$2(ChatGPTAIServiceControllerOld.java:73)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499)
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.completionsStream(ChatGPTAIServiceControllerOld.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+24-03-17.07:53:15.204 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 4200 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:53:15.206 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:53:15.816 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:53:15.822 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:53:15.822 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:53:15.822 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:53:15.897 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:53:15.897 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 661 ms
+24-03-17.07:53:16.450 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:53:16.462 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:53:16.469 [main            ] INFO  Application            - Started Application in 1.604 seconds (JVM running for 2.705)
+24-03-17.07:55:23.453 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 16828 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.07:55:23.455 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.07:55:24.063 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.07:55:24.070 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.07:55:24.070 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.07:55:24.070 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.07:55:24.149 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.07:55:24.149 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 659 ms
+24-03-17.07:55:24.694 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.07:55:24.707 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.07:55:24.714 [main            ] INFO  Application            - Started Application in 1.689 seconds (JVM running for 2.514)
+24-03-17.07:56:02.441 [http-nio-8080-exec-3] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.07:56:02.441 [http-nio-8080-exec-3] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.07:56:02.442 [http-nio-8080-exec-3] INFO  DispatcherServlet      - Completed initialization in 0 ms
+24-03-17.07:56:02.643 [http-nio-8080-exec-3] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"show how you love me","role":"user"}]
+24-03-17.07:56:02.679 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.07:56:02.680 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.07:56:02.680 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 99
+24-03-17.07:56:02.680 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.07:56:02.680 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.07:56:02.681 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"show how you love me"}],"stream":true}
+24-03-17.07:56:02.681 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (99-byte body)
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (873ms)
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sat, 16 Mar 2024 23:56:03 GMT
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=784e2ca417106333625433823e15e817f41c1ab84cc38ef467a3504e95fb1e;path=/;HttpOnly;Max-Age=1800
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.07:56:03.556 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.07:56:05.324 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.07:56:05.325 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"As"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" an"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" artificial"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" intelligence"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" don"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"'"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"t"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" have"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" emotions"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" the"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ability"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" love"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" My"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" purpose"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" is"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" provide"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" information"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" answer"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" and"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assist"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" users"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" the"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" best"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" of"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" my"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ability"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" based"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" on"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" the"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" data"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" and"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" programming"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"'"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"ve"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" been"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" trained"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" on"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" If"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" have"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" any"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" need"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assistance"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" feel"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" free"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ask"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" and"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"'"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"ll"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" do"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" my"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" best"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" help"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483750115637181195","created":1710633362,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":10,"completion_tokens":76,"total_tokens":86}}
+
+data: [DONE]
+
+
+24-03-17.07:56:05.325 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (11310-byte body)
+24-03-17.07:56:05.383 [http-nio-8080-exec-2] INFO  ChatGPTAIServiceControllerOld - 流式问答请求完成,使用的模型:glm-3.5-turbo
+24-03-17.08:04:21.099 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 3264 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.08:04:21.101 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.08:04:21.752 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.08:04:21.761 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.08:04:21.761 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.08:04:21.761 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.08:04:21.873 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.08:04:21.873 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 740 ms
+24-03-17.08:04:22.483 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.08:04:22.496 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.08:04:22.503 [main            ] INFO  Application            - Started Application in 1.868 seconds (JVM running for 2.655)
+24-03-17.08:04:40.713 [http-nio-8080-exec-1] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.08:04:40.713 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.08:04:40.713 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Completed initialization in 0 ms
+24-03-17.08:04:40.899 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3.5-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.08:04:40.902 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceControllerOld - 流式问答请求出现异常,使用的模型:glm-3.5-turbo,异常信息:null
+24-03-17.08:04:40.912 [http-nio-8080-exec-1] ERROR [dispatcherServlet]    - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: java.lang.NullPointerException] with root cause
+java.lang.NullPointerException: null
+	at com.myapp.chatgpt.data.trigger.http.ChatGPTAIServiceControllerOld.completionsStream(ChatGPTAIServiceControllerOld.java:79)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+24-03-17.08:05:23.290 [http-nio-8080-exec-4] INFO  ChatGPTAIServiceControllerOld - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.08:05:23.321 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.08:05:23.321 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.08:05:23.321 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 97
+24-03-17.08:05:23.321 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.08:05:23.321 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.08:05:23.322 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"please  talk to me"}],"stream":true}
+24-03-17.08:05:23.322 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (97-byte body)
+24-03-17.08:05:24.245 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (922ms)
+24-03-17.08:05:24.245 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sun, 17 Mar 2024 00:05:23 GMT
+24-03-17.08:05:24.245 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.08:05:24.245 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.08:05:24.245 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.08:05:24.245 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=784e2c9217106339232562400e53e5677cff58120cf5a5ee300503cb55464c;path=/;HttpOnly;Max-Age=1800
+24-03-17.08:05:24.245 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.08:05:24.245 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.08:05:24.246 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.08:05:24.246 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.08:05:24.246 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.08:05:24.652 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.08:05:24.653 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"!"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" How"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" can"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assist"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" today"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"?"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" Feel"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" free"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ask"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" any"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" share"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" your"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" thoughts"}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483739498477782146","created":1710633923,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":11,"completion_tokens":22,"total_tokens":33}}
+
+data: [DONE]
+
+
+24-03-17.08:05:24.653 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (3241-byte body)
+24-03-17.08:05:24.722 [http-nio-8080-exec-5] INFO  ChatGPTAIServiceControllerOld - 流式问答请求完成,使用的模型:glm-3-turbo
+24-03-17.09:08:48.777 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 18984 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.09:08:48.779 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.09:08:49.539 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.09:08:49.547 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.09:08:49.547 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.09:08:49.547 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.09:08:49.650 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.09:08:49.650 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 837 ms
+24-03-17.09:08:50.266 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.09:08:50.281 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.09:08:50.292 [main            ] INFO  Application            - Started Application in 1.983 seconds (JVM running for 3.092)
+24-03-17.09:09:19.185 [http-nio-8080-exec-1] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.09:09:19.185 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.09:09:19.186 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Completed initialization in 1 ms
+24-03-17.09:09:19.427 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.09:09:19.470 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.09:09:19.470 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.09:09:19.470 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 97
+24-03-17.09:09:19.472 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.09:09:19.472 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.09:09:19.472 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"please  talk to me"}],"stream":true}
+24-03-17.09:09:19.472 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (97-byte body)
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (867ms)
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sun, 17 Mar 2024 01:09:19 GMT
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=2f6a1fa517106377593064153e064402625497e0b21d5ff588456d55227a83;path=/;HttpOnly;Max-Age=1800
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.09:09:20.340 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.09:09:20.908 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.09:09:20.908 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"!"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" How"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" can"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assist"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" today"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"?"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" If"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" have"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" any"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" need"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" information"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" on"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" a"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" topic"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" feel"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" free"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ask"}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483739532837524961","created":1710637759,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":11,"completion_tokens":28,"total_tokens":39}}
+
+data: [DONE]
+
+
+24-03-17.09:09:20.908 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (4132-byte body)
+24-03-17.09:09:20.973 [http-nio-8080-exec-2] INFO  ChatGPTAIServiceController - 流式问答请求结束,使用的模型:glm-3-turbo
+24-03-17.09:17:28.830 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 19948 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.09:17:28.832 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.09:17:29.443 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.09:17:29.449 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.09:17:29.450 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.09:17:29.450 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.09:17:29.532 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.09:17:29.532 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 665 ms
+24-03-17.09:17:30.096 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.09:17:30.109 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.09:17:30.116 [main            ] INFO  Application            - Started Application in 1.729 seconds (JVM running for 2.408)
+24-03-17.09:18:03.520 [http-nio-8080-exec-1] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.09:18:03.521 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.09:18:03.521 [http-nio-8080-exec-1] INFO  DispatcherServlet      - Completed initialization in 0 ms
+24-03-17.09:18:03.716 [http-nio-8080-exec-1] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.09:18:03.774 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.09:18:03.774 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.09:18:03.774 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 97
+24-03-17.09:18:03.774 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.09:18:03.774 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.09:18:03.775 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"please  talk to me"}],"stream":true}
+24-03-17.09:18:03.775 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (97-byte body)
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (845ms)
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sun, 17 Mar 2024 01:18:04 GMT
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=784e2cb217106382836077666e44c259c50dadf071323952a0d015c7652840;path=/;HttpOnly;Max-Age=1800
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.09:18:04.620 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.09:18:05.645 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.09:18:05.646 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"!"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"'"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"m"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" Chat"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"GL"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"M"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"（"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"智"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"谱"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"清"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"言"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"）,"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" the"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" artificial"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" intelligence"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assistant"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" nice"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" meet"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" Feel"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" free"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ask"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" me"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" any"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" share"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" anything"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"'"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"d"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" like"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" talk"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" about"}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483739429758292187","created":1710638283,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":11,"completion_tokens":44,"total_tokens":55}}
+
+data: [DONE]
+
+
+24-03-17.09:18:05.646 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (6514-byte body)
+24-03-17.09:18:05.705 [http-nio-8080-exec-5] INFO  AbstractChatService    - 流式问答请求结束,使用的模型:glm-3-turbo
+24-03-17.09:32:41.175 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 4704 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.09:32:41.178 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.09:32:41.787 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.09:32:41.793 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.09:32:41.793 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.09:32:41.793 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.09:32:41.873 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.09:32:41.873 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 659 ms
+24-03-17.09:32:42.499 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.09:32:42.513 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.09:32:42.520 [main            ] INFO  Application            - Started Application in 1.765 seconds (JVM running for 2.448)
+24-03-17.09:35:09.021 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 19696 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-17.09:35:09.024 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-17.09:35:09.661 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-17.09:35:09.667 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-17.09:35:09.667 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-17.09:35:09.667 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-17.09:35:09.751 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-17.09:35:09.751 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 690 ms
+24-03-17.09:35:10.486 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-17.09:35:10.500 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-17.09:35:10.508 [main            ] INFO  Application            - Started Application in 1.935 seconds (JVM running for 2.663)
+24-03-17.09:35:38.580 [http-nio-8080-exec-2] INFO  [/]                    - Initializing Spring DispatcherServlet 'dispatcherServlet'
+24-03-17.09:35:38.580 [http-nio-8080-exec-2] INFO  DispatcherServlet      - Initializing Servlet 'dispatcherServlet'
+24-03-17.09:35:38.581 [http-nio-8080-exec-2] INFO  DispatcherServlet      - Completed initialization in 1 ms
+24-03-17.09:35:38.800 [http-nio-8080-exec-2] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"please  talk to me","role":"user"}]
+24-03-17.09:35:38.868 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+24-03-17.09:35:38.868 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: application/json; charset=utf-8
+24-03-17.09:35:38.868 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Length: 97
+24-03-17.09:35:38.868 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Accept: text/event-stream
+24-03-17.09:35:38.869 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.09:35:38.869 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - {"model":"glm-3-turbo","messages":[{"role":"user","content":"please  talk to me"}],"stream":true}
+24-03-17.09:35:38.870 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - --> END POST (97-byte body)
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- 200 https://open.bigmodel.cn/api/paas/v4/chat/completions (4066ms)
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Date: Sun, 17 Mar 2024 01:35:42 GMT
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Content-Type: text/event-stream;charset=UTF-8
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Transfer-Encoding: chunked
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Connection: close
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Set-Cookie: acw_tc=784e2c9717106393419014581e7328e9013c929b7fcfd2a5527af8b9832638;path=/;HttpOnly;Max-Age=1800
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Server: nginx/1.21.6
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - x-trace-id: 
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Origin
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Method
+24-03-17.09:35:42.935 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - Vary: Access-Control-Request-Headers
+24-03-17.09:35:43.521 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - 
+24-03-17.09:35:43.521 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"!"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" How"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" can"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" I"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" assist"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" today"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"?"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" If"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" you"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" have"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" any"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" questions"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" or"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" need"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" information"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" on"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" a"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" topic"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":","}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" feel"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" free"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" to"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":" ask"}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"delta":{"role":"assistant","content":"."}}]}
+
+data: {"id":"8483750115637169194","created":1710639342,"model":"glm-3-turbo","choices":[{"index":0,"finish_reason":"stop","delta":{"role":"assistant","content":""}}],"usage":{"prompt_tokens":11,"completion_tokens":28,"total_tokens":39}}
+
+data: [DONE]
+
+
+24-03-17.09:35:43.521 [OkHttp https://open.bigmodel.cn/...] INFO  OkHttpClient           - <-- END HTTP (4132-byte body)
+24-03-17.09:35:43.577 [http-nio-8080-exec-3] INFO  AbstractChatService    - 流式问答请求结束,使用的模型:glm-3-turbo
