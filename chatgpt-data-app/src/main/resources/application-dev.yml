@@ -9,6 +9,18 @@ app:
     # 跨域,开发阶段可以设置为 * 不限制
     cross-origin: "*"
 
+# 线程池配置
+thread:
+  pool:
+    executor:
+      config:
+        core-pool-size: 20
+        max-pool-size: 50
+        keep-alive-time: 5000
+        block-queue-size: 5000
+        policy: CallerRunsPolicy
+
+
 # ChatGLM SDK Config
 chatglm:
   sdk:

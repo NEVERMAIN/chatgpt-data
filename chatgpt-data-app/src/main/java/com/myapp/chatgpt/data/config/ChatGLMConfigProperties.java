@@ -9,7 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date: 2024/3/16
  */
 @Data
-@ConfigurationProperties(prefix = "chatglm.sdk.config", ignoreInvalidFields = true)
+@ConfigurationProperties(prefix = "chatglm.sdk.config",
+        ignoreInvalidFields = true)
 public class ChatGLMConfigProperties {
 
     private String apiHost;

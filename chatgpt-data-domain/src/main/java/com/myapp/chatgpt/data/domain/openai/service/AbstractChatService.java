@@ -16,11 +16,12 @@ public abstract class AbstractChatService implements IChatService {
 
     @Override
     public ResponseBodyEmitter completions(ChatProcessAggregate chatProcess) {
-        // 鉴权
+        // 1. 校验权限
         if(!"openai".equals(chatProcess.getToken())){
             throw new ChatGPTException(Constants.ResponseCode.TOKEN_ERROR.getCode(), Constants.ResponseCode.TOKEN_ERROR.getInfo());
         }
 
+        // 2. 请求应答
         ResponseBodyEmitter emitter = new ResponseBodyEmitter(3 * 6 * 1000L);
         emitter.onCompletion(()->{
             log.info("流式问答请求结束,使用的模型:{}",chatProcess.getModel());
@@ -30,12 +31,15 @@ public abstract class AbstractChatService implements IChatService {
             log.error("流式问答请求出现异常,使用的模型:{},异常信息",chatProcess.getModel(),e);
         });
 
-        // 调用大模型服务
+        // 3. 应答处理
         try {
-            return this.doOnMessage(chatProcess,emitter);
+            this.doOnMessage(chatProcess,emitter);
         } catch (Exception e) {
             throw new ChatGPTException(Constants.ResponseCode.UN_ERROR.getCode(), Constants.ResponseCode.UN_ERROR.getInfo());
         }
+
+        // 4. 返回结果
+        return emitter;
     }
 
     /**
@@ -43,7 +47,7 @@ public abstract class AbstractChatService implements IChatService {
      * @param emitter
      * @return
      */
-    protected abstract ResponseBodyEmitter doOnMessage(ChatProcessAggregate chatProcess,ResponseBodyEmitter emitter);
+    protected abstract void doOnMessage(ChatProcessAggregate chatProcess,ResponseBodyEmitter emitter);
 
 
 }

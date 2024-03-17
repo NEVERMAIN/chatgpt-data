@@ -13,12 +13,14 @@ import okhttp3.sse.EventSourceListener;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -33,8 +35,11 @@ public class ChatService extends AbstractChatService{
     @Resource
     private OpenAiSession openAiSession;
 
+    @Resource
+    private ThreadPoolExecutor ThreadPoolExecutor;
+
     @Override
-    protected ResponseBodyEmitter doOnMessage(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) {
+    protected void doOnMessage(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) {
 
         try {
 
@@ -52,36 +57,37 @@ public class ChatService extends AbstractChatService{
                     .build();
 
             // 调用服务
-            this.openAiSession.completions(chatCompletion, new EventSourceListener() {
-                @Override
-                public void onEvent(@NotNull EventSource eventSource, @Nullable String id, @Nullable String type, @NotNull String data) {
-                    // 解析 data
-                    ChatCompletionResponse response = JSON.parseObject(data, ChatCompletionResponse.class);
-                    List<ChatCompletionResponse.Choice> choices = response.getChoices();
-                    for (ChatCompletionResponse.Choice choice : choices) {
-                        ChatCompletionResponse.Delta delta = choice.getDelta();
-                        // 判断是不是 assistant
-                        if(!Role.ASSISTANT.getCode().equals(delta.getRole())){
-                            continue;
-                        }
+            ThreadPoolExecutor.execute(()->{
+                this.openAiSession.completions(chatCompletion, new EventSourceListener() {
+                    @Override
+                    public void onEvent(@NotNull EventSource eventSource, @Nullable String id, @Nullable String type, @NotNull String data) {
+                        // 解析 data
+                        ChatCompletionResponse response = JSON.parseObject(data, ChatCompletionResponse.class);
+                        List<ChatCompletionResponse.Choice> choices = response.getChoices();
+                        for (ChatCompletionResponse.Choice choice : choices) {
+                            ChatCompletionResponse.Delta delta = choice.getDelta();
+                            // 判断是不是 assistant
+                            if(!Role.ASSISTANT.getCode().equals(delta.getRole())){
+                                continue;
+                            }
 
-                        // 判断时是否结束
-                        String finishReason = choice.getFinishReason();
-                        if(StringUtils.isNotBlank(finishReason) && "stop".equals(finishReason)){
-                            emitter.complete();
-                            break;
-                        }
+                            // 判断时是否结束
+                            String finishReason = choice.getFinishReason();
+                            if(StringUtils.isNotBlank(finishReason) && "stop".equals(finishReason)){
+                                emitter.complete();
+                                break;
+                            }
 
-                        // 发送消息
-                        try {
-                            emitter.send(delta.getContent());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            // 发送消息
+                            try {
+                                emitter.send(delta.getContent());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
-                }
+                });
             });
-            return emitter;
         } catch (Exception e) {
             log.info("流式问答请求出现异常,异常信息:{}",e.getMessage());
             throw new RuntimeException(e);
