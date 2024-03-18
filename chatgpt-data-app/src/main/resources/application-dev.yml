@@ -28,6 +28,15 @@ chatglm:
       api-host: https://open.bigmodel.cn/
       api-secret-key: 6fbc6c46a84a201fad03b6de40253619.2WNgqPQhA34dEEoq
 
+
+# 微信公众号配置
+wx:
+  config:
+    originalid: gh_cb7b526b4afe
+    appid: wx5f3e89698e950ef7
+    token: myapp
+
+
 # 日志
 logging:
   level:

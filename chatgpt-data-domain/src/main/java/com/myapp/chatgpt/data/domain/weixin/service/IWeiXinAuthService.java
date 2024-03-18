@@ -1,0 +1,14 @@
+package com.myapp.chatgpt.data.domain.weixin.service;
+
+/**
+ * @description: 微信验签服务
+ * @author: 云奇迹
+ * @date: 2024/3/18
+ */
+public interface IWeiXinAuthService {
+
+    /**
+     * 验签方法
+     */
+    public boolean checkValid(String signature,String timestamp,String nonce);
+}

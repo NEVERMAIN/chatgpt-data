@@ -15,21 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 public abstract class AbstractChatService implements IChatService {
 
     @Override
-    public ResponseBodyEmitter completions(ChatProcessAggregate chatProcess) {
-        // 1. 校验权限
-        if(!"openai".equals(chatProcess.getToken())){
-            throw new ChatGPTException(Constants.ResponseCode.TOKEN_ERROR.getCode(), Constants.ResponseCode.TOKEN_ERROR.getInfo());
-        }
-
-        // 2. 请求应答
-        ResponseBodyEmitter emitter = new ResponseBodyEmitter(3 * 6 * 1000L);
-        emitter.onCompletion(()->{
-            log.info("流式问答请求结束,使用的模型:{}",chatProcess.getModel());
-        });
-
-        emitter.onError((e)->{
-            log.error("流式问答请求出现异常,使用的模型:{},异常信息",chatProcess.getModel(),e);
-        });
+    public ResponseBodyEmitter completions(ChatProcessAggregate chatProcess,ResponseBodyEmitter emitter) {
 
         // 3. 应答处理
         try {

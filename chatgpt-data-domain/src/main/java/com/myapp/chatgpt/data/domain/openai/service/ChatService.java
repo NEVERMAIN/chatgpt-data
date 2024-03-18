@@ -13,7 +13,6 @@ import okhttp3.sse.EventSourceListener;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
@@ -83,7 +82,8 @@ public class ChatService extends AbstractChatService {
 
                             // 发送消息
                             try {
-                                emitter.send(delta.getContent());
+                                String content = JSON.toJSONString(delta.getContent());
+                                emitter.send(content);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
