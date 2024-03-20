@@ -1,5 +1,6 @@
 package com.myapp.chatgpt.data.domain.openai.service.rule.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.github.houbb.sensitive.word.bs.SensitiveWordBs;
 import com.myapp.chatgpt.data.domain.openai.annotation.LogicStrategy;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
@@ -43,30 +44,21 @@ public class SensitiveWordFilter implements ILogicFilter {
                         .build();
             }
 
-            // 2.创建新的聚合对象
-            ChatProcessAggregate newProcess = new ChatProcessAggregate();
-            newProcess.setModel(process.getModel());
-            newProcess.setOpenId(process.getOpenId());
-            // 进行敏感词的校验
-            List<MessageEntity> newMessages = process.getMessages().stream()
-                    .map((entity) ->
-                            {
-                                String newContent = sensitiveWordBs.replace(entity.getContent());
-                                return MessageEntity.builder()
-                                        .content(newContent)
-                                        .role(entity.getRole())
-                                        .build();
-                            }
-
-                    ).collect(Collectors.toList());
-
-            // 重新设置用户提问的文本
-            newProcess.setMessages(newMessages);
+            // 2.获取最后一条信息
+            MessageEntity lastMessage = process.getMessages().get(process.getMessages().size() - 1);
+            // 3.找到所有的敏感词
+            List<String> words = sensitiveWordBs.findAll(lastMessage.getContent());
+            if (words != null && !words.isEmpty()) {
+                return RuleLogicEntity.<ChatProcessAggregate>builder()
+                        .info("当前内容包含敏感词信息 " + JSON.toJSONString(words) + " 请重新输入")
+                        .type(LogicTypeVO.REFUCE)
+                        .build();
+            }
 
             // 返回规则校验对象
             return RuleLogicEntity.<ChatProcessAggregate>builder()
                     .info(LogicTypeVO.SUCCESS.getInfo())
-                    .data(newProcess)
+                    .data(process)
                     .type(LogicTypeVO.SUCCESS).build();
         } catch (Exception e) {
             throw new RuntimeException(e);

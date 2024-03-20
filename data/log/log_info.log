@@ -1387,3 +1387,25 @@ data: [DONE]
 24-03-20.01:22:40.178 [http-nio-8080-exec-8] INFO  SensitiveWordConfig    - 检测到敏感词:爆炸
 24-03-20.01:22:43.182 [http-nio-8080-exec-9] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"撒大声地·","role":"user"},{"content":"你访问的频率太快了,请您耐心等待一分钟","role":"system"},{"content":"放到1","role":"user"}]
 24-03-20.01:22:45.948 [http-nio-8080-exec-10] INFO  ChatGPTAIServiceController - 流式问答请求开始,使用的模型:glm-3-turbo,请求信息:[{"content":"放到1","role":"user"},{"content":"你访问的频率太快了,请您耐心等待一分钟","role":"system"},{"content":"32312321","role":"user"}]
+24-03-20.15:22:40.664 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 13976 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-20.15:22:40.667 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-20.15:22:41.569 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-20.15:22:41.580 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-20.15:22:41.580 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-20.15:22:41.581 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-20.15:22:41.696 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-20.15:22:41.697 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 986 ms
+24-03-20.15:22:42.961 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-20.15:22:42.975 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-20.15:22:42.983 [main            ] INFO  Application            - Started Application in 2.855 seconds (JVM running for 4.641)
+24-03-20.17:19:35.107 [main            ] INFO  Application            - Starting Application using Java 1.8.0_152 on LAPTOP-6JRG2D2F with PID 14628 (D:\workspace\chatgpt\chatgpt-data\chatgpt-data-app\target\classes started by 666 in D:\workspace\chatgpt\chatgpt-data)
+24-03-20.17:19:35.109 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-03-20.17:19:35.948 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8080 (http)
+24-03-20.17:19:35.955 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8080"]
+24-03-20.17:19:35.956 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-03-20.17:19:35.956 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-03-20.17:19:36.052 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-03-20.17:19:36.053 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 896 ms
+24-03-20.17:19:37.116 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8080"]
+24-03-20.17:19:37.130 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8080 (http) with context path ''
+24-03-20.17:19:37.138 [main            ] INFO  Application            - Started Application in 2.529 seconds (JVM running for 3.453)

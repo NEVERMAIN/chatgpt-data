@@ -11,6 +11,7 @@ import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
 import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
+import com.sun.xml.internal.ws.util.CompletedFuture;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
@@ -120,5 +122,23 @@ public class ChatService extends AbstractChatService {
                         .type(LogicTypeVO.SUCCESS)
                         .data(process)
                         .info(LogicTypeVO.SUCCESS.getInfo()).build();
+    }
+
+    @Override
+    public CompletableFuture<String> completions(ChatProcessAggregate process) {
+        List<ChatCompletionRequest.Prompt> messages = process.getMessages().stream()
+                .map((entity) -> ChatCompletionRequest.Prompt.builder()
+                        .role(Role.getRole(entity.getRole()).getCode())
+                        .content(entity.getContent())
+                        .build()).collect(Collectors.toList());
+
+        // 准备参数
+        ChatCompletionRequest chatCompletion = ChatCompletionRequest.builder()
+                .stream(true)
+                .model(Model.getModel(process.getModel()).getCode())
+                .messages(messages)
+                .build();
+
+        return this.openAiSession.completions(chatCompletion);
     }
 }

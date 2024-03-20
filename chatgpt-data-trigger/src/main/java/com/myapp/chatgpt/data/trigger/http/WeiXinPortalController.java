@@ -1,7 +1,7 @@
 package com.myapp.chatgpt.data.trigger.http;
 
 import com.myapp.chatgpt.data.domain.weixin.model.entity.MessageTextEntity;
-import com.myapp.chatgpt.data.domain.weixin.model.entity.UserBehaviorMessageEntity;
+import com.myapp.chatgpt.data.domain.weixin.model.entity.BehaviorMatter;
 import com.myapp.chatgpt.data.domain.weixin.service.IWeiXinValidateService;
 import com.myapp.chatgpt.data.domain.weixin.service.IWeiXinBehaviorService;
 import com.myapp.chatgpt.data.types.sdk.weixin.XmlUtil;
@@ -84,7 +84,7 @@ public class WeiXinPortalController {
             MessageTextEntity messageText = XmlUtil.xmlToBean(requestBody, MessageTextEntity.class);
 
             // 2.转成用户行为信息对象
-            UserBehaviorMessageEntity behaviorMessageEntity = UserBehaviorMessageEntity.builder()
+            BehaviorMatter behaviorMessageEntity = BehaviorMatter.builder()
                     .event(messageText.getEvent())
                     .msgType(messageText.getMsgType())
                     .openId(openid)

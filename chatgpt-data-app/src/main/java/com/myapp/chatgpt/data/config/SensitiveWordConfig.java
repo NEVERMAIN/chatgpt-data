@@ -3,11 +3,16 @@ package com.myapp.chatgpt.data.config;
 import com.github.houbb.sensitive.word.api.IWordContext;
 import com.github.houbb.sensitive.word.api.IWordResult;
 import com.github.houbb.sensitive.word.bs.SensitiveWordBs;
+import com.github.houbb.sensitive.word.support.allow.WordAllows;
+import com.github.houbb.sensitive.word.support.deny.WordDenys;
 import com.github.houbb.sensitive.word.utils.InnerWordCharUtils;
+import com.myapp.chatgpt.data.domain.openai.service.rule.sensitiveord.MyWordAllow;
+import com.myapp.chatgpt.data.domain.openai.service.rule.sensitiveord.MyWordDeny;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Resource;
 
 /**
  * @description: 敏感词库
@@ -17,6 +22,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Slf4j
 public class SensitiveWordConfig {
+
+    /**
+     * 允许不不检测的敏感词
+     */
+    @Resource
+    private MyWordAllow myWordAllow;
+    /**
+     * 自定义敏感词
+     */
+    @Resource
+    private MyWordDeny myWordDeny;
+
 
     @Bean
     public SensitiveWordBs sensitiveWordBs() {
@@ -53,6 +70,8 @@ public class SensitiveWordConfig {
                 .enableEmailCheck(true)
                 .enableUrlCheck(true)
                 .enableWordCheck(true)
+                .wordAllow(WordAllows.chains(WordAllows.defaults(),myWordAllow))
+                .wordDeny(WordDenys.chains(WordDenys.defaults(),myWordDeny))
                 .numCheckLen(1024)
                 .init();
     }

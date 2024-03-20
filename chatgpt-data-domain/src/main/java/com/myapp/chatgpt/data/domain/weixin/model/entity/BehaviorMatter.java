@@ -16,7 +16,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserBehaviorMessageEntity {
+public class BehaviorMatter {
     private String openId;
     private String fromUserName;
     private String msgType;

@@ -1,5 +1,6 @@
 package com.myapp.chatgpt.data.domain.openai.model.aggregates;
 
+import com.myapp.chatglm.model.Model;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ public class ChatProcessAggregate {
     /**
      * 模型类型
      */
-    private String Model;
+    private String Model = "glm-3-turbo";
     /**
      * 消息体
      */
