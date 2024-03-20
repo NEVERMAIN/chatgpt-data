@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @description: 动态加载 + 自定义敏感词数据源
+ * @description: 自定义某些词是敏感词 + 动态加载
  * @author: 云奇迹
  * @date: 2024/3/20
  */

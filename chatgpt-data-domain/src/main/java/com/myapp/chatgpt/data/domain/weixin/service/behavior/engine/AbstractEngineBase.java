@@ -10,7 +10,7 @@ import java.util.Map;
  * @author: 云奇迹
  * @date: 2024/3/20
  */
-public class EngineBase extends EngineConfig implements Engine{
+public abstract class AbstractEngineBase extends EngineConfig implements Engine{
     @Override
     public String process(BehaviorMatter behaviorMatter) {
         throw new RuntimeException("未实现消息引擎服务");

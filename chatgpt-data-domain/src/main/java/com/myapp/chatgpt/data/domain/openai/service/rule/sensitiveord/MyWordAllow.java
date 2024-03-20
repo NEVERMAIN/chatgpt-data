@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @description: 动态加载 + 返回的内容不当做敏感词
+ * @description: 自定义某些词不是敏感词,可以动态配置
  * @author: 云奇迹
  * @date: 2024/3/20
  */

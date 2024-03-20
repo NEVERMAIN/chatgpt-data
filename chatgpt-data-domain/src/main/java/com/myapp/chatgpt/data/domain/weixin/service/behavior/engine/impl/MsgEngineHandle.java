@@ -3,7 +3,7 @@ package com.myapp.chatgpt.data.domain.weixin.service.behavior.engine.impl;
 import com.myapp.chatgpt.data.domain.weixin.model.entity.BehaviorMatter;
 import com.myapp.chatgpt.data.domain.weixin.model.entity.MessageTextEntity;
 import com.myapp.chatgpt.data.domain.weixin.model.vo.MsgTypeVO;
-import com.myapp.chatgpt.data.domain.weixin.service.behavior.engine.EngineBase;
+import com.myapp.chatgpt.data.domain.weixin.service.behavior.engine.AbstractEngineBase;
 import com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.LogicFilter;
 import com.myapp.chatgpt.data.types.sdk.weixin.XmlUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @date: 2024/3/20
  */
 @Service("msgEngineHandle")
-public class MsgEngineHandle extends EngineBase {
+public class MsgEngineHandle extends AbstractEngineBase {
 
     @Value("${wx.config.originalid}")
     private String originalId;
