@@ -4,6 +4,7 @@ import com.google.common.cache.Cache;
 import com.myapp.chatgpt.data.domain.openai.annotation.LogicStrategy;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
+import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
@@ -22,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  */
 @Component
 @LogicStrategy(logicModel = DefaultLogicFilterFactory.LogicModel.ACCESS_FREQUENCY)
-public class AccessFrequencyFilter implements ILogicFilter {
+public class AccessFrequencyFilter implements ILogicFilter<UserAccountQuotaEntity> {
 
     @Value("${app.config.maximum-access-frequency}")
     public Integer maxAccessCount;
@@ -34,7 +35,7 @@ public class AccessFrequencyFilter implements ILogicFilter {
     private Cache<String, Integer> frequencytCache;
 
     @Override
-    public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process) {
+    public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process,UserAccountQuotaEntity accountQuotaEntity) {
 
         try {
             // 1. 放行白名单

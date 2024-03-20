@@ -51,6 +51,22 @@ public class DefaultLogicFilterFactory {
          * 访问频率
          */
         ACCESS_FREQUENCY("ACCESS_FREQUENCY","敏感词过滤"),
+        /**
+         * 用户账户状态
+         */
+        USER_ACCOUNT_STATUS("USER_ACCOUNT_STATUS","用户账户状态过滤"),
+        /**
+         * 用户账户余额
+         */
+        USER_ACCOUNT_QUOTA("USER_ACCOUNT_QUOTA","用户账户余额过滤"),
+        /**
+         * 可使用模型
+         */
+        AVAILABLE_MODEL("AVAILABLE_MODEL","可使用模型过滤"),
+        /**
+         * NULL
+         */
+        NULL("NULL","空对象"),
         ;
         private String code;
         private String info;

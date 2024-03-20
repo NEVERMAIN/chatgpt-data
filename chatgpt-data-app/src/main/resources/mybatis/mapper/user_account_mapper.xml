@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myapp.chatgpt.data.infrastructure.dao.UserAccountDao">
+
+    <resultMap id="userAccountMap" type="com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo">
+        <id column="id" property="id"/>
+        <result column="openid" property="openid"/>
+        <result column="total_quota" property="totalQuota"/>
+        <result column="surplus_quota" property="surplusQuota"/>
+        <result column="model_types" property="modelTypes"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <update id="subAccountQuota" parameterType="string">
+        update user_account set surplus_quota = surplus_quota - 1
+        where openid = #{openid}
+    </update>
+
+
+    <select id="query" resultMap="userAccountMap">
+        select id,openid,total_quota,surplus_quota,model_types,status,create_time,update_time
+        from user_account
+        where openid = #{openid};
+    </select>
+
+</mapper>

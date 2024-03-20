@@ -10,12 +10,12 @@ import java.util.concurrent.ExecutionException;
  * @author: 云奇迹
  * @date: 2024/3/19
  */
-public interface ILogicFilter {
+public interface ILogicFilter<T> {
 
     /**
      * 规则过滤方法
      * @param process
      * @return
      */
-    RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process);
+    RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process, T data);
 }

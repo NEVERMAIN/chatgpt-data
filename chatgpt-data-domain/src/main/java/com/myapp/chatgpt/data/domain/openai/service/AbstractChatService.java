@@ -3,12 +3,16 @@ package com.myapp.chatgpt.data.domain.openai.service;
 import com.alibaba.fastjson.JSON;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
+import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
+import com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.exception.ChatGPTException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
+
+import javax.annotation.Resource;
 
 /**
  * @description: 抽象类，主要是编排方法的执行流程
@@ -17,6 +21,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
  */
 @Slf4j
 public abstract class AbstractChatService implements IChatService {
+
+
+    @Resource
+    private IOpenAiRepository openAiRepository;
+
 
     @Override
     public ResponseBodyEmitter completions(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) {
@@ -31,11 +40,19 @@ public abstract class AbstractChatService implements IChatService {
         });
 
         try {
+            // 2.查询用户账户相关信息
+            UserAccountQuotaEntity userAccountQuotaEntity = openAiRepository.query(chatProcess.getOpenId());
+
             // 2.权限校验
-            RuleLogicEntity<ChatProcessAggregate> ruleLogicEntity = this.doCheckLogic(chatProcess,
+            RuleLogicEntity<ChatProcessAggregate> ruleLogicEntity = this.doCheckLogic(chatProcess, userAccountQuotaEntity,
                     DefaultLogicFilterFactory.LogicModel.ACCESS_LIMIT.getCode(),
                     DefaultLogicFilterFactory.LogicModel.SENSITIVE_WORD.getCode(),
-                    DefaultLogicFilterFactory.LogicModel.ACCESS_FREQUENCY.getCode());
+                    DefaultLogicFilterFactory.LogicModel.ACCESS_FREQUENCY.getCode(),
+                    null != userAccountQuotaEntity ? DefaultLogicFilterFactory.LogicModel.USER_ACCOUNT_STATUS.getCode() : DefaultLogicFilterFactory.LogicModel.NULL.getCode(),
+                    null != userAccountQuotaEntity ? DefaultLogicFilterFactory.LogicModel.AVAILABLE_MODEL.getCode() : DefaultLogicFilterFactory.LogicModel.NULL.getCode(),
+                    null != userAccountQuotaEntity ? DefaultLogicFilterFactory.LogicModel.USER_ACCOUNT_QUOTA.getCode() : DefaultLogicFilterFactory.LogicModel.NULL.getCode()
+
+            );
 
             // 没有通过校验
             if (!LogicTypeVO.SUCCESS.getCode().equals(ruleLogicEntity.getType().getCode())) {
@@ -68,6 +85,6 @@ public abstract class AbstractChatService implements IChatService {
     protected abstract void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter);
 
 
-    protected abstract RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate process, String... logics);
+    protected abstract RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate process, UserAccountQuotaEntity accountQuotaEntity, String... logics);
 
 }

@@ -1,2 +1,16 @@
-24-03-20.00:35:18.435 [http-nio-8080-exec-7] WARN  DefaultHandlerExceptionResolver - Async request timed out
-24-03-20.00:35:18.439 [http-nio-8080-exec-7] WARN  DefaultHandlerExceptionResolver - Resolved [org.springframework.web.context.request.async.AsyncRequestTimeoutException]
+24-03-21.00:58:27.733 [main            ] WARN  AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'chatGPTAIServiceController': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'chatService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+24-03-21.00:58:27.798 [main            ] ERROR LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+A component required a bean of type 'com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository' in your configuration.
+

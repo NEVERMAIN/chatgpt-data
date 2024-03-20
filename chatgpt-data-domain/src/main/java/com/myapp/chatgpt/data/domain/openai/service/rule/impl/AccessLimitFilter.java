@@ -4,6 +4,7 @@ import com.google.common.cache.Cache;
 import com.myapp.chatgpt.data.domain.openai.annotation.LogicStrategy;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
+import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
@@ -22,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  */
 @Component
 @LogicStrategy(logicModel = DefaultLogicFilterFactory.LogicModel.ACCESS_LIMIT)
-public class AccessLimitFilter implements ILogicFilter {
+public class AccessLimitFilter implements ILogicFilter<UserAccountQuotaEntity> {
 
     @Value("${app.config.white-list}")
     private String  whiteList;
@@ -34,7 +35,7 @@ public class AccessLimitFilter implements ILogicFilter {
     private Cache<String,Integer> visitCache;
 
     @Override
-    public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process)  {
+    public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process,UserAccountQuotaEntity accountQuotaEntity)  {
 
         try {
             // 1. 判断属不属于白名单

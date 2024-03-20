@@ -8,6 +8,7 @@ import com.myapp.chatglm.model.chat.ChatCompletionResponse;
 import com.myapp.chatglm.session.OpenAiSession;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
+import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
@@ -106,14 +107,15 @@ public class ChatService extends AbstractChatService {
     }
 
     @Override
-    protected RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate process, String... logics) {
+    protected RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate process, UserAccountQuotaEntity accountQuotaEntity, String... logics) {
 
         Map<String, ILogicFilter> groups = defaultLogicFilterFactory.getLogicFilterGroups();
 
         RuleLogicEntity<ChatProcessAggregate> entity = null;
         for (String logic : logics) {
+            if(DefaultLogicFilterFactory.LogicModel.NULL.getCode().equals(logic)) continue;
             ILogicFilter logicFilter = groups.get(logic);
-            entity = logicFilter.filter(process);
+            entity = logicFilter.filter(process,accountQuotaEntity);
             if (!LogicTypeVO.SUCCESS.getCode().equals(entity.getType().getCode())) return entity;
         }
 

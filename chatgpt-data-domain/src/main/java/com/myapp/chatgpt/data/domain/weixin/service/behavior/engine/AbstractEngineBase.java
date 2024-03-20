@@ -26,15 +26,20 @@ public abstract class AbstractEngineBase extends EngineConfig implements Engine{
         Map<String, LogicFilter> logicGroup = logicFilterMap.get(behaviorMatter.getMsgType());
 
         // 处理事件
-        if("event".equals(behaviorMatter.getEvent())){
+        if("event".equals(behaviorMatter.getMsgType())){
             return logicGroup.get(behaviorMatter.getEvent());
         }
 
         // 内容处理
         if("text".equals(behaviorMatter.getMsgType())){
-            return logicGroup.get(behaviorMatter.getContent().trim());
+            LogicFilter logicFilter = logicGroup.get(behaviorMatter.getContent().trim());
+            if(logicFilter != null){
+                return logicFilter;
+            }
+            return logicGroup.get("openAi");
         }
 
-        return logicFilterMap.get("text").get("openAi");
+        return null;
+
     }
 }

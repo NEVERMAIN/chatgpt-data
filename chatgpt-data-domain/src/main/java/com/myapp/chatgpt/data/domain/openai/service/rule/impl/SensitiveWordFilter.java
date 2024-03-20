@@ -6,6 +6,7 @@ import com.myapp.chatgpt.data.domain.openai.annotation.LogicStrategy;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
+import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  */
 @Component
 @LogicStrategy(logicModel = DefaultLogicFilterFactory.LogicModel.SENSITIVE_WORD)
-public class SensitiveWordFilter implements ILogicFilter {
+public class SensitiveWordFilter implements ILogicFilter<UserAccountQuotaEntity> {
 
     @Value("${app.config.white-list}")
     private String whiteList;
@@ -33,7 +34,7 @@ public class SensitiveWordFilter implements ILogicFilter {
     private SensitiveWordBs sensitiveWordBs;
 
     @Override
-    public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process) {
+    public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process,UserAccountQuotaEntity accountQuotaEntity) {
 
         try {
             // 1.判断是不是白名单上的用户
