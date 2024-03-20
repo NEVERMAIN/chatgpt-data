@@ -8,12 +8,6 @@ app:
     api-version: v1
     # 跨域,开发阶段可以设置为 * 不限制
     cross-origin: "*"
-    # 访问次数控制
-    limit-count: 10
-    # 访问频率控制
-    maximum-access-frequency: 3
-    # 白名单
-    white-list: o6OsG6Z10yvXD2y2PIsRg
 
 # 线程池配置
 thread:

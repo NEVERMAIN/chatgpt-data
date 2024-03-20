@@ -42,56 +42,45 @@ public class ChatGPTAIServiceController {
     @PostMapping("chat/completions")
     public ResponseBodyEmitter completions(@RequestBody ChatGLMRequestDTO request,
                                            @RequestHeader("Authorization") String token,
-                                           HttpServletResponse response){
-        log.info("流式问答请求开始,使用的模型:{},请求信息:{}",request.getModel(), JSON.toJSONString(request.getMessages()));
+                                           HttpServletResponse response) {
+        log.info("流式问答请求开始,使用的模型:{},请求信息:{}", request.getModel(), JSON.toJSONString(request.getMessages()));
 
         try {
             // 1. 设置返回体类型
             response.setContentType("text/event-stream");
             response.setCharacterEncoding("UTF-8");
-            response.setHeader("Cache-Control","no-cache");
+            response.setHeader("Cache-Control", "no-cache");
 
-            // 2. 请求应答
+            // 2. 构建异步响应对象【对 Token 过期拦截】
             ResponseBodyEmitter emitter = new ResponseBodyEmitter(3 * 6 * 1000L);
-            emitter.onCompletion(()->{
-                log.info("流式问答请求结束,使用的模型:{}",request.getModel());
-            });
-
-            emitter.onError((e)->{
-                log.error("流式问答请求出现异常,使用的模型:{},异常信息",request.getModel(),e);
-            });
 
             boolean success = authService.checkToken(token);
-            if(!success){
+            if (!success) {
                 try {
                     emitter.send(Constants.ResponseCode.TOKEN_ERROR.getInfo());
-                    return emitter;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                emitter.complete();
+                return emitter;
             }
 
             // 构建聚合对象
-            // 1. 获取用户请求的问题
-            List<MessageEntity> messages = request.getMessages().stream().map((entity) -> {
-                return MessageEntity.builder()
-                        .role(Role.getRole(entity.getRole()).getCode())
-                        .content(entity.getContent())
-                        .build();
-            }).collect(Collectors.toList());
-
-            // 2. 构建聚合对象
+            String openId = authService.getOpenId(token);
             ChatProcessAggregate process = ChatProcessAggregate
                     .builder()
-                    .token(token)
+                    .openId(openId)
                     .Model(Model.getModel(request.getModel()).getCode())
-                    .messages(messages)
+                    .messages(request.getMessages().stream().map((entity) -> MessageEntity.builder()
+                            .role(Role.getRole(entity.getRole()).getCode())
+                            .content(entity.getContent())
+                            .build()).collect(Collectors.toList()))
                     .build();
 
             // 调用 openAI 服务
-            return chatService.completions(process,emitter);
+            return chatService.completions(process, emitter);
         } catch (Exception e) {
-            log.error("流式问答请求出现异常,使用的模型:{},异常信息",request.getModel(),e);
+            log.error("流式问答请求出现异常,使用的模型:{},异常信息", request.getModel(), e);
             throw new ChatGPTException(e.getMessage());
         }
 

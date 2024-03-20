@@ -19,9 +19,9 @@ import java.util.List;
 @Builder
 public class ChatProcessAggregate {
     /**
-     * 鉴权 token
+     * 微信唯一ID
      */
-    private String token;
+    private String openId;
     /**
      * 模型类型
      */
@@ -30,6 +30,14 @@ public class ChatProcessAggregate {
      * 消息体
      */
     private List<MessageEntity> messages;
+
+    public boolean isWhiteList(String whiteList) {
+        String[] list = whiteList.split(",");
+        for (String userId : list) {
+            if (userId.equals(openId)) return true;
+        }
+        return false;
+    }
 
 
 }

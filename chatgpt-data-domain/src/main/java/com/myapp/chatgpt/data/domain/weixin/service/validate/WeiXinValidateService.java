@@ -1,5 +1,6 @@
-package com.myapp.chatgpt.data.domain.weixin.service;
+package com.myapp.chatgpt.data.domain.weixin.service.validate;
 
+import com.myapp.chatgpt.data.domain.weixin.service.IWeiXinValidateService;
 import com.myapp.chatgpt.data.types.sdk.weixin.SignatureUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class WeiXinAuthService implements IWeiXinAuthService{
+public class WeiXinValidateService implements IWeiXinValidateService {
 
     @Value("${wx.config.token}")
     private String token;

@@ -5,7 +5,7 @@ package com.myapp.chatgpt.data.domain.weixin.service;
  * @author: 云奇迹
  * @date: 2024/3/18
  */
-public interface IWeiXinAuthService {
+public interface IWeiXinValidateService {
 
     /**
      * 验签方法

@@ -54,6 +54,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.github.houbb/sensitive-word -->
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>sensitive-word</artifactId>
+        </dependency>
+
         <!-- lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -116,7 +122,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>cn.myapp.chatgpt.data.Application</mainClass>
+                    <mainClass>com.myapp.chatgpt.data.Application</mainClass>
                     <layout>JAR</layout>
                 </configuration>
             </plugin>

@@ -7,6 +7,10 @@ import com.myapp.chatglm.model.chat.ChatCompletionRequest;
 import com.myapp.chatglm.model.chat.ChatCompletionResponse;
 import com.myapp.chatglm.session.OpenAiSession;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
+import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
+import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
+import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
+import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
@@ -37,8 +42,11 @@ public class ChatService extends AbstractChatService {
     @Resource
     private ThreadPoolExecutor threadPoolExecutor;
 
+    @Resource
+    private DefaultLogicFilterFactory defaultLogicFilterFactory;
+
     @Override
-    protected void doOnMessage(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) {
+    protected void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) {
 
         try {
 
@@ -56,40 +64,36 @@ public class ChatService extends AbstractChatService {
                     .messages(messages)
                     .build();
 
-            // 异步提交任务
-            threadPoolExecutor.execute(()->{
-                // 调用服务
-                // new EventSourceListener(){} 是传了一个匿名内部类, 返回 EventSource 等待服务器响应触发
-                this.openAiSession.completions(chatCompletion, new EventSourceListener() {
-                    @Override
-                    public void onEvent(@NotNull EventSource eventSource, @Nullable String id, @Nullable String type, @NotNull String data) {
-                        // 解析 data
-                        ChatCompletionResponse response = JSON.parseObject(data, ChatCompletionResponse.class);
-                        List<ChatCompletionResponse.Choice> choices = response.getChoices();
-                        for (ChatCompletionResponse.Choice choice : choices) {
-                            ChatCompletionResponse.Delta delta = choice.getDelta();
-                            // 判断是不是 assistant
-                            if (!Role.ASSISTANT.getCode().equals(delta.getRole())) {
-                                continue;
-                            }
+            // 调用服务
+            // new EventSourceListener(){} 是传了一个匿名内部类, 返回 EventSource 等待服务器响应触发
+            this.openAiSession.completions(chatCompletion, new EventSourceListener() {
+                @Override
+                public void onEvent(@NotNull EventSource eventSource, @Nullable String id, @Nullable String type, @NotNull String data) {
+                    // 解析 data
+                    ChatCompletionResponse response = JSON.parseObject(data, ChatCompletionResponse.class);
+                    List<ChatCompletionResponse.Choice> choices = response.getChoices();
+                    for (ChatCompletionResponse.Choice choice : choices) {
+                        ChatCompletionResponse.Delta delta = choice.getDelta();
+                        // 判断是不是 assistant
+                        if (!Role.ASSISTANT.getCode().equals(delta.getRole())) {
+                            continue;
+                        }
 
-                            // 判断时是否结束
-                            String finishReason = choice.getFinishReason();
-                            if (StringUtils.isNotBlank(finishReason) && "stop".equals(finishReason)) {
-                                emitter.complete();
-                                break;
-                            }
+                        // 判断时是否结束
+                        String finishReason = choice.getFinishReason();
+                        if (StringUtils.isNotBlank(finishReason) && "stop".equals(finishReason)) {
+                            emitter.complete();
+                            break;
+                        }
 
-                            // 发送消息
-                            try {
-                                String content = JSON.toJSONString(delta.getContent());
-                                emitter.send(content);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+                        // 发送消息
+                        try {
+                            emitter.send(delta.getContent());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
                     }
-                });
+                }
 
             });
 
@@ -97,5 +101,24 @@ public class ChatService extends AbstractChatService {
             log.info("流式问答请求出现异常,异常信息:{}", e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    protected RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate process, String... logics) {
+
+        Map<String, ILogicFilter> groups = defaultLogicFilterFactory.getLogicFilterGroups();
+
+        RuleLogicEntity<ChatProcessAggregate> entity = null;
+        for (String logic : logics) {
+            ILogicFilter logicFilter = groups.get(logic);
+            entity = logicFilter.filter(process);
+            if (!LogicTypeVO.SUCCESS.getCode().equals(entity.getType().getCode())) return entity;
+        }
+
+        return entity != null ? entity :
+                RuleLogicEntity.<ChatProcessAggregate>builder()
+                        .type(LogicTypeVO.SUCCESS)
+                        .data(process)
+                        .info(LogicTypeVO.SUCCESS.getInfo()).build();
     }
 }

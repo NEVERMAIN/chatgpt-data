@@ -16,9 +16,27 @@ import java.util.concurrent.TimeUnit;
 public class GlobalGuavaCacheConfig {
 
     @Bean
-    public Cache<String,String> codeCache(){
-       return  CacheBuilder.newBuilder()
-               .expireAfterWrite(3,TimeUnit.MINUTES)
-               .build();
+    public Cache<String, String> codeCache() {
+        return CacheBuilder.newBuilder()
+                .expireAfterWrite(3, TimeUnit.MINUTES)
+                .build();
+    }
+
+    @Bean
+    public Cache<String, Integer> visitCache() {
+        return CacheBuilder.newBuilder()
+                .expireAfterWrite(12, TimeUnit.HOURS)
+                .build();
+    }
+
+    /**
+     * 访问频率的缓存,一分钟过期
+     * @return
+     */
+    @Bean
+    public Cache<String,Integer> frequencytCache(){
+        return CacheBuilder.newBuilder()
+                .expireAfterWrite(1,TimeUnit.MINUTES)
+                .build();
     }
 }

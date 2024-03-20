@@ -2,7 +2,8 @@ package com.myapp.chatgpt.data.domain.atuth.service;
 
 import com.google.common.cache.Cache;
 import com.myapp.chatgpt.data.domain.atuth.model.entity.AuthStateEntity;
-import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVo;
+import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVO;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -22,24 +23,27 @@ public class AuthService  extends AbstractAuthService{
     private Cache<String,String> codeCache;
 
     @Override
-    public AuthStateEntity checkIfExit(String code) {
+    public AuthStateEntity checkCode(String code) {
 
+        // 1. 从缓存中获取用户凭证
         String openId = codeCache.getIfPresent(code);
         if(StringUtils.isBlank(openId)){
+            log.info("鉴权,用户输入的验证码不存在");
             return AuthStateEntity.builder()
-                    .code(AuthTypeVo.NOT_EXIST.getCode())
-                    .info(AuthTypeVo.NOT_EXIST.getInfo())
+                    .code(AuthTypeVO.NOT_EXIST.getCode())
+                    .info(AuthTypeVO.NOT_EXIST.getInfo())
                     .build();
         }
 
-        // 清楚缓存
+        // 移除缓存中的 key 值
         codeCache.invalidate(code);
         codeCache.invalidate(openId);
 
+        // 3.校验验证码成功
         return AuthStateEntity.builder()
                 .openid(openId)
-                .code(AuthTypeVo.SUCCESS.getCode())
-                .info(AuthTypeVo.SUCCESS.getInfo())
+                .code(AuthTypeVO.SUCCESS.getCode())
+                .info(AuthTypeVO.SUCCESS.getInfo())
                 .build();
     }
 
@@ -47,5 +51,11 @@ public class AuthService  extends AbstractAuthService{
     @Override
     public boolean checkToken(String token) {
         return isVerify(token);
+    }
+
+    @Override
+    public String getOpenId(String token) {
+        Claims claims = decode(token);
+        return claims.get("openId").toString();
     }
 }

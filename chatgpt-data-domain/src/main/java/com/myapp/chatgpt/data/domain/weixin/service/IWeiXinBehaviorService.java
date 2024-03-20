@@ -1,6 +1,6 @@
 package com.myapp.chatgpt.data.domain.weixin.service;
 
-import com.myapp.chatgpt.data.domain.weixin.model.UserBehaviorMessageEntity;
+import com.myapp.chatgpt.data.domain.weixin.model.entity.UserBehaviorMessageEntity;
 
 /**
  * @description: 处理用户行为服务
@@ -9,5 +9,10 @@ import com.myapp.chatgpt.data.domain.weixin.model.UserBehaviorMessageEntity;
  */
 public interface IWeiXinBehaviorService {
 
-    String post(UserBehaviorMessageEntity behaviorMessage);
+    /**
+     * 接收处理用户请求的行为
+     * @param behaviorMessage
+     * @return
+     */
+    String acceptUserBehavior(UserBehaviorMessageEntity behaviorMessage);
 }

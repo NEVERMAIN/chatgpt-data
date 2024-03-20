@@ -1,0 +1,75 @@
+package com.myapp.chatgpt.data.domain.openai.service.rule.impl;
+
+import com.github.houbb.sensitive.word.bs.SensitiveWordBs;
+import com.myapp.chatgpt.data.domain.openai.annotation.LogicStrategy;
+import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
+import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
+import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
+import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
+import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
+import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+/**
+ * @description: 敏感词的规则过滤
+ * @author: 云奇迹
+ * @date: 2024/3/19
+ */
+@Component
+@LogicStrategy(logicModel = DefaultLogicFilterFactory.LogicModel.SENSITIVE_WORD)
+public class SensitiveWordFilter implements ILogicFilter {
+
+    @Value("${app.config.white-list}")
+    private String whiteList;
+
+    @Resource
+    private SensitiveWordBs sensitiveWordBs;
+
+    @Override
+    public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process) {
+
+        try {
+            // 1.判断是不是白名单上的用户
+            if (process.isWhiteList(whiteList)) {
+                return RuleLogicEntity.<ChatProcessAggregate>builder()
+                        .data(process)
+                        .type(LogicTypeVO.SUCCESS)
+                        .build();
+            }
+
+            // 2.创建新的聚合对象
+            ChatProcessAggregate newProcess = new ChatProcessAggregate();
+            newProcess.setModel(process.getModel());
+            newProcess.setOpenId(process.getOpenId());
+            // 进行敏感词的校验
+            List<MessageEntity> newMessages = process.getMessages().stream()
+                    .map((entity) ->
+                            {
+                                String newContent = sensitiveWordBs.replace(entity.getContent());
+                                return MessageEntity.builder()
+                                        .content(newContent)
+                                        .role(entity.getRole())
+                                        .build();
+                            }
+
+                    ).collect(Collectors.toList());
+
+            // 重新设置用户提问的文本
+            newProcess.setMessages(newMessages);
+
+            // 返回规则校验对象
+            return RuleLogicEntity.<ChatProcessAggregate>builder()
+                    .info(LogicTypeVO.SUCCESS.getInfo())
+                    .data(newProcess)
+                    .type(LogicTypeVO.SUCCESS).build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

@@ -1,17 +1,15 @@
 package com.myapp.chatgpt.data.trigger.http;
 
 import com.myapp.chatgpt.data.domain.atuth.model.entity.AuthStateEntity;
-import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVo;
+import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVO;
 import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.model.Response;
-import com.sun.org.apache.bcel.internal.classfile.ConstantNameAndType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.yaml.snakeyaml.scanner.Constant;
 
 import javax.annotation.Resource;
 
@@ -32,12 +30,12 @@ public class AuthController {
     @RequestMapping("/login")
     public Response<String> doLogin(@RequestParam String code){
 
-        log.info("用户鉴权开始:【验证码:{}】",code);
+        log.info("鉴权登录校验开始，验证码: {}", code);
         try {
             // 验证用户
             AuthStateEntity authStateEntity = authService.doLogin(code);
             // 验证不通过
-            if(!AuthTypeVo.SUCCESS.getCode().equals(authStateEntity.getCode())){
+            if(!AuthTypeVO.SUCCESS.getCode().equals(authStateEntity.getCode())){
                 return Response.<String>builder()
                         .code(Constants.ResponseCode.TOKEN_ERROR.getCode())
                         .info(Constants.ResponseCode.TOKEN_ERROR.getInfo())
@@ -52,7 +50,8 @@ public class AuthController {
         } catch (Exception e) {
             log.info("用户鉴权出现异常:【验证码:{},异常信息:{}】",code,e.getMessage());
             return Response.<String>builder()
-                    .info(e.getMessage())
+                    .code(Constants.ResponseCode.UN_ERROR.getCode())
+                    .info(Constants.ResponseCode.UN_ERROR.getInfo())
                     .build();
         }
     }

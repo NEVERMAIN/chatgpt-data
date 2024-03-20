@@ -1,12 +1,12 @@
 package com.myapp.chatgpt.data.trigger.http;
 
-import com.myapp.chatgpt.data.domain.weixin.model.MessageTextEntity;
-import com.myapp.chatgpt.data.domain.weixin.model.UserBehaviorMessageEntity;
-import com.myapp.chatgpt.data.domain.weixin.service.IWeiXinAuthService;
+import com.myapp.chatgpt.data.domain.weixin.model.entity.MessageTextEntity;
+import com.myapp.chatgpt.data.domain.weixin.model.entity.UserBehaviorMessageEntity;
+import com.myapp.chatgpt.data.domain.weixin.service.IWeiXinValidateService;
 import com.myapp.chatgpt.data.domain.weixin.service.IWeiXinBehaviorService;
 import com.myapp.chatgpt.data.types.sdk.weixin.XmlUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,11 +23,8 @@ import java.util.Date;
 @CrossOrigin("*")
 public class WeiXinPortalController {
 
-    @Value("${wx.config.originalid}")
-    private String originalid;
-
     @Resource
-    private IWeiXinAuthService weiXinAuthService;
+    private IWeiXinValidateService weiXinAuthService;
 
     @Resource
     private IWeiXinBehaviorService weiXinBehaviorService;
@@ -49,16 +46,20 @@ public class WeiXinPortalController {
                            @RequestParam(value = "nonce", required = false) String nonce,
                            @RequestParam(value = "echostr", required = false) String echostr) {
 
-        log.info("微信公众号验签开始: 【appid{}】",appid);
+        log.info("微信公众号验签信息{}开始 [{}, {}, {}, {}]", appid, signature, timestamp, nonce, echostr);
         try {
+            if(StringUtils.isAnyBlank(signature,timestamp,nonce,echostr)){
+                throw new IllegalArgumentException("请求参数非法,请核实");
+            }
             boolean success = weiXinAuthService.checkValid(signature, timestamp, nonce);
+            log.info("微信公众号验签信息{}完成 check：{}", appid, success);
             if(!success){
-                throw new RuntimeException();
+                return null;
             }
             return echostr;
         } catch (RuntimeException e) {
-            log.info("微信公众号验签出现异常: 【appid{},异常信息:{}】",appid,e.getMessage());
-            throw new RuntimeException(e);
+            log.error("微信公众号验签信息{}失败 [{}, {}, {}, {}]", appid, signature, timestamp, nonce, echostr, e);
+            return null;
         }
     }
 
@@ -76,9 +77,9 @@ public class WeiXinPortalController {
                        @RequestParam(name = "encrypt_type", required = false) String encType,
                        @RequestParam(name = "msg_signature", required = false) String msgSignature) {
 
-        log.info("微信公众号接收用户信息开始:【openId:{},请求内容:{}】",openid,requestBody);
 
         try {
+            log.info("接收微信公众号信息请求{}开始 {}", openid, requestBody);
             // 1. 将 xml 格式转成 Bean 对象
             MessageTextEntity messageText = XmlUtil.xmlToBean(requestBody, MessageTextEntity.class);
 
@@ -92,22 +93,12 @@ public class WeiXinPortalController {
                     .content(messageText.getContent())
                     .build();
 
-            String code = weiXinBehaviorService.post(behaviorMessageEntity);
-
-            MessageTextEntity res = MessageTextEntity.builder()
-                    .toUserName(behaviorMessageEntity.getOpenId())
-                    .fromUserName(originalid)
-                    .createTime(String.valueOf(System.currentTimeMillis() / 1000L))
-                    .msgType("text")
-                    .content("你的验证码是"+code+",有效期为三分钟")
-                    .build();
-
-            String result = XmlUtil.beanToXml(res);
-            log.info("微信公众号接收用户请求完成:【openId:{} , 响应结果:{}】",openid,result);
+            String result = weiXinBehaviorService.acceptUserBehavior(behaviorMessageEntity);
+            log.info("接收微信公众号信息请求完成:【openId:{},result:{}】",openid,result);
             return result;
         } catch (Exception e) {
             log.info("微信公众号接收用户请求出现异常:【openId:{} , 异常信息:{}】",openid,e.getMessage());
-            throw new RuntimeException(e);
+            return "";
         }
     }
 

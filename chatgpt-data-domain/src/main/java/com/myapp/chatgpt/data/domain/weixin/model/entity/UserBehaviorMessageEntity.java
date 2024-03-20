@@ -1,4 +1,4 @@
-package com.myapp.chatgpt.data.domain.weixin.model;
+package com.myapp.chatgpt.data.domain.weixin.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

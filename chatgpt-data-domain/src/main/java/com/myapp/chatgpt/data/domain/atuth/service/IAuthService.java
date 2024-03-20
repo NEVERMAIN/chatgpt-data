@@ -24,6 +24,13 @@ public interface IAuthService {
      */
     boolean checkToken(String token);
 
+    /**
+     * 获取 token 中的 openId
+     * @param token
+     * @return
+     */
+    String getOpenId(String token);
+
 
 
 

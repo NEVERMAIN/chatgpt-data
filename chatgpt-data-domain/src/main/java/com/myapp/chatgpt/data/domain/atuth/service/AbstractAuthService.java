@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.myapp.chatgpt.data.domain.atuth.model.entity.AuthStateEntity;
-import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVo;
+import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -16,8 +16,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 /**
  * @description: 鉴权抽象类
@@ -35,18 +33,20 @@ public abstract class AbstractAuthService implements IAuthService {
 
     @Override
     public AuthStateEntity doLogin(String code) {
-        // 1. 验证码长度是否为4
+
+        // 1. 如果不是4位有效数字字符串，则返回验证码无效
         if(!code.matches("^\\d{4}$")){
+            log.info("鉴权,用户输入的验证码无效");
             return AuthStateEntity.builder()
-                    .code(AuthTypeVo.NOT_VALID.getCode())
-                    .info(AuthTypeVo.NOT_VALID.getInfo())
+                    .code(AuthTypeVO.NOT_VALID.getCode())
+                    .info(AuthTypeVO.NOT_VALID.getInfo())
                     .build();
         }
         // 2. 验证码是否在缓存中
-        AuthStateEntity authStateEntity = this.checkIfExit(code);
+        AuthStateEntity authStateEntity = this.checkCode(code);
 
         // 3.验证失败
-        if(!AuthTypeVo.SUCCESS.getCode().equals(authStateEntity.getCode())){
+        if(!AuthTypeVO.SUCCESS.getCode().equals(authStateEntity.getCode())){
             return authStateEntity;
         }
 
@@ -65,7 +65,7 @@ public abstract class AbstractAuthService implements IAuthService {
      * @param code
      * @return
      */
-    public abstract AuthStateEntity checkIfExit(String code);
+    public abstract AuthStateEntity checkCode(String code);
 
 
     /**
