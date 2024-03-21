@@ -23,5 +23,15 @@ public interface UserAccountDao {
      */
     Integer subAccountQuota(String openid);
 
+    /**
+     * 开户
+     */
+    Integer createAccount(UserAccountQuotaPo accountQuotaPo);
+
+    /**
+     * 统计账户的数目
+     */
+    Integer count(String openid);
+
 
 }

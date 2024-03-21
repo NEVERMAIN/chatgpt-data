@@ -13,6 +13,12 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <insert id="createAccount" parameterType="com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo" keyProperty="id" useGeneratedKeys="true">
+        insert into user_account
+        (id, openid, total_quota, surplus_quota, model_types, status, create_time, update_time)
+        values (#{id}, #{openid}, #{totalQuota}, #{surplusQuota}, #{modelTypes}, #{status}, now(), now());
+    </insert>
+
     <update id="subAccountQuota" parameterType="string">
         update user_account set surplus_quota = surplus_quota - 1
         where openid = #{openid}
@@ -23,6 +29,12 @@
         select id,openid,total_quota,surplus_quota,model_types,status,create_time,update_time
         from user_account
         where openid = #{openid};
+    </select>
+
+    <select id="count" parameterType="string" resultType="java.lang.Integer">
+        select count(*)
+        from user_account
+        where openid = #{openid}
     </select>
 
 </mapper>

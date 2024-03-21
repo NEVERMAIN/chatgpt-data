@@ -1,4 +1,4 @@
-package com.myapp.chatgpt.data.domain.openai.model.entity;
+package com.myapp.chatgpt.data.domain.account.model.entity;
 
 import com.myapp.chatgpt.data.domain.openai.model.vo.UserAccountStatusVO;
 import lombok.AllArgsConstructor;
@@ -48,5 +48,6 @@ public class UserAccountQuotaEntity {
         String[] values = modelTypes.split(",");
         this.availModes = Arrays.asList(values);
     }
+
 
 }
