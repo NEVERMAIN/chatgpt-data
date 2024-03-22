@@ -39,7 +39,7 @@ public class UnpaidOrderEntity {
      */
     private String productName;
     /**
-     * 支付状态
+     * 支付状态: 0-等待支付 1-支付完成 2-支付失败 3-放弃支付
      */
     private PayStatusVo payStatus;
 

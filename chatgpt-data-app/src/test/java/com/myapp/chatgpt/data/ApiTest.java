@@ -1,8 +1,6 @@
 package com.myapp.chatgpt.data;
-import java.util.Date;
 
-import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
-import com.myapp.chatgpt.data.infrastructure.dao.UserAccountDao;
+import com.myapp.chatgpt.data.infrastructure.dao.IUserAccountDao;
 import com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +15,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ApiTest {
 
     @Autowired
-    private UserAccountDao userAccountDao;
+    private IUserAccountDao IUserAccountDao;
 
     @Test
     public void test_query(){
-        UserAccountQuotaPo altman = userAccountDao.query("Altman");
+        UserAccountQuotaPo altman = IUserAccountDao.query("Altman");
         System.out.println(altman);
     }
 
     @Test
     public void test_subAccountQuota(){
-        Integer res = userAccountDao.subAccountQuota("Altman");
+        Integer res = IUserAccountDao.subAccountQuota("Altman");
         System.out.println(res);
     }
 
@@ -39,7 +37,7 @@ public class ApiTest {
         userAccountQuotaPo.setSurplusQuota(0);
         userAccountQuotaPo.setModelTypes("");
         userAccountQuotaPo.setStatus(0);
-        Integer account = userAccountDao.createAccount(userAccountQuotaPo);
+        Integer account = IUserAccountDao.createAccount(userAccountQuotaPo);
         System.out.println(account);
     }
 }

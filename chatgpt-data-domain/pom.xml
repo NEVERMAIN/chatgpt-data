@@ -75,6 +75,12 @@
             <groupId>com.myapp</groupId>
             <artifactId>ChatGLM-starter</artifactId>
         </dependency>
+        <!-- 微信支付 -->
+        <dependency>
+            <groupId>com.github.wechatpay-apiv3</groupId>
+            <artifactId>wechatpay-java</artifactId>
+        </dependency>
+
 
         <!--自定义模块 begin-->
         <dependency>

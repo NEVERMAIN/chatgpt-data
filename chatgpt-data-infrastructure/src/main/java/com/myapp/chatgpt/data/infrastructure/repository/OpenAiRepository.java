@@ -3,7 +3,7 @@ package com.myapp.chatgpt.data.infrastructure.repository;
 import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.openai.model.vo.UserAccountStatusVO;
 import com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository;
-import com.myapp.chatgpt.data.infrastructure.dao.UserAccountDao;
+import com.myapp.chatgpt.data.infrastructure.dao.IUserAccountDao;
 import com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo;
 import org.springframework.stereotype.Repository;
 
@@ -18,13 +18,13 @@ import javax.annotation.Resource;
 public class OpenAiRepository implements IOpenAiRepository {
 
     @Resource
-    private UserAccountDao userAccountDao;
+    private IUserAccountDao IUserAccountDao;
 
 
     @Override
     public UserAccountQuotaEntity query(String openid) {
         // 1. 从数据库中查询
-        UserAccountQuotaPo accountQuotaPo = userAccountDao.query(openid);
+        UserAccountQuotaPo accountQuotaPo = IUserAccountDao.query(openid);
         // 2.转成 entity 对象
         UserAccountQuotaEntity accountQuotaEntity = new UserAccountQuotaEntity();
         accountQuotaEntity.setOpenid(accountQuotaPo.getOpenid());
@@ -38,7 +38,7 @@ public class OpenAiRepository implements IOpenAiRepository {
 
     @Override
     public Integer subAccountQuota(String openid) {
-        return userAccountDao.subAccountQuota(openid);
+        return IUserAccountDao.subAccountQuota(openid);
     }
 
 

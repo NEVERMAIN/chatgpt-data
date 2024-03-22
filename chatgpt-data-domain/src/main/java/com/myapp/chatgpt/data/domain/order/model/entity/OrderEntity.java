@@ -2,6 +2,7 @@ package com.myapp.chatgpt.data.domain.order.model.entity;
 
 import com.myapp.chatgpt.data.domain.order.model.vo.OrderStatusVO;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayStatusVo;
+import com.myapp.chatgpt.data.domain.order.model.vo.PayTypeVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,8 +39,8 @@ public class OrderEntity {
      */
     private BigDecimal totalAmount;
     /**
-     * 支付状态
+     * 支付类型
      */
-    private PayStatusVo payStatus;
+    private PayTypeVO payType;
 
 }

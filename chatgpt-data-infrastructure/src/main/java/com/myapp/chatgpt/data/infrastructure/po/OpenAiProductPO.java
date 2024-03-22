@@ -25,7 +25,7 @@ public class OpenAiProductPO {
     /**
      * 商品ID
      */
-    private Integer produceId;
+    private Integer productId;
     /**
      * 商品名称
      */

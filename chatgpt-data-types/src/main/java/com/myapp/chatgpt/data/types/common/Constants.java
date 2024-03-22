@@ -23,6 +23,7 @@ public class Constants {
         UN_ERROR("0001","未知失败"),
         ILLEGAL_PARAMETER("0002","非法参数"),
         TOKEN_ERROR("0003","权限拦截"),
+        ORDER_PRODUCT_ERR("0004","所选购的产品已下线,请重新选择下单商品"),
         ;
         private String code;
         private String info;

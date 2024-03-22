@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date: 2024/3/20
  */
 @Mapper
-public interface UserAccountDao {
+public interface IUserAccountDao {
 
     /**
      * 查询用户账户

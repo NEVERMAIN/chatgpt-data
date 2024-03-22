@@ -1,5 +1,6 @@
 package com.myapp.chatgpt.data.infrastructure.dao;
 
+import com.myapp.chatgpt.data.infrastructure.po.OpenAiProductPO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -8,5 +9,12 @@ import org.apache.ibatis.annotations.Mapper;
  * @date: 2024/3/22
  */
 @Mapper
-public interface OpenAiProductDao {
+public interface IOpenAiProductDao {
+
+    /**
+     * 查询产品的详细信息
+     */
+    OpenAiProductPO queryProduct(Integer productId);
+
+
 }

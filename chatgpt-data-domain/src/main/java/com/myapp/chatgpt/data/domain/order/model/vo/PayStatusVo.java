@@ -21,6 +21,7 @@ public enum PayStatusVo {
     WAIT(0,"等待支付"),
     SUCCESS(1,"支付成功"),
     FAILED(2,"支付失败"),
+    QUIT(3,"放弃支付"),
 
     ;
 

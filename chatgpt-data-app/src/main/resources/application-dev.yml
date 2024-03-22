@@ -25,7 +25,7 @@ wxpay:
     # 商户号
     merchantId:
     # 回调地址
-    notifyUrl:
+    notify-url:
     # 商户API私钥路径
     privateKeyPath:
     # 商户证书序列号

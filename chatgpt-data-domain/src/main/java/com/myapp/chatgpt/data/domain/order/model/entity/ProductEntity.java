@@ -44,6 +44,10 @@ public class ProductEntity {
      */
     private OpenAIProductEnableModel enable;
 
+    /**
+     * 判断产品是否有效
+     * @return
+     */
     public boolean isEnable(){
         return OpenAIProductEnableModel.OPEN.equals(enable);
     }

@@ -32,7 +32,7 @@ public enum OpenAIProductEnableModel {
      * @param code
      * @return
      */
-    public static OpenAIProductEnableModel get(String code){
+    public static OpenAIProductEnableModel get(Integer code){
         OpenAIProductEnableModel[] values = OpenAIProductEnableModel.values();
         for (OpenAIProductEnableModel value : values) {
             if(value.code.equals(code)){

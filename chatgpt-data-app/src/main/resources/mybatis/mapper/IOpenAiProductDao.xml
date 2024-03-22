@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.myapp.chatgpt.data.infrastructure.dao.OpenAiProductDao">
+<mapper namespace="com.myapp.chatgpt.data.infrastructure.dao.IOpenAiProductDao">
 
     <resultMap id="openAiProductMap" type="com.myapp.chatgpt.data.infrastructure.po.OpenAiProductPO">
         <id column="id" property="id"/>
-        <result column="product_id" property="produceId"/>
+        <result column="product_id" property="productId"/>
         <result column="produce_name" property="productName"/>
         <result column="produce_desc" property="productDesc"/>
         <result column="product_model_types" property="productModelTypes"/>
@@ -15,5 +15,12 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
+
+
+    <select id="queryProduct" parameterType="integer" resultMap="openAiProductMap">
+        SELECT product_id,product_name,product_desc,product_model_types,quota,price,is_enabled
+        FROM openai_product
+        WHERE product_id = #{productId}
+    </select>
 
 </mapper>
