@@ -16,7 +16,24 @@ app:
     white-list: o6OsG6Z10yvXD2y2PIsRg
 
 
-# 数据库配置
+wxpay:
+  config:
+    # 是否有支付渠道
+    enable:
+    # 申请支付主体的 appid
+    appid:
+    # 商户号
+    merchantId:
+    # 回调地址
+    notifyUrl:
+    # 商户API私钥路径
+    privateKeyPath:
+    # 商户证书序列号
+    merchantSerialNumber:
+    # 商户 APIV3 密钥
+    apiV3Key:
+
+
 
 
 
