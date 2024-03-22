@@ -82,7 +82,7 @@ public class OpenAiOrderPO {
     /**
      * 支付时间
      */
-    private Integer payTime;
+    private Date payTime;
     /**
      * 创建时间
      */

@@ -19,7 +19,7 @@ app:
 wxpay:
   config:
     # 是否有支付渠道
-    enable:
+    enabled: false
     # 申请支付主体的 appid
     appid:
     # 商户号

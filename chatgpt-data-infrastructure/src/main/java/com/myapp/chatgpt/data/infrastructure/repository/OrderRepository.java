@@ -2,29 +2,43 @@ package com.myapp.chatgpt.data.infrastructure.repository;
 
 import com.myapp.chatgpt.data.domain.order.model.aggregates.CreateOrderAggregate;
 import com.myapp.chatgpt.data.domain.order.model.entity.*;
+import com.myapp.chatgpt.data.domain.order.model.vo.OrderStatusVO;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayStatusVo;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayTypeVO;
 import com.myapp.chatgpt.data.domain.order.model.vo.ProductModelTypeVO;
 import com.myapp.chatgpt.data.domain.order.repository.IOrderRepository;
 import com.myapp.chatgpt.data.infrastructure.dao.IOpenAiOrderDao;
 import com.myapp.chatgpt.data.infrastructure.dao.IOpenAiProductDao;
+import com.myapp.chatgpt.data.infrastructure.dao.IUserAccountDao;
 import com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO;
 import com.myapp.chatgpt.data.infrastructure.po.OpenAiProductPO;
+import com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo;
 import com.myapp.chatgpt.data.types.enums.OpenAIProductEnableModel;
+import com.myapp.chatgpt.data.types.exception.ChatGPTException;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import javax.xml.soap.SAAJResult;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @description: 订单服务的仓储仓储实现
  * @author: 云奇迹
  * @date: 2024/3/22
  */
+@Repository
 public class OrderRepository implements IOrderRepository {
 
     @Resource
     private IOpenAiOrderDao openAiOrderDao;
     @Resource
     private IOpenAiProductDao openAiProductDao;
+
+    @Resource
+    private IUserAccountDao userAccountDao;
 
 
     @Override
@@ -33,9 +47,10 @@ public class OrderRepository implements IOrderRepository {
         OpenAiOrderPO openAiOrderPOReq = new OpenAiOrderPO();
         openAiOrderPOReq.setOrderId(shopCarEntity.getOpenid());
         openAiOrderPOReq.setProductId(shopCarEntity.getProductId());
+        // 1. 查询未支付的订单
         OpenAiOrderPO openAiOrderPO = openAiOrderDao.queryUnpaidOrder(openAiOrderPOReq);
         if (openAiOrderPO == null) return null;
-        // 构建未支付的订单对象
+        // 2. 构建未支付的订单对象
         return UnpaidOrderEntity.builder()
                 .orderId(openAiOrderPO.getOrderId())
                 .openid(openAiOrderPO.getOpenid())
@@ -93,6 +108,86 @@ public class OrderRepository implements IOrderRepository {
         openAiOrderPOReq.setPayUrl(payOrderEntity.getPayUrl());
         openAiOrderPOReq.setPayStatus(payOrderEntity.getPayStatus().getCode());
         openAiOrderDao.updateOrderPayInfo(openAiOrderPOReq);
+    }
+
+    @Override
+    public boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal totalAmount, Date payTime) {
+        OpenAiOrderPO req = new OpenAiOrderPO();
+        req.setOrderId(orderId);
+        req.setTransactionId(transactionId);
+        req.setPayAmount(totalAmount);
+        req.setPayTime(payTime);
+        Integer count = openAiOrderDao.changeOrderPaySuccess(req);
+        return 1 == count;
+    }
+
+    @Override
+    public CreateOrderAggregate queryOrder(String orderId) {
+        // 1. 查询订单
+        OpenAiOrderPO order = openAiOrderDao.queryOrder(orderId);
+        // 2.创建产品对象
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setProductId(order.getProductId());
+        productEntity.setPrice(order.getTotalAmount());
+        // 3.创建订单对象
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setOrderId(order.getOrderId());
+        orderEntity.setOrderTime(order.getOrderTime());
+        orderEntity.setOrderStatus(OrderStatusVO.get(order.getOrderStatus()));
+        orderEntity.setTotalAmount(order.getTotalAmount());
+        // 4.创建聚合对象
+        return CreateOrderAggregate.builder()
+                .openid(order.getOpenid())
+                .order(orderEntity)
+                .product(productEntity)
+                .build();
+
+    }
+
+    @Override
+    public void deliverGoods(String orderId) {
+
+        // 0.查出订单的信息
+        OpenAiOrderPO order = openAiOrderDao.queryOrder(orderId);
+
+        // 1. 变更发货状态
+        Integer count = openAiOrderDao.updateOrderStatusDeliverGoods(orderId);
+        if(1 != count){
+            throw new RuntimeException("updateOrderStatusDeliverGoods update count is not equals 1");
+        }
+        // 2.增加用户额度
+        // 2.1. 查询数据库中的用户信息
+        UserAccountQuotaPo userAccountPo = userAccountDao.query(order.getOpenid());
+        // 2.2. 创建用户账户额度对象
+        UserAccountQuotaPo req = new UserAccountQuotaPo();
+        req.setTotalQuota(order.getProductQuota());
+        req.setSurplusQuota(order.getProductQuota());
+        req.setOpenid(order.getOpenid());
+
+        if(null != userAccountPo){
+            // 修改用户可用的模型
+            String modelTypes = userAccountPo.getModelTypes();
+            if(!modelTypes.contains(order.getProductModelTypes())){
+                // 如果不存在,添加新的模型
+                if(modelTypes.isEmpty()){
+                    modelTypes = order.getProductModelTypes();
+                }else{
+                    modelTypes += ","+order.getProductModelTypes();
+                }
+            }
+            req.setModelTypes(modelTypes);
+            // 增加用户额度
+            Integer addAccountQuotaCount = userAccountDao.addAccountQuota(req);
+            if(1 != addAccountQuotaCount){
+                throw new RuntimeException("addAccountQuota update count is not equals 1");
+            }
+        }else{
+            // 创建用户账户
+            req.setModelTypes(order.getProductModelTypes());
+            userAccountDao.createAccount(req);
+        }
+
+
     }
 
 }

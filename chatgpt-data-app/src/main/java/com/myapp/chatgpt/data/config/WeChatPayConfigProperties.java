@@ -24,5 +24,7 @@ public class WeChatPayConfigProperties {
     private String merchantSerialNumber;
     /** 商户 APIV3 密钥 */
     private String apiV3Key;
+    /** 是否开启 */
+    private String enabled;
 
 }

@@ -1,12 +1,10 @@
 package com.myapp.chatgpt.data.domain.order.service;
 
 import com.myapp.chatgpt.data.domain.order.model.entity.*;
-import com.myapp.chatgpt.data.domain.order.model.vo.OrderStatusVO;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayStatusVo;
 import com.myapp.chatgpt.data.domain.order.repository.IOrderRepository;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.exception.ChatGPTException;
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
@@ -19,7 +17,6 @@ import java.math.BigDecimal;
  */
 @Slf4j
 public abstract class AbstractOrderService implements IOrderService {
-
 
     @Resource
     private IOrderRepository orderRepository;
@@ -66,19 +63,18 @@ public abstract class AbstractOrderService implements IOrderService {
     /**
      * 保存订单
      *
-     * @param openid
+     * @param openid 微信ID
      * @param productEntity
      * @return
      */
     protected abstract OrderEntity doSaveOrder(String openid, ProductEntity productEntity);
 
     /**
-     * 创建支付
-     *
-     * @param openid
-     * @param orderId
-     * @param productName
-     * @param totalAmount
+     * 处理微信支付预中的预支付订单流程
+     * @param openid 微信ID
+     * @param orderId 订单ID
+     * @param productName 产品名称
+     * @param totalAmount 总金额
      * @return
      */
     protected abstract PayOrderEntity doPrepayOrder(String openid, String orderId, String productName, BigDecimal totalAmount);

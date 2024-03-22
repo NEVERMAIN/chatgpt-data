@@ -3,6 +3,9 @@ package com.myapp.chatgpt.data.domain.order.repository;
 import com.myapp.chatgpt.data.domain.order.model.aggregates.CreateOrderAggregate;
 import com.myapp.chatgpt.data.domain.order.model.entity.*;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * @description: 订单服务仓储对象
  * @author: 云奇迹
@@ -35,4 +38,20 @@ public interface IOrderRepository {
      * @param payOrderEntity
      */
     void updateOrderPayInfo(PayOrderEntity payOrderEntity);
+
+    /**
+     * 更新订单的状态-修改为已支付状态
+     * @return
+     */
+    boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal totalAmount, Date payTime);
+    /**
+     * 发货
+     */
+    void deliverGoods(String orderId);
+
+    /**
+     * 查询订单
+     * @return
+     */
+    CreateOrderAggregate queryOrder(String orderId);
 }

@@ -15,20 +15,27 @@
 
     <insert id="createAccount" parameterType="com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo" keyProperty="id" useGeneratedKeys="true">
         insert into user_account
-        (id, openid, total_quota, surplus_quota, model_types, status, create_time, update_time)
-        values (#{id}, #{openid}, #{totalQuota}, #{surplusQuota}, #{modelTypes}, #{status}, now(), now());
+        (openid, total_quota, surplus_quota, model_types, status, create_time, update_time)
+        values (#{openid}, #{totalQuota}, #{surplusQuota}, #{modelTypes}, #{status}, now(), now());
     </insert>
 
-    <update id="subAccountQuota" parameterType="string">
-        update user_account set surplus_quota = surplus_quota - 1
-        where openid = #{openid}
+    <update id="addAccountQuota" parameterType="com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo">
+        UPDATE user_account
+        SET total_quota   = total_quota + #{totalQuota},
+            surplus_quota = surplus_quota + #{surplusQuota},
+            update_time   = #{updateTime} ,
+        WHERE openid = #{openid}
     </update>
 
+    <update id="subAccountQuota" parameterType="string">
+        UPDATE user_account set surplus_quota = surplus_quota - 1 , update_time = now()
+        WHERE openid = #{openid}
+    </update>
 
     <select id="query" resultMap="userAccountMap">
-        select id,openid,total_quota,surplus_quota,model_types,status,create_time,update_time
-        from user_account
-        where openid = #{openid};
+        SELECT id,openid,total_quota,surplus_quota,model_types,status,create_time,update_time
+        FROM user_account
+        WHERE openid = #{openid};
     </select>
 
     <select id="count" parameterType="string" resultType="java.lang.Integer">

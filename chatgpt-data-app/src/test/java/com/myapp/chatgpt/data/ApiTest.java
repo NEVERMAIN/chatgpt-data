@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @description:
  * @author: 云奇迹
@@ -39,5 +43,29 @@ public class ApiTest {
         userAccountQuotaPo.setStatus(0);
         Integer account = IUserAccountDao.createAccount(userAccountQuotaPo);
         System.out.println(account);
+    }
+
+
+    @Test
+    public void test_func(){
+        String modelTypes = "glm-3-turbo,glm-4,glm-4v,cogview-3";
+        String newModel = "glm-3.5-turbo";
+//        String[] models = modelTypes.split(",");
+//        List<String> list = new ArrayList<>(Arrays.asList(models));
+//        if(!list.contains(newModel)){
+//            list.add(newModel);
+//        }
+//        String join = String.join(",", list);
+//        System.out.println(join);
+
+        if(!modelTypes.contains(newModel)){
+            if(modelTypes.isEmpty()){
+                modelTypes = newModel;
+            }else{
+                modelTypes += ","+newModel;
+            }
+        }
+        System.out.println(modelTypes);
+
     }
 }

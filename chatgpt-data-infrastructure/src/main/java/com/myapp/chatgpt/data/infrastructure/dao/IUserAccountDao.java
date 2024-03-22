@@ -34,4 +34,9 @@ public interface IUserAccountDao {
     Integer count(String openid);
 
 
+    /**
+     * 增加用户的额度
+     * @param userAccountQuotaPo
+     */
+    Integer addAccountQuota(UserAccountQuotaPo userAccountQuotaPo);
 }

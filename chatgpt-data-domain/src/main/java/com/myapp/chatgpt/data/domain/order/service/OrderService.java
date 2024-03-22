@@ -14,6 +14,7 @@ import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,27 +43,27 @@ public class OrderService extends AbstractOrderService {
     @Resource
     private IOrderRepository orderRepository;
 
-    @Resource
+    @Autowired(required = false)
     private NativePayService nativePayService;
 
 
     @Override
     protected OrderEntity doSaveOrder(String openid, ProductEntity productEntity) {
         OrderEntity orderEntity = new OrderEntity();
-        // 生成订单ID,保证数据库的幂等性
+        // 1. 生成订单ID,保证数据库的幂等性
         orderEntity.setOrderId(RandomStringUtils.randomNumeric(12));
         orderEntity.setOrderTime(new Date());
         orderEntity.setOrderStatus(OrderStatusVO.CREATE);
         orderEntity.setPayType(PayTypeVO.WEIXIN_NATIVE);
         orderEntity.setTotalAmount(productEntity.getPrice());
 
-        // 聚合信息
+        // 2. 聚合信息
         CreateOrderAggregate aggregate = CreateOrderAggregate.builder()
                 .openid(openid)
                 .product(productEntity)
                 .order(orderEntity)
                 .build();
-
+        // 3. 保存订单
         orderRepository.saveOrder(aggregate);
         return orderEntity;
     }
@@ -73,6 +74,7 @@ public class OrderService extends AbstractOrderService {
         // 1. 创建请求
         PrepayRequest request = new PrepayRequest();
         Amount amount = new Amount();
+        // 注意这里将totalAmount乘以100并转为整数，因为微信支付通常要求金额以分为单位(即元×100)
         amount.setTotal(totalAmount.multiply(new BigDecimal(100)).intValue());
         request.setAmount(amount);
         request.setAppid(appid);
@@ -93,7 +95,20 @@ public class OrderService extends AbstractOrderService {
         orderRepository.updateOrderPayInfo(payOrderEntity);
 
         return payOrderEntity;
+    }
 
+    @Override
+    public boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal totalAmount, Date payTime) {
+        return orderRepository.changeOrderPaySuccess(orderId, transactionId, totalAmount, payTime);
+    }
 
+    @Override
+    public CreateOrderAggregate queryOrder(String orderId) {
+        return orderRepository.queryOrder(orderId);
+    }
+
+    @Override
+    public void deliverGoods(String orderId) {
+        orderRepository.deliverGoods(orderId);
     }
 }

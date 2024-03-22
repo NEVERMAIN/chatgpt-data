@@ -6,6 +6,7 @@ import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,7 @@ public class WeChatPayConfig {
      * @return
      */
     @Bean
+    @ConditionalOnProperty(value = "wxpay.config.enabled",havingValue = "true",matchIfMissing = false)
     public NativePayService buildNativePayService(WeChatPayConfigProperties properties){
         // 支付配置: 用于自动更新平台证书。
         RSAAutoCertificateConfig config = new RSAAutoCertificateConfig.Builder()
@@ -52,6 +54,7 @@ public class WeChatPayConfig {
      * @return
      */
     @Bean
+    @ConditionalOnProperty(value = "wxpay.config.enabled",havingValue = "true",matchIfMissing = false)
     public NotificationConfig buildNotificationConfig(WeChatPayConfigProperties properties){
 
         return new RSAAutoCertificateConfig.Builder()
@@ -70,6 +73,7 @@ public class WeChatPayConfig {
      * @return
      */
     @Bean
+    @ConditionalOnProperty(value = "wxpay.config.enabled",havingValue = "true",matchIfMissing = false)
     public NotificationParser buildNotificationParser(NotificationConfig notificationConfig){
         return new NotificationParser(notificationConfig);
     }
