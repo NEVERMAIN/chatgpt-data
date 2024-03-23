@@ -5,6 +5,7 @@ import com.myapp.chatgpt.data.domain.order.model.entity.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description: 订单服务仓储对象
@@ -54,4 +55,28 @@ public interface IOrderRepository {
      * @return
      */
     CreateOrderAggregate queryOrder(String orderId);
+
+    /**
+     * 查询待补货订单
+     * @return
+     */
+    List<String> queryReplenishmentOrder();
+
+    /**
+     * 查询没有支付回调的订单
+     */
+    List<String> queryNoPayNotifyOrder();
+
+    /**
+     * 查询超时关单的订单
+     * @return
+     */
+    List<String> queryTimeOutCloseOrderList();
+
+    /**
+     * 更新订单的状态-修改为订单取消
+     * @param orderId
+     * @return
+     */
+    boolean changeOrderClose(String orderId);
 }

@@ -152,7 +152,7 @@ public class OrderRepository implements IOrderRepository {
 
         // 1. 变更发货状态
         Integer count = openAiOrderDao.updateOrderStatusDeliverGoods(orderId);
-        if(1 != count){
+        if (1 != count) {
             throw new RuntimeException("updateOrderStatusDeliverGoods update count is not equals 1");
         }
         // 2.增加用户额度
@@ -164,30 +164,48 @@ public class OrderRepository implements IOrderRepository {
         req.setSurplusQuota(order.getProductQuota());
         req.setOpenid(order.getOpenid());
 
-        if(null != userAccountPo){
+        if (null != userAccountPo) {
             // 修改用户可用的模型
             String modelTypes = userAccountPo.getModelTypes();
-            if(!modelTypes.contains(order.getProductModelTypes())){
+            if (!modelTypes.contains(order.getProductModelTypes())) {
                 // 如果不存在,添加新的模型
-                if(modelTypes.isEmpty()){
+                if (modelTypes.isEmpty()) {
                     modelTypes = order.getProductModelTypes();
-                }else{
-                    modelTypes += ","+order.getProductModelTypes();
+                } else {
+                    modelTypes += "," + order.getProductModelTypes();
                 }
             }
             req.setModelTypes(modelTypes);
             // 增加用户额度
             Integer addAccountQuotaCount = userAccountDao.addAccountQuota(req);
-            if(1 != addAccountQuotaCount){
+            if (1 != addAccountQuotaCount) {
                 throw new RuntimeException("addAccountQuota update count is not equals 1");
             }
-        }else{
+        } else {
             // 创建用户账户
             req.setModelTypes(order.getProductModelTypes());
             userAccountDao.createAccount(req);
         }
+    }
 
+    @Override
+    public List<String> queryReplenishmentOrder() {
+        return openAiOrderDao.queryReplenishmentOrder();
+    }
 
+    @Override
+    public List<String> queryNoPayNotifyOrder() {
+        return openAiOrderDao.queryNoPayNotifyOrder();
+    }
+
+    @Override
+    public List<String> queryTimeOutCloseOrderList() {
+        return openAiOrderDao.queryTimeoutCloseOrderList();
+    }
+
+    @Override
+    public boolean changeOrderClose(String orderId) {
+        return openAiOrderDao.changeOrderClose(orderId);
     }
 
 }

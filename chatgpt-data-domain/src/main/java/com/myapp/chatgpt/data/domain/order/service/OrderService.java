@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description: 订单服务实现类
@@ -83,11 +84,17 @@ public class OrderService extends AbstractOrderService {
         request.setOutTradeNo(orderId);
 
         // 创建微信支付单，如果你有多种支付方式，则可以根据支付类型的策略模式进行创建支付单
-        PrepayResponse prepay = nativePayService.prepay(request);
+        String codeUrl = "";
+        if (null != nativePayService) {
+            PrepayResponse prepay = nativePayService.prepay(request);
+            codeUrl = prepay.getCodeUrl();
+        } else {
+            codeUrl = "因未配置支付渠道,所以暂时不能生成支付URL";
+        }
         PayOrderEntity payOrderEntity = PayOrderEntity.builder()
                 .openid(openid)
                 .orderId(orderId)
-                .payUrl(prepay.getCodeUrl())
+                .payUrl(codeUrl)
                 .payStatus(PayStatusVo.WAIT)
                 .build();
 
@@ -110,5 +117,25 @@ public class OrderService extends AbstractOrderService {
     @Override
     public void deliverGoods(String orderId) {
         orderRepository.deliverGoods(orderId);
+    }
+
+    @Override
+    public List<String> queryReplenishmentOrder() {
+        return orderRepository.queryReplenishmentOrder();
+    }
+
+    @Override
+    public List<String> queryNoPayNotifyOrder() {
+        return orderRepository.queryNoPayNotifyOrder();
+    }
+
+    @Override
+    public List<String> queryTimeoutCloseOrderList() {
+        return orderRepository.queryTimeOutCloseOrderList();
+    }
+
+    @Override
+    public boolean changeOrderClose(String orderId) {
+        return orderRepository.changeOrderClose(orderId);
     }
 }
