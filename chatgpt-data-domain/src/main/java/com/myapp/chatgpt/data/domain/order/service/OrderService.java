@@ -138,4 +138,9 @@ public class OrderService extends AbstractOrderService {
     public boolean changeOrderClose(String orderId) {
         return orderRepository.changeOrderClose(orderId);
     }
+
+    @Override
+    public List<ProductEntity> queryProductList() {
+        return orderRepository.queryProductList();
+    }
 }

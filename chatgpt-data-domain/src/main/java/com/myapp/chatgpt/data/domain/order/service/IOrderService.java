@@ -3,6 +3,7 @@ package com.myapp.chatgpt.data.domain.order.service;
 import com.myapp.chatgpt.data.domain.order.model.aggregates.CreateOrderAggregate;
 import com.myapp.chatgpt.data.domain.order.model.entity.OrderEntity;
 import com.myapp.chatgpt.data.domain.order.model.entity.PayOrderEntity;
+import com.myapp.chatgpt.data.domain.order.model.entity.ProductEntity;
 import com.myapp.chatgpt.data.domain.order.model.entity.ShopCarEntity;
 
 import java.math.BigDecimal;
@@ -65,5 +66,9 @@ public interface IOrderService {
      */
     boolean changeOrderClose(String orderId);
 
-
+    /**
+     * 查询商品
+     * @return
+     */
+    List<ProductEntity> queryProductList();
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import javax.xml.soap.SAAJResult;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -206,6 +207,25 @@ public class OrderRepository implements IOrderRepository {
     @Override
     public boolean changeOrderClose(String orderId) {
         return openAiOrderDao.changeOrderClose(orderId);
+    }
+
+    @Override
+    public List<ProductEntity> queryProductList() {
+        List<OpenAiProductPO> productList = openAiOrderDao.queryProductList();
+        ArrayList<ProductEntity> productEntityList = new ArrayList<>();
+        for (OpenAiProductPO openAiProductPO : productList) {
+
+            ProductEntity productEntity = ProductEntity.builder()
+                    .productId(openAiProductPO.getProductId())
+                    .productName(openAiProductPO.getProductName())
+                    .productDesc(openAiProductPO.getProductDesc())
+                    .price(openAiProductPO.getPrice())
+                    .quota(openAiProductPO.getQuota())
+                    .build();
+
+            productEntityList.add(productEntity);
+        }
+        return productEntityList;
     }
 
 }

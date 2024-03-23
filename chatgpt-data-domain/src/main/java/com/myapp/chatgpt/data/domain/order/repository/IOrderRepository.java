@@ -79,4 +79,11 @@ public interface IOrderRepository {
      * @return
      */
     boolean changeOrderClose(String orderId);
+
+    /**
+     * 查询商品
+     * @return
+     */
+    List<ProductEntity> queryProductList();
+
 }

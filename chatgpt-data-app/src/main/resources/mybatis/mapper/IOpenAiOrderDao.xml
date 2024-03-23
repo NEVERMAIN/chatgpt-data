@@ -116,5 +116,12 @@
             LIMIT 50
     </select>
 
+    <select id="queryProductList" resultMap="openAiOrderMap">
+        SELECT product_id, product_name, product_dec, quota, price
+        FROM openai_product
+        WHERE is_enable = 1
+        ORDER BY sort
+    </select>
+
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.myapp.chatgpt.data.infrastructure.dao;
 
 import com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO;
+import com.myapp.chatgpt.data.infrastructure.po.OpenAiProductPO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -74,4 +75,10 @@ public interface IOpenAiOrderDao {
      * @return
      */
     boolean changeOrderClose(String orderId);
+
+    /**
+     * 查询商品列表
+     * @return
+     */
+    List<OpenAiProductPO> queryProductList();
 }
