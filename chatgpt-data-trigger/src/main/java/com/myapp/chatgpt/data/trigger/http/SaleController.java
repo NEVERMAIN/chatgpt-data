@@ -247,20 +247,10 @@ public class SaleController {
                 // 支付宝验签
                 if (checkSignature) {
                     // 验签通过
-                    log.info("支付回调，交易名称: {}", params.get("subject"));
-                    log.info("支付回调，交易状态: {}", params.get("trade_status"));
-                    log.info("支付回调，支付宝交易凭证号: {}", params.get("trade_no"));
-                    log.info("支付回调，商户订单号: {}", params.get("out_trade_no"));
-                    log.info("支付回调，交易金额: {}", params.get("total_amount"));
-                    log.info("支付回调，买家在支付宝唯一id: {}", params.get("buyer_id"));
-                    log.info("支付回调，买家付款时间: {}", params.get("gmt_payment"));
-                    log.info("支付回调，买家付款金额: {}", params.get("buyer_pay_amount"));
-
                     String orderId = params.get("out_trade_no");
                     String tradeNo = params.get("trade_no");
                     String payAmount = params.get("buyer_pay_amount");
                     String payTime = params.get("gmt_payment");
-
 
                     boolean success = orderService.changeOrderPaySuccess(orderId, tradeNo, new BigDecimal(payAmount), sdf.parse(payTime));
                     if (success) {
