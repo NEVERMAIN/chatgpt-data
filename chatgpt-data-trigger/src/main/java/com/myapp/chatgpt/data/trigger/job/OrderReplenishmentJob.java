@@ -25,7 +25,7 @@ public class OrderReplenishmentJob {
     private EventBus eventBus;
 
     /**
-     * 执行订单补货，超时3分钟，已支付，待发货未发货的订单
+     * 执行订单补货，超时 1 分钟，已支付，待发货未发货的订单
      */
     @Scheduled(cron = "0 0/10 * * * ?")
     public void exec() {

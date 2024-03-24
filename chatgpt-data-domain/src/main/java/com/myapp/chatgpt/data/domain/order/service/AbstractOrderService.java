@@ -23,7 +23,7 @@ public abstract class AbstractOrderService implements IOrderService {
 
     @Override
     public PayOrderEntity createOrder(ShopCarEntity shopCarEntity) {
-        // 0-基础信息
+        // 0 - 基础信息
         String openid = shopCarEntity.getOpenid();
         Integer productId = shopCarEntity.getProductId();
 
@@ -37,11 +37,13 @@ public abstract class AbstractOrderService implements IOrderService {
                     .orderId(unpaidOrderEntity.getOrderId())
                     .payStatus(unpaidOrderEntity.getPayStatus())
                     .build();
+
         } else if (null != unpaidOrderEntity && null == unpaidOrderEntity.getPayUrl()) {
             log.info("创建订单-存在未支付，未生成支付的订单，返回 openid:{},orderId:{}", openid, unpaidOrderEntity.getOrderId());
-            PayOrderEntity payOrderEntity = this.doPrepayOrder(openid, unpaidOrderEntity.getOrderId(), unpaidOrderEntity.getProductName(), unpaidOrderEntity.getTotalAmount());
+            PayOrderEntity payOrderEntity = this.doPrepayOrder(unpaidOrderEntity.getPayType().getCode(), openid, unpaidOrderEntity.getOrderId(), unpaidOrderEntity.getProductName(), unpaidOrderEntity.getTotalAmount());
             log.info("创建订单-完成，生成支付单，返回 openid:{},orderId:{} payUrl:{}", openid, unpaidOrderEntity.getOrderId(), payOrderEntity.getPayUrl());
             return payOrderEntity;
+
         }
 
         // 2. 创建订单
@@ -55,7 +57,7 @@ public abstract class AbstractOrderService implements IOrderService {
         OrderEntity orderEntity = this.doSaveOrder(openid, productEntity);
 
         // 4. 创建支付
-        PayOrderEntity payOrderEntity = this.doPrepayOrder(openid, orderEntity.getOrderId(), productEntity.getProductName(), orderEntity.getTotalAmount());
+        PayOrderEntity payOrderEntity = this.doPrepayOrder(orderEntity.getPayType().getCode(), openid, orderEntity.getOrderId(), productEntity.getProductName(), orderEntity.getTotalAmount());
         log.info("创建订单-完成,生成支付单. openid:{},orderId:{},payUrl:{}", openid, orderEntity.getOrderId(), payOrderEntity.getPayUrl());
         return payOrderEntity;
     }
@@ -63,7 +65,7 @@ public abstract class AbstractOrderService implements IOrderService {
     /**
      * 保存订单
      *
-     * @param openid 微信ID
+     * @param openid        微信ID
      * @param productEntity
      * @return
      */
@@ -71,12 +73,14 @@ public abstract class AbstractOrderService implements IOrderService {
 
     /**
      * 处理微信支付预中的预支付订单流程
-     * @param openid 微信ID
-     * @param orderId 订单ID
+     *
+     * @param type        支付类型
+     * @param openid      微信ID
+     * @param orderId     订单ID
      * @param productName 产品名称
      * @param totalAmount 总金额
      * @return
      */
-    protected abstract PayOrderEntity doPrepayOrder(String openid, String orderId, String productName, BigDecimal totalAmount);
+    protected abstract PayOrderEntity doPrepayOrder(Integer type, String openid, String orderId, String productName, BigDecimal totalAmount);
 
 }

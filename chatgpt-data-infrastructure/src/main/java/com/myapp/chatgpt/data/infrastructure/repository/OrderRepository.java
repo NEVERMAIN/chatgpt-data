@@ -59,31 +59,36 @@ public class OrderRepository implements IOrderRepository {
                 .payStatus(PayStatusVo.get(openAiOrderPO.getPayStatus()))
                 .productName(openAiOrderPO.getProductName())
                 .payUrl(openAiOrderPO.getPayUrl())
+                .payType(PayTypeVO.get(openAiOrderPO.getPayType()))
                 .build();
     }
 
     @Override
     public ProductEntity queryProduct(Integer productId) {
-        // 从数据库查询产品持久化对象
-        OpenAiProductPO openAiProductPO = openAiProductDao.queryProduct(productId);
-        // 创建产品对象
-        ProductEntity productEntity = new ProductEntity();
-        productEntity.setProductId(openAiProductPO.getProductId());
-        productEntity.setProductName(openAiProductPO.getProductName());
-        productEntity.setProductDesc(openAiProductPO.getProductDesc());
-        productEntity.setQuota(openAiProductPO.getQuota());
-        productEntity.setPrice(openAiProductPO.getPrice());
-        productEntity.setEnable(OpenAIProductEnableModel.get(openAiProductPO.getIsEnabled()));
+        // 1. 从数据库查询产品持久化对象
+        OpenAiProductPO productPo = openAiProductDao.queryProduct(productId);
+        // 2. 创建产品对象
+        ProductEntity productEntity = ProductEntity.builder()
+                .productId(productPo.getProductId())
+                .productName(productPo.getProductName())
+                .productDesc(productPo.getProductDesc())
+                .productModelTypes(productPo.getProductModelTypes())
+                .quota(productPo.getQuota())
+                .price(productPo.getPrice())
+                .enable(OpenAIProductEnableModel.get(productPo.getIsEnabled()))
+                .build();
+        // 3.返回产品对象
         return productEntity;
     }
 
-
     @Override
     public void saveOrder(CreateOrderAggregate createOrderAggregate) {
+        // 1.取出 openid
         String openid = createOrderAggregate.getOpenid();
         OrderEntity order = createOrderAggregate.getOrder();
         ProductEntity product = createOrderAggregate.getProduct();
 
+        // 2.创建 order 持久化对象
         OpenAiOrderPO openAiOrderPOReq = OpenAiOrderPO.builder()
                 .openid(openid)
                 .orderId(order.getOrderId())
@@ -91,23 +96,25 @@ public class OrderRepository implements IOrderRepository {
                 .orderStatus(order.getOrderStatus().getCode())
                 .totalAmount(order.getTotalAmount())
                 .payStatus(PayStatusVo.WAIT.getCode())
-                .payType(PayTypeVO.WEIXIN_NATIVE.getCode())
+                .payType(PayTypeVO.ALIPAY.getCode())
                 .productId(product.getProductId())
                 .productName(product.getProductName())
                 .productQuota(product.getQuota())
-                .productModelTypes(ProductModelTypeVO.DEFAULT_MODEL.getCode())
+                .productModelTypes(product.getProductModelTypes())
                 .build();
-
+        // 3.保存订单
         openAiOrderDao.insert(openAiOrderPOReq);
     }
 
     @Override
     public void updateOrderPayInfo(PayOrderEntity payOrderEntity) {
+
         OpenAiOrderPO openAiOrderPOReq = new OpenAiOrderPO();
         openAiOrderPOReq.setOpenid(payOrderEntity.getOpenid());
         openAiOrderPOReq.setOrderId(payOrderEntity.getOrderId());
         openAiOrderPOReq.setPayUrl(payOrderEntity.getPayUrl());
         openAiOrderPOReq.setPayStatus(payOrderEntity.getPayStatus().getCode());
+        // 更新订单状态-创建支付
         openAiOrderDao.updateOrderPayInfo(openAiOrderPOReq);
     }
 
@@ -152,10 +159,12 @@ public class OrderRepository implements IOrderRepository {
         OpenAiOrderPO order = openAiOrderDao.queryOrder(orderId);
 
         // 1. 变更发货状态
+        // todo 这里如果出现异常,修改发货状态失败，必须要有补偿
         Integer count = openAiOrderDao.updateOrderStatusDeliverGoods(orderId);
         if (1 != count) {
             throw new RuntimeException("updateOrderStatusDeliverGoods update count is not equals 1");
         }
+
         // 2.增加用户额度
         // 2.1. 查询数据库中的用户信息
         UserAccountQuotaPo userAccountPo = userAccountDao.query(order.getOpenid());
@@ -211,10 +220,10 @@ public class OrderRepository implements IOrderRepository {
 
     @Override
     public List<ProductEntity> queryProductList() {
+        // 1.查询所有的商品
         List<OpenAiProductPO> productList = openAiOrderDao.queryProductList();
         ArrayList<ProductEntity> productEntityList = new ArrayList<>();
         for (OpenAiProductPO openAiProductPO : productList) {
-
             ProductEntity productEntity = ProductEntity.builder()
                     .productId(openAiProductPO.getProductId())
                     .productName(openAiProductPO.getProductName())

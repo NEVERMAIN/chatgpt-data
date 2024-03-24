@@ -44,6 +44,7 @@ public class TimeoutCloseOrderJob {
                 log.info("定时任务,超时30分钟订单关闭,暂无超时支付订单 orderIds is null");
                 return;
             }
+
             for (String orderId : orderIds) {
                 boolean status = orderService.changeOrderClose(orderId);
                 // 微信关单,暂时不需要主动关单

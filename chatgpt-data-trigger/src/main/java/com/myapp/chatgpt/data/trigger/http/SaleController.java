@@ -1,6 +1,7 @@
 package com.myapp.chatgpt.data.trigger.http;
 
 import com.alibaba.fastjson.JSON;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.google.common.eventbus.EventBus;
 import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
 import com.myapp.chatgpt.data.domain.order.model.entity.PayOrderEntity;
@@ -14,6 +15,7 @@ import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,8 +25,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * @description: 销售服务
@@ -51,53 +53,15 @@ public class SaleController {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    @GetMapping("query_product_list")
-    public Response<List<SaleProductDTO>> queryProductList(@RequestHeader("Authorization") String token) {
-        try {
-            // 1.Token 校验
-            boolean success = authService.checkToken(token);
-            if (!success) {
-                return Response.<List<SaleProductDTO>>builder()
-                        .code(Constants.ResponseCode.TOKEN_ERROR.getCode())
-                        .info(Constants.ResponseCode.UN_ERROR.getInfo())
-                        .build();
-            }
-            // 2.查询商品
-            List<ProductEntity> productList = orderService.queryProductList();
-            log.info("商品查询:{}", JSON.toJSONString(productList));
-
-            ArrayList<SaleProductDTO> mallProductDTOS = new ArrayList<>();
-            for (ProductEntity productEntity : productList) {
-
-                SaleProductDTO saleProductDTO = SaleProductDTO.builder()
-                        .productId(productEntity.getProductId())
-                        .productName(productEntity.getProductName())
-                        .productDesc(productEntity.getProductDesc())
-                        .quota(productEntity.getQuota())
-                        .price(productEntity.getPrice())
-                        .build();
-
-                mallProductDTOS.add(saleProductDTO);
-            }
-
-            // 3.返回结果
-            return Response.<List<SaleProductDTO>>builder()
-                    .code(Constants.ResponseCode.SUCEESS.getCode())
-                    .info(Constants.ResponseCode.SUCEESS.getInfo())
-                    .data(mallProductDTOS)
-                    .build();
-        } catch (Exception e) {
-            log.error("商品查询失败", e);
-            return Response.<List<SaleProductDTO>>builder()
-                    .code(Constants.ResponseCode.UN_ERROR.getCode())
-                    .info(Constants.ResponseCode.UN_ERROR.getInfo())
-                    .build();
-        }
-
-    }
-
-
+    /**
+     * 创建订单的 http 方法
+     *
+     * @param token
+     * @param productId
+     * @return
+     */
     @PostMapping("create_pay_order")
     public Response<String> createPayOrder(@RequestHeader("Authorization") String token, @RequestParam Integer productId) {
 
@@ -142,9 +106,62 @@ public class SaleController {
 
     }
 
+    /**
+     * 查询商品列表
+     *
+     * @param token
+     * @return
+     */
+    @GetMapping("query_product_list")
+    public Response<List<SaleProductDTO>> queryProductList(@RequestHeader("Authorization") String token) {
+        try {
+            // 1.Token 校验
+            boolean success = authService.checkToken(token);
+            if (!success) {
+                return Response.<List<SaleProductDTO>>builder()
+                        .code(Constants.ResponseCode.TOKEN_ERROR.getCode())
+                        .info(Constants.ResponseCode.UN_ERROR.getInfo())
+                        .build();
+            }
+            // 2.查询商品
+            List<ProductEntity> productList = orderService.queryProductList();
+            log.info("商品查询:{}", JSON.toJSONString(productList));
+
+            ArrayList<SaleProductDTO> mallProductDTOS = new ArrayList<>();
+            for (ProductEntity productEntity : productList) {
+
+                SaleProductDTO saleProductDTO = SaleProductDTO.builder()
+                        .productId(productEntity.getProductId())
+                        .productName(productEntity.getProductName())
+                        .productDesc(productEntity.getProductDesc())
+                        .productModelTypes(productEntity.getProductModelTypes())
+                        .quota(productEntity.getQuota())
+                        .price(productEntity.getPrice())
+                        .build();
+
+                mallProductDTOS.add(saleProductDTO);
+            }
+
+            // 3.返回结果
+            return Response.<List<SaleProductDTO>>builder()
+                    .code(Constants.ResponseCode.SUCEESS.getCode())
+                    .info(Constants.ResponseCode.SUCEESS.getInfo())
+                    .data(mallProductDTOS)
+                    .build();
+        } catch (Exception e) {
+            log.error("商品查询失败", e);
+            return Response.<List<SaleProductDTO>>builder()
+                    .code(Constants.ResponseCode.UN_ERROR.getCode())
+                    .info(Constants.ResponseCode.UN_ERROR.getInfo())
+                    .build();
+        }
+
+    }
+
 
     /**
-     * 支付回调
+     * 微信支付回调 方法
+     *
      * @param requestBody
      * @param request
      * @param response
@@ -173,11 +190,12 @@ public class SaleController {
 
             // 以支付通知回调为例,验签,解密,并转成 Transaction
             Transaction transaction = notificationParser.parse(requestParam, Transaction.class);
-
+            // 1.获取支付的状态
             Transaction.TradeStateEnum tradeState = transaction.getTradeState();
             if (Transaction.TradeStateEnum.SUCCESS.equals(tradeState)) {
-                // 支付单号
+                // 订单单号
                 String orderId = transaction.getOutTradeNo();
+                // 交易单号
                 String transactionId = transaction.getTransactionId();
                 Integer total = transaction.getAmount().getTotal();
                 String successTime = transaction.getSuccessTime();
@@ -198,6 +216,65 @@ public class SaleController {
 
         }
 
+    }
+
+
+    @Value("${alipay.alipayPublicKey}")
+    private String alipayPublicKey;
+
+    /**
+     * 支付宝支付的回调方法 - 沙箱
+     */
+    @PostMapping("/alipay/pay_notify")
+    public String payNotify(HttpServletRequest request) {
+        try {
+
+            log.info("支付回调,消息接收 {}", request.getParameter("trade_status"));
+
+            if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
+
+                // 1.取出请求体中的参数
+                HashMap<String, String> params = new HashMap<>();
+                Map<String, String[]> requestParams = request.getParameterMap();
+                for (String name : requestParams.keySet()) {
+                    params.put(name, request.getParameter(name));
+                }
+
+                String sign = params.get("sign");
+                String content = AlipaySignature.getSignCheckContentV1(params);
+                boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, alipayPublicKey, "UTF-8");
+
+                // 支付宝验签
+                if (checkSignature) {
+                    // 验签通过
+                    log.info("支付回调，交易名称: {}", params.get("subject"));
+                    log.info("支付回调，交易状态: {}", params.get("trade_status"));
+                    log.info("支付回调，支付宝交易凭证号: {}", params.get("trade_no"));
+                    log.info("支付回调，商户订单号: {}", params.get("out_trade_no"));
+                    log.info("支付回调，交易金额: {}", params.get("total_amount"));
+                    log.info("支付回调，买家在支付宝唯一id: {}", params.get("buyer_id"));
+                    log.info("支付回调，买家付款时间: {}", params.get("gmt_payment"));
+                    log.info("支付回调，买家付款金额: {}", params.get("buyer_pay_amount"));
+
+                    String orderId = params.get("out_trade_no");
+                    String tradeNo = params.get("trade_no");
+                    String payAmount = params.get("buyer_pay_amount");
+                    String payTime = params.get("gmt_payment");
+
+
+                    boolean success = orderService.changeOrderPaySuccess(orderId, tradeNo, new BigDecimal(payAmount), sdf.parse(payTime));
+                    if (success) {
+                        // 发布消息
+                        eventBus.post(orderId);
+                    }
+                }
+            }
+
+            return "success";
+        } catch (Exception e) {
+            log.error("支付回调,处理失败", e);
+            return "false";
+        }
 
     }
 

@@ -1,6 +1,7 @@
 package com.myapp.chatgpt.data.domain.order.model.entity;
 
 import com.myapp.chatgpt.data.domain.order.model.vo.PayStatusVo;
+import com.myapp.chatgpt.data.domain.order.model.vo.PayTypeVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +43,10 @@ public class UnpaidOrderEntity {
      * 支付状态: 0-等待支付 1-支付完成 2-支付失败 3-放弃支付
      */
     private PayStatusVo payStatus;
+    /**
+     * 支付方式
+     */
+    private PayTypeVO payType;
 
 
 }

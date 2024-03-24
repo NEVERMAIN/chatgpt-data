@@ -31,6 +31,10 @@ public class SaleProductDTO {
      */
     private String productDesc;
     /**
+     * 商品类型
+     */
+    private String productModelTypes;
+    /**
      * 额度次数
      */
     private Integer quota;

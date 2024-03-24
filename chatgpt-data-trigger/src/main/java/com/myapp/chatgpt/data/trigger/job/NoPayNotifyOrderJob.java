@@ -50,11 +50,13 @@ public class NoPayNotifyOrderJob {
                 return;
             }
 
+            // 1.查询没有支付回调的订单
             List<String> orderIds = orderService.queryNoPayNotifyOrder();
             if(orderIds.isEmpty()){
                 log.info("定时任务,订单支付状态更新,暂无未更新订单 orderId is null");
                 return;
             }
+
             for(String orderId : orderIds){
                 // 查询结果
                 QueryOrderByOutTradeNoRequest request = new QueryOrderByOutTradeNoRequest();

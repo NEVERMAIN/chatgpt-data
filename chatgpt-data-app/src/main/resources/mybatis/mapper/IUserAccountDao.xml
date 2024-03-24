@@ -23,7 +23,7 @@
         UPDATE user_account
         SET total_quota   = total_quota + #{totalQuota},
             surplus_quota = surplus_quota + #{surplusQuota},
-            update_time   = #{updateTime} ,
+            update_time   = now()
         WHERE openid = #{openid}
     </update>
 
@@ -33,7 +33,7 @@
     </update>
 
     <select id="query" resultMap="userAccountMap">
-        SELECT id,openid,total_quota,surplus_quota,model_types,status,create_time,update_time
+        SELECT openid, total_quota, surplus_quota, model_types, status, create_time, update_time
         FROM user_account
         WHERE openid = #{openid};
     </select>

@@ -32,6 +32,11 @@ public class ProductEntity {
      */
     private String productDesc;
     /**
+     * 产品类型
+     */
+    private String productModelTypes;
+
+    /**
      * 额度
      */
     private Integer quota;

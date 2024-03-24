@@ -44,7 +44,7 @@ public interface IOrderRepository {
      * 更新订单的状态-修改为已支付状态
      * @return
      */
-    boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal totalAmount, Date payTime);
+    boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal payAmount, Date payTime);
     /**
      * 发货
      */

@@ -17,7 +17,7 @@ public enum ProductModelTypeVO {
     /**
      * 默认模型
      */
-    DEFAULT_MODEL("glm-3-turbo,glm-4,glm-4v,cogview-3","默认"),
+    GLM_3_TURBO("glm-3-turbo","默认"),
 
     ;
     private String code;

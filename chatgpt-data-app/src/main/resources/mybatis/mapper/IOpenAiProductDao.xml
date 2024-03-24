@@ -5,8 +5,8 @@
     <resultMap id="openAiProductMap" type="com.myapp.chatgpt.data.infrastructure.po.OpenAiProductPO">
         <id column="id" property="id"/>
         <result column="product_id" property="productId"/>
-        <result column="produce_name" property="productName"/>
-        <result column="produce_desc" property="productDesc"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_desc" property="productDesc"/>
         <result column="product_model_types" property="productModelTypes"/>
         <result column="quota" property="quota"/>
         <result column="price" property="price"/>
@@ -18,7 +18,7 @@
 
 
     <select id="queryProduct" parameterType="integer" resultMap="openAiProductMap">
-        SELECT product_id,product_name,product_desc,product_model_types,quota,price,is_enabled
+        SELECT product_id, product_name, product_desc, product_model_types, quota, price, is_enabled
         FROM openai_product
         WHERE product_id = #{productId}
     </select>

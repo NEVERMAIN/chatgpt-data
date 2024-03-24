@@ -25,15 +25,15 @@
 
     <insert id="insert" parameterType="com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO">
         INSERT INTO openai_order (openid, product_id, product_name, product_quota, product_model_types,
-                                  orderId, order_time, order_status, total_amount, pay_type, pay_status, pay_time,
+                                  order_id, order_time, order_status, total_amount, pay_type, pay_status, pay_time,
                                   create_time, update_time)
         VALUES (#{openid}, #{productId}, #{productName}, #{productQuota}, #{productModelTypes},
-                #{orderId}, #{orderTime}, #{orderStatus}, #{totalAmount}, #{payType}, #{payStatus}, #{payTime} now(),
+                #{orderId}, #{orderTime}, #{orderStatus}, #{totalAmount}, #{payType}, #{payStatus}, #{payTime}, now(),
                 now())
     </insert>
 
     <update id="updateOrderPayInfo" parameterType="com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO">
-        update openai_order
+        UPDATE openai_order
         SET pay_url     = #{payUrl},
             pay_status  = #{payStatus},
             update_time = now()
@@ -44,19 +44,22 @@
 
     <update id="changeOrderPaySuccess" parameterType="com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO">
         UPDATE openai_order
-        SET pay_status     = 1, order_status = 1,
+        SET pay_status     = 1,
+            order_status   = 1,
             pay_time       = #{payTime},
             transaction_id = #{transactionId},
             pay_amount     = #{payAmount},
             update_time    = now()
-        where order_id = #{orderId} AND pay_time is null
+        where order_id = #{orderId}
+          AND pay_time is null
     </update>
 
 
     <update id="updateOrderStatusDeliverGoods" parameterType="string">
         UPDATE openai_order
         SET order_status = 2
-        WHERE order_id = #{orderId}  AND order_status = 1
+        WHERE order_id = #{orderId}
+          AND order_status = 1
     </update>
 
     <update id="changeOrderClose" parameterType="string">
@@ -71,9 +74,9 @@
 
     <select id="queryUnpaidOrder" parameterType="com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO"
             resultMap="openAiOrderMap">
-        select order_id, product_name, pay_url, pay_status, total_amount
-        from openai_order
-        where openid = #{openid}
+        SELECT order_id, product_name, pay_url, pay_status, total_amount,pay_type
+        FROM openai_order
+        WHERE openid = #{openid}
           AND product_id = #{productId}
           AND order_status = 0
         ORDER BY id desc LIMIT 1
@@ -81,8 +84,18 @@
 
 
     <select id="queryOrder" parameterType="string" resultMap="openAiOrderMap">
-        SELECT open_id,product_id,product_name,product_quota,order_id,order_time,
-               order_status,total_amount,pay_type,pay_status,pay_time
+        SELECT openid,
+               product_id,
+               product_name,
+               product_model_types,
+               product_quota,
+               order_id,
+               order_time,
+               order_status,
+               total_amount,
+               pay_type,
+               pay_status,
+               pay_time
         FROM openai_order
         WHERE order_id = #{orderId}
     </select>
@@ -97,6 +110,7 @@
         ORDER BY id ASC
             LIMIT 10
     </select>
+
     <select id="queryNoPayNotifyOrder" resultType="java.lang.String">
         SELECT order_id AS orderId
         FROM openai_order
@@ -106,6 +120,7 @@
         ORDER BY id ASC
             LIMIT 10
     </select>
+
     <select id="queryTimeoutCloseOrderList" resultType="java.lang.String">
         SELECT order_id AS orderId
         FROM openai_order
@@ -117,7 +132,7 @@
     </select>
 
     <select id="queryProductList" resultMap="openAiOrderMap">
-        SELECT product_id, product_name, product_dec, quota, price
+        SELECT product_id, product_name, product_dec, product_model_types, quota, price
         FROM openai_product
         WHERE is_enable = 1
         ORDER BY sort

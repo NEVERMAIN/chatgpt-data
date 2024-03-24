@@ -1,4 +1,4 @@
-package com.myapp.chatgpt.data.domain.order.service;
+package com.myapp.chatgpt.data.domain.order.service.impl;
 
 import com.myapp.chatgpt.data.domain.order.model.aggregates.CreateOrderAggregate;
 import com.myapp.chatgpt.data.domain.order.model.entity.OrderEntity;
@@ -8,6 +8,9 @@ import com.myapp.chatgpt.data.domain.order.model.vo.OrderStatusVO;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayStatusVo;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayTypeVO;
 import com.myapp.chatgpt.data.domain.order.repository.IOrderRepository;
+import com.myapp.chatgpt.data.domain.order.service.AbstractOrderService;
+import com.myapp.chatgpt.data.domain.order.service.pay.IPayService;
+import com.myapp.chatgpt.data.domain.order.service.pay.factory.PayServiceFactory;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import com.wechat.pay.java.service.payments.nativepay.model.Amount;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
@@ -32,30 +35,22 @@ import java.util.List;
 @Service
 public class OrderService extends AbstractOrderService {
 
-    @Value("${wxpay.config.appid}")
-    private String appid;
-
-    @Value("${wxpay.config.merchantId}")
-    private String merchantId;
-
-    @Value("${wxpay.config.notify-url}")
-    private String notifyUrl;
-
     @Resource
     private IOrderRepository orderRepository;
 
-    @Autowired(required = false)
-    private NativePayService nativePayService;
+    @Resource
+    private PayServiceFactory payServiceFactory;
 
 
     @Override
     protected OrderEntity doSaveOrder(String openid, ProductEntity productEntity) {
+
         OrderEntity orderEntity = new OrderEntity();
-        // 1. 生成订单ID,保证数据库的幂等性
+        // 1. 生成订单唯一ID,保证数据库的幂等性
         orderEntity.setOrderId(RandomStringUtils.randomNumeric(12));
         orderEntity.setOrderTime(new Date());
         orderEntity.setOrderStatus(OrderStatusVO.CREATE);
-        orderEntity.setPayType(PayTypeVO.WEIXIN_NATIVE);
+        orderEntity.setPayType(PayTypeVO.ALIPAY);
         orderEntity.setTotalAmount(productEntity.getPrice());
 
         // 2. 聚合信息
@@ -70,37 +65,12 @@ public class OrderService extends AbstractOrderService {
     }
 
     @Override
-    protected PayOrderEntity doPrepayOrder(String openid, String orderId, String productName, BigDecimal totalAmount) {
+    protected PayOrderEntity doPrepayOrder(Integer type, String openid, String orderId, String productName, BigDecimal totalAmount) {
 
-        // 1. 创建请求
-        PrepayRequest request = new PrepayRequest();
-        Amount amount = new Amount();
-        // 注意这里将totalAmount乘以100并转为整数，因为微信支付通常要求金额以分为单位(即元×100)
-        amount.setTotal(totalAmount.multiply(new BigDecimal(100)).intValue());
-        request.setAmount(amount);
-        request.setAppid(appid);
-        request.setMchid(merchantId);
-        request.setNotifyUrl(notifyUrl);
-        request.setOutTradeNo(orderId);
-
-        // 创建微信支付单，如果你有多种支付方式，则可以根据支付类型的策略模式进行创建支付单
-        String codeUrl = "";
-        if (null != nativePayService) {
-            PrepayResponse prepay = nativePayService.prepay(request);
-            codeUrl = prepay.getCodeUrl();
-        } else {
-            codeUrl = "因未配置支付渠道,所以暂时不能生成支付URL";
-        }
-        PayOrderEntity payOrderEntity = PayOrderEntity.builder()
-                .openid(openid)
-                .orderId(orderId)
-                .payUrl(codeUrl)
-                .payStatus(PayStatusVo.WAIT)
-                .build();
-
+        IPayService payService = payServiceFactory.getPayService(type);
+        PayOrderEntity payOrderEntity = payService.doPrepayOrder(openid, orderId, productName, totalAmount);
         // 更新订单支付信息
         orderRepository.updateOrderPayInfo(payOrderEntity);
-
         return payOrderEntity;
     }
 

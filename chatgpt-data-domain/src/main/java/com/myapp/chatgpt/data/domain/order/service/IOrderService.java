@@ -28,7 +28,7 @@ public interface IOrderService {
     /**
      * 修改订单状态:订单支付成功
      */
-    boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal totalAmount, Date payTime);
+    boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal payAmount, Date payTime);
 
     /**
      * 查询订单信息
