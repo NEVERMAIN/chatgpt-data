@@ -13,9 +13,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AliPayConfigProperties {
 
     private String appId;
-
+    /** 用户应用私钥 */
     private String merchantPrivateKey;
-
+    /** 支付宝公钥 */
     private String alipayPublicKey;
 
     private String notifyUrl;

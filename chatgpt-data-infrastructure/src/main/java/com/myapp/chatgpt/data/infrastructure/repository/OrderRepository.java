@@ -221,7 +221,7 @@ public class OrderRepository implements IOrderRepository {
     @Override
     public List<ProductEntity> queryProductList() {
         // 1.查询所有的商品
-        List<OpenAiProductPO> productList = openAiOrderDao.queryProductList();
+        List<OpenAiProductPO> productList = openAiProductDao.queryProductList();
         ArrayList<ProductEntity> productEntityList = new ArrayList<>();
         for (OpenAiProductPO openAiProductPO : productList) {
             ProductEntity productEntity = ProductEntity.builder()

@@ -34,12 +34,6 @@ wxpay:
     apiV3Key:
 
 
-
-
-
-
-
-
 # 线程池配置
 thread:
   pool:
@@ -56,6 +50,7 @@ thread:
 chatglm:
   sdk:
     config:
+      enable: true
       api-host: https://open.bigmodel.cn/
       api-secret-key: 6fbc6c46a84a201fad03b6de40253619.2WNgqPQhA34dEEoq
 
@@ -74,6 +69,7 @@ logging:
     root: info
   config: classpath:logback-spring.xml
 
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -91,6 +87,7 @@ spring:
       connection-test-query: SELECT 1
     type: com.zaxxer.hikari.HikariDataSource
 
+
 # mybatis 配置
 mybatis:
   mapper-locations: classpath:/mybatis/mapper/*.xml
@@ -107,3 +104,28 @@ alipay:
   notifyUrl: http://lotterycore.nat300.top/api/${app.config.api-version}/sale/alipay/pay_notify
   returnUrl: https://gaga.plus/
   gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+
+
+# 星火大模型 SDK 配置
+spark:
+  config:
+    enable: true
+    appid: dac4535e
+    api-key: d984fda9834da3c4786df752f9714266
+    api-secret: OTlmMTI4ZTlhZmM1NzY0YmViZWNmNzc0
+
+
+# Redis
+redis:
+  sdk:
+    config:
+      host: 127.0.0.1
+      port: 6379
+      pool-size: 10
+      min-idle-size: 5
+      idle-timeout: 30000
+      connect-timeout: 5000
+      retry-attempts: 3
+      retry-interval: 1000
+      ping-interval: 60000
+      keep-alive: true

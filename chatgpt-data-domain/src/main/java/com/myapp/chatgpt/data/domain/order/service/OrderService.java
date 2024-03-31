@@ -1,24 +1,21 @@
-package com.myapp.chatgpt.data.domain.order.service.impl;
+package com.myapp.chatgpt.data.domain.order.service;
 
 import com.myapp.chatgpt.data.domain.order.model.aggregates.CreateOrderAggregate;
 import com.myapp.chatgpt.data.domain.order.model.entity.OrderEntity;
 import com.myapp.chatgpt.data.domain.order.model.entity.PayOrderEntity;
+import com.myapp.chatgpt.data.domain.order.model.entity.PrePayOrderEntity;
 import com.myapp.chatgpt.data.domain.order.model.entity.ProductEntity;
 import com.myapp.chatgpt.data.domain.order.model.vo.OrderStatusVO;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayStatusVo;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayTypeVO;
 import com.myapp.chatgpt.data.domain.order.repository.IOrderRepository;
 import com.myapp.chatgpt.data.domain.order.service.AbstractOrderService;
-import com.myapp.chatgpt.data.domain.order.service.pay.IPayService;
-import com.myapp.chatgpt.data.domain.order.service.pay.factory.PayServiceFactory;
-import com.wechat.pay.java.service.payments.nativepay.NativePayService;
-import com.wechat.pay.java.service.payments.nativepay.model.Amount;
-import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
-import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
+import com.myapp.chatgpt.data.domain.order.service.pay.IPayStrategy;
+import com.myapp.chatgpt.data.domain.order.service.pay.facde.PayFacade;
+import com.myapp.chatgpt.data.domain.order.service.pay.factory.PayContextFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,7 +36,7 @@ public class OrderService extends AbstractOrderService {
     private IOrderRepository orderRepository;
 
     @Resource
-    private PayServiceFactory payServiceFactory;
+    private PayFacade payFacade;
 
 
     @Override
@@ -65,10 +62,23 @@ public class OrderService extends AbstractOrderService {
     }
 
     @Override
-    protected PayOrderEntity doPrepayOrder(Integer type, String openid, String orderId, String productName, BigDecimal totalAmount) {
+    protected PayOrderEntity doPrepayOrder(Integer payType, String openid, String orderId, String productName, BigDecimal totalAmount) {
 
-        IPayService payService = payServiceFactory.getPayService(type);
-        PayOrderEntity payOrderEntity = payService.doPrepayOrder(openid, orderId, productName, totalAmount);
+        // 创建预支付的对象
+        PrePayOrderEntity prePayOrder = PrePayOrderEntity.builder()
+                .openid(openid)
+                .orderId(orderId)
+                .totalAmount(totalAmount)
+                .productName(productName)
+                .build();
+        // 调用预支付服务,得到返回的结果
+        String result = payFacade.pay(prePayOrder, payType);
+        PayOrderEntity payOrderEntity = PayOrderEntity.builder()
+                .openid(openid)
+                .orderId(orderId)
+                .payUrl(result)
+                .payStatus(PayStatusVo.WAIT)
+                .build();
         // 更新订单支付信息
         orderRepository.updateOrderPayInfo(payOrderEntity);
         return payOrderEntity;

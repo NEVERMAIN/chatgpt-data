@@ -23,4 +23,11 @@
         WHERE product_id = #{productId}
     </select>
 
+    <select id="queryProductList" resultMap="openAiProductMap">
+        SELECT product_id, product_name, product_desc, product_model_types, quota, price
+        FROM openai_product
+        WHERE is_enabled = 1
+        ORDER BY sort
+    </select>
+
 </mapper>

@@ -6,13 +6,20 @@ import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
 import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository;
+import com.myapp.chatgpt.data.domain.openai.service.channel.OpenAiGroupService;
+import com.myapp.chatgpt.data.domain.openai.service.channel.impl.ChatGLMService;
+import com.myapp.chatgpt.data.domain.openai.service.channel.impl.SparkService;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
 import com.myapp.chatgpt.data.types.common.Constants;
+import com.myapp.chatgpt.data.types.enums.OpenAiChannel;
 import com.myapp.chatgpt.data.types.exception.ChatGPTException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @description: 抽象类，主要是编排方法的执行流程
@@ -25,6 +32,13 @@ public abstract class AbstractChatService implements IChatService {
 
     @Resource
     private IOpenAiRepository openAiRepository;
+
+    public final Map<OpenAiChannel, OpenAiGroupService> openAiGroup = new HashMap();
+
+    public AbstractChatService(ChatGLMService chatGLMService, SparkService sparkService){
+        openAiGroup.put(OpenAiChannel.ChatGLM,chatGLMService);
+        openAiGroup.put(OpenAiChannel.Spark,sparkService);
+    }
 
 
     @Override
@@ -61,17 +75,18 @@ public abstract class AbstractChatService implements IChatService {
                 return emitter;
             }
 
-            // 重新设置用户提问的文本信息
+            // 3. 重新设置用户提问的文本信息
             ChatProcessAggregate process = ruleLogicEntity.getData();
             log.info("规则过滤后,用户的提问信息:{}", JSON.toJSONString(process.getMessages()));
 
-            // 3. 应答处理
-            this.doMessageResponse(process, emitter);
+            // 4. 应答处理
+            openAiGroup.get(chatProcess.getChannel()).doMessageResponse(chatProcess,emitter);
+
         } catch (Exception e) {
             throw new ChatGPTException(Constants.ResponseCode.UN_ERROR.getCode(), Constants.ResponseCode.UN_ERROR.getInfo());
         }
 
-        // 4. 返回结果
+        // 5. 返回结果
         return emitter;
     }
 

@@ -24,8 +24,9 @@ public class OrderPaySuccessListener {
     @Subscribe
     public void handleEvent(String orderId){
         try{
-            log.info("支付完成，发货并记录,开始.订单:{}",orderId);
+            log.info("支付完成，发货并记录,开始.订单号:{}",orderId);
             orderService.deliverGoods(orderId);
+            log.info("支付完成,发货并记录,结束,订单号:{}",orderId);
         }catch (Exception e){
             log.error("支付完成,发货并记录，失败，订单:{}",orderId,e);
         }

@@ -2,6 +2,7 @@ package com.myapp.chatgpt.data.domain.openai.model.aggregates;
 
 import com.myapp.chatglm.model.Model;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
+import com.myapp.chatgpt.data.types.enums.OpenAiChannel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,4 +42,7 @@ public class ChatProcessAggregate {
     }
 
 
+    public OpenAiChannel getChannel() {
+        return OpenAiChannel.getChannel(this.getModel());
+    }
 }

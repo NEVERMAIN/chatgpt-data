@@ -1,12 +1,13 @@
-package com.myapp.chatgpt.data.domain.order.service.pay.impl;
+package com.myapp.chatgpt.data.domain.order.service.pay.strategy;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.myapp.chatgpt.data.domain.order.model.entity.PayOrderEntity;
+import com.myapp.chatgpt.data.domain.order.model.entity.PrePayOrderEntity;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayStatusVo;
-import com.myapp.chatgpt.data.domain.order.service.pay.IPayService;
+import com.myapp.chatgpt.data.domain.order.service.pay.IPayStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +22,7 @@ import java.math.BigDecimal;
  */
 @Slf4j
 @Service(value = "aliPay")
-public class AliPayService implements IPayService {
-
+public class AliPayStrategy implements IPayStrategy {
 
     @Value("${alipay.notifyUrl}")
     private String notifyUrl;
@@ -34,30 +34,22 @@ public class AliPayService implements IPayService {
     private AlipayClient alipayClient;
 
     @Override
-    public PayOrderEntity doPrepayOrder(String openid, String orderId, String productName, BigDecimal totalAmount) {
+    public String doPrepayOrder(PrePayOrderEntity prePayOrderEntity) {
 
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
         request.setNotifyUrl(notifyUrl);
         request.setReturnUrl(returnUrl);
 
         JSONObject bizContent = new JSONObject();
-        bizContent.put("out_trade_no", orderId);
-        bizContent.put("total_amount", totalAmount.toString());
-        bizContent.put("subject", productName);
+        bizContent.put("out_trade_no", prePayOrderEntity.getOrderId());
+        bizContent.put("total_amount", prePayOrderEntity.getTotalAmount().toString());
+        bizContent.put("subject", prePayOrderEntity.getProductName());
         bizContent.put("product_code", "FAST_INSTANT_TRADE_PAY");
         request.setBizContent(bizContent.toString());
 
         try {
             String form = alipayClient.pageExecute(request).getBody();
-
-            PayOrderEntity payOrderEntity = PayOrderEntity.builder()
-                    .openid(openid)
-                    .orderId(orderId)
-                    .payUrl(form)
-                    .payStatus(PayStatusVo.WAIT)
-                    .build();
-
-            return payOrderEntity;
+            return form;
 
         } catch (AlipayApiException e) {
             throw new RuntimeException(e);

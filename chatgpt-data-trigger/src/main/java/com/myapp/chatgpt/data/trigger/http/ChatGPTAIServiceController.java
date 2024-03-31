@@ -70,7 +70,7 @@ public class ChatGPTAIServiceController {
             ChatProcessAggregate process = ChatProcessAggregate
                     .builder()
                     .openId(openId)
-                    .Model(Model.getModel(request.getModel()).getCode())
+                    .Model(request.getModel())
                     .messages(request.getMessages().stream().map((entity) -> MessageEntity.builder()
                             .role(Role.getRole(entity.getRole()).getCode())
                             .content(entity.getContent())

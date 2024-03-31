@@ -49,14 +49,13 @@ public class NoPayNotifyOrderJob {
                 log.info("定时任务，订单支付状态更新。应用未配置支付渠道，任务不执行。");
                 return;
             }
-
             // 1.查询没有支付回调的订单
             List<String> orderIds = orderService.queryNoPayNotifyOrder();
             if(orderIds.isEmpty()){
                 log.info("定时任务,订单支付状态更新,暂无未更新订单 orderId is null");
                 return;
             }
-
+            // todo: 如果是多支付渠道的情况下,应该根据返回的订单中的支付类型来选择补偿创建支付的方式
             for(String orderId : orderIds){
                 // 查询结果
                 QueryOrderByOutTradeNoRequest request = new QueryOrderByOutTradeNoRequest();

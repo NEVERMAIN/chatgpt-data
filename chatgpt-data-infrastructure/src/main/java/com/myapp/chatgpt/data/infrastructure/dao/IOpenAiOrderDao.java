@@ -15,6 +15,7 @@ import java.util.List;
 public interface IOpenAiOrderDao {
     /**
      * 查询未支付的订单
+     *
      * @param openAiOrderPO
      * @return
      */
@@ -27,12 +28,14 @@ public interface IOpenAiOrderDao {
 
     /**
      * 修改订单的状态
+     *
      * @param openAiOrderPOReq
      */
     void updateOrderPayInfo(OpenAiOrderPO openAiOrderPOReq);
 
     /**
      * 修改订单的状态 - 修改为支付成功
+     *
      * @param req
      * @return
      */
@@ -40,6 +43,7 @@ public interface IOpenAiOrderDao {
 
     /**
      * 查询订单
+     *
      * @param orderId
      * @return
      */
@@ -47,6 +51,7 @@ public interface IOpenAiOrderDao {
 
     /**
      * 修改订单的状态-发货状态
+     *
      * @param orderId
      * @return
      */
@@ -54,12 +59,14 @@ public interface IOpenAiOrderDao {
 
     /**
      * 查询待补货订单
+     *
      * @return
      */
     List<String> queryReplenishmentOrder();
 
     /**
      * 查询没有支付回调的订单
+     *
      * @return
      */
     List<String> queryNoPayNotifyOrder();
@@ -71,14 +78,10 @@ public interface IOpenAiOrderDao {
 
     /**
      * 更新订单的状态-修改为订单取消
+     *
      * @param orderId
      * @return
      */
     boolean changeOrderClose(String orderId);
 
-    /**
-     * 查询商品列表
-     * @return
-     */
-    List<OpenAiProductPO> queryProductList();
 }
