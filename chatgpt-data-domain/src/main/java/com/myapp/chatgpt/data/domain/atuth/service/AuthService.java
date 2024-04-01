@@ -3,6 +3,7 @@ package com.myapp.chatgpt.data.domain.atuth.service;
 import com.google.common.cache.Cache;
 import com.myapp.chatgpt.data.domain.atuth.model.entity.AuthStateEntity;
 import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVO;
+import com.myapp.chatgpt.data.domain.atuth.repository.IAuthRepository;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,11 +23,14 @@ public class AuthService  extends AbstractAuthService{
     @Resource
     private Cache<String,String> codeCache;
 
+    @Resource
+    private IAuthRepository authRepository;
+
     @Override
     public AuthStateEntity checkCode(String code) {
 
         // 1. 从缓存中获取用户凭证
-        String openId = codeCache.getIfPresent(code);
+        String openId = authRepository.getCodeByOpenId(code);
         if(StringUtils.isBlank(openId)){
             log.info("鉴权,用户输入的验证码不存在");
             return AuthStateEntity.builder()
@@ -36,8 +40,7 @@ public class AuthService  extends AbstractAuthService{
         }
 
         // 移除缓存中的 key 值
-        codeCache.invalidate(code);
-        codeCache.invalidate(openId);
+        authRepository.removeCodeByOpenId(code,openId);
 
         // 3.校验验证码成功
         return AuthStateEntity.builder()

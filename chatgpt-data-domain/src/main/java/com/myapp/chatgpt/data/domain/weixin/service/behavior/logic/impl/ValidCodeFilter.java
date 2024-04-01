@@ -2,6 +2,7 @@ package com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.impl;
 
 import com.google.common.cache.Cache;
 import com.myapp.chatgpt.data.domain.weixin.model.entity.BehaviorMatter;
+import com.myapp.chatgpt.data.domain.weixin.repository.IWeiXinRepository;
 import com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.LogicFilter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,23 +23,13 @@ public class ValidCodeFilter implements LogicFilter {
     private Logger logger = LoggerFactory.getLogger(ValidCodeFilter.class);
 
     @Resource
-    private Cache<String, String> codeCache;
+    private IWeiXinRepository weiXinRepository;
 
     @Override
     public String fitler(BehaviorMatter behaviorMessage) {
         String openId = behaviorMessage.getOpenId();
-        // 从缓存中获取验证码
-        String isExistCode = codeCache.getIfPresent(openId);
-        // 判断验证码是否存在 - 不考虑验证码重复问题
-        if (StringUtils.isBlank(isExistCode)) {
-            // 生成 4 位随机数
-            String code = RandomStringUtils.randomNumeric(4);
-            // 放入缓存中
-            codeCache.put(openId, code);
-            codeCache.put(code, openId);
-            isExistCode = code;
-        }
-
-        return String.format("您的验证码是: " + isExistCode + " 有效期为3分钟");
+        // 生成验证码
+        String code = weiXinRepository.getCode(openId);
+        return String.format("您的验证码是: " + code + " 有效期为3分钟");
     }
 }
