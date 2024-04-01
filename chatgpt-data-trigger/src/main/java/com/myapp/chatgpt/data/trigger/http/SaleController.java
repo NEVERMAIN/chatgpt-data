@@ -9,11 +9,13 @@ import com.myapp.chatgpt.data.domain.order.model.entity.ProductEntity;
 import com.myapp.chatgpt.data.domain.order.model.entity.ShopCarEntity;
 import com.myapp.chatgpt.data.domain.order.service.IOrderService;
 import com.myapp.chatgpt.data.trigger.http.dto.SaleProductDTO;
+import com.myapp.chatgpt.data.trigger.mq.RedisTopicListener;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.model.Response;
 import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +52,10 @@ public class SaleController {
 
     @Resource
     private EventBus eventBus;
+
+    @Resource
+    private RTopic payOrderSuccessTopic;
+
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
@@ -255,7 +261,8 @@ public class SaleController {
                     boolean success = orderService.changeOrderPaySuccess(orderId, tradeNo, new BigDecimal(payAmount), sdf.parse(payTime));
                     if (success) {
                         // 发布消息
-                        eventBus.post(orderId);
+//                        eventBus.post(orderId);
+                        payOrderSuccessTopic.publish(orderId);
                     }
                 }
             }
