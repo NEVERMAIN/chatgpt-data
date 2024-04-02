@@ -13,9 +13,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public enum AuthTypeVO {
-
+    /**
+     * 成功
+     */
     SUCCESS("0000","验证成功"),
+    /**
+     * 验证码不存在
+     */
     NOT_EXIST("0001","验证码不存在"),
+    /**
+     * 验证码失效
+     */
     NOT_VALID("0002","验证码失效");
 
     private String code;

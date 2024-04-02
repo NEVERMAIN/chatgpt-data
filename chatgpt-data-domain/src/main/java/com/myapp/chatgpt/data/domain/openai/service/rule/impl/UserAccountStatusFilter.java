@@ -21,7 +21,9 @@ public class UserAccountStatusFilter implements ILogicFilter<UserAccountQuotaEnt
     @Override
     public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate process, UserAccountQuotaEntity data) {
 
+        // 1.获取用户的账户状态
         UserAccountStatusVO status = data.getStatus();
+        // 2.判断账户的状态
         if (UserAccountStatusVO.AVAILABLE.getCode().equals(status.getCode())) {
             return RuleLogicEntity.<ChatProcessAggregate>builder()
                     .type(LogicTypeVO.SUCCESS)
@@ -30,6 +32,7 @@ public class UserAccountStatusFilter implements ILogicFilter<UserAccountQuotaEnt
                     .build();
         }
 
+        // 3.返回结果
         return RuleLogicEntity.<ChatProcessAggregate>builder()
                 .type(LogicTypeVO.REFUCE)
                 .data(process)

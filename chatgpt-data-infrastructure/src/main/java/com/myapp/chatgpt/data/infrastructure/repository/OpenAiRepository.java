@@ -18,13 +18,12 @@ import javax.annotation.Resource;
 public class OpenAiRepository implements IOpenAiRepository {
 
     @Resource
-    private IUserAccountDao IUserAccountDao;
-
+    private IUserAccountDao UserAccountDao;
 
     @Override
     public UserAccountQuotaEntity query(String openid) {
         // 1. 从数据库中查询
-        UserAccountQuotaPo accountQuotaPo = IUserAccountDao.query(openid);
+        UserAccountQuotaPo accountQuotaPo = UserAccountDao.query(openid);
         // 2.转成 entity 对象
         UserAccountQuotaEntity accountQuotaEntity = new UserAccountQuotaEntity();
         accountQuotaEntity.setOpenid(accountQuotaPo.getOpenid());
@@ -38,7 +37,7 @@ public class OpenAiRepository implements IOpenAiRepository {
 
     @Override
     public Integer subAccountQuota(String openid) {
-        return IUserAccountDao.subAccountQuota(openid);
+        return UserAccountDao.subAccountQuota(openid);
     }
 
 

@@ -13,45 +13,52 @@ import java.util.List;
  * @date: 2024/3/22
  */
 public interface IOrderRepository {
+
     /**
      * 查询没有支付的订单
-     * @param shopCarEntity
+     * @param shopCarEntity 购物车对象
      * @return
      */
     UnpaidOrderEntity queryUnpaidOrder(ShopCarEntity shopCarEntity);
 
     /**
      * 查询商品详细信息
-     * @param productId
+     * @param productId 商品ID
      * @return
      */
     ProductEntity queryProduct(Integer productId);
 
     /**
      * 保存订单
-     * @param createOrderAggregate
+     * @param createOrderAggregate 创建订单的聚合对象
      * @return
      */
     void saveOrder(CreateOrderAggregate createOrderAggregate);
 
     /**
      * 更新订单的状态-创建支付二维码
-     * @param payOrderEntity
+     * @param payOrderEntity 支付订单对象
      */
     void updateOrderPayInfo(PayOrderEntity payOrderEntity);
 
     /**
      * 更新订单的状态-修改为已支付状态
+     * @param orderId 订单Id
+     * @param transactionId 交易单号
+     * @param payAmount 支付金额
+     * @param payTime   支付时间
      * @return
      */
     boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal payAmount, Date payTime);
     /**
      * 发货
+     * @param orderId 订单ID
      */
     void deliverGoods(String orderId);
 
     /**
      * 查询订单
+     * @param orderId 订单ID
      * @return
      */
     CreateOrderAggregate queryOrder(String orderId);
@@ -64,25 +71,26 @@ public interface IOrderRepository {
 
     /**
      * 查询没有支付回调的订单
+     * @return 返回订单ID集合
      */
     List<String> queryNoPayNotifyOrder();
 
     /**
      * 查询超时关单的订单
-     * @return
+     * @return 返回订单ID集合
      */
     List<String> queryTimeOutCloseOrderList();
 
     /**
      * 更新订单的状态-修改为订单取消
-     * @param orderId
+     * @param orderId 订单ID
      * @return
      */
     boolean changeOrderClose(String orderId);
 
     /**
      * 查询商品
-     * @return
+     * @return 所有商品的集合
      */
     List<ProductEntity> queryProductList();
 

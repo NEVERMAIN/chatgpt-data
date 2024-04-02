@@ -31,6 +31,9 @@ public class AccessLimitFilter implements ILogicFilter<UserAccountQuotaEntity> {
     @Value("${app.config.limit-count}")
     private Integer limitCount;
 
+    /**
+     * 12 小时内,只能访问 10 次
+     */
     @Resource
     private Cache<String,Integer> visitCache;
 

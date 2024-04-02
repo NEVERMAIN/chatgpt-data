@@ -35,7 +35,6 @@ public class ProductEntity {
      * 产品类型
      */
     private String productModelTypes;
-
     /**
      * 额度
      */

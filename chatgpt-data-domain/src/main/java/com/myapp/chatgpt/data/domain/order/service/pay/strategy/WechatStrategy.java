@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 
 /**
- * @description: 微信支付服务类
+ * @description: 微信支付服务类  具体策略雷
  * @author: 云奇迹
  * @date: 2024/3/24
  */
@@ -31,7 +31,9 @@ public class WechatStrategy implements IPayStrategy {
 
     @Value("${wxpay.config.merchantId}")
     private String merchantId;
-
+    /**
+     * 支付回调地址
+     */
     @Value("${wxpay.config.notify-url}")
     private String notifyUrl;
 

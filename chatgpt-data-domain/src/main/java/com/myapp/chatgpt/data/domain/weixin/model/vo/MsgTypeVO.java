@@ -13,8 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public enum MsgTypeVO {
-
+    /**
+     * 事件
+     */
     EVENT("event","事件消息"),
+    /**
+     * 文本
+     */
     TEXT("text","文本消息")
     ;
     private String  code;

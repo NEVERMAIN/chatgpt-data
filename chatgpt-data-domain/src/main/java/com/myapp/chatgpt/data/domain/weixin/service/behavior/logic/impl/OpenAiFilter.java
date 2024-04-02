@@ -46,7 +46,7 @@ public class OpenAiFilter implements LogicFilter {
      * @return
      */
     @Override
-    public String fitler(BehaviorMatter behaviorMessage) {
+    public String filter(BehaviorMatter behaviorMessage) {
 
         String openId = behaviorMessage.getOpenId();
         String content = behaviorMessage.getContent().trim();

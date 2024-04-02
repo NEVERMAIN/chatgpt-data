@@ -62,17 +62,16 @@ public class SaleController {
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * 创建订单的 http 方法
-     *
-     * @param token
-     * @param productId
+     * 创建订单
+     * @param token  鉴权 token
+     * @param productId 商品ID
      * @return
      */
     @PostMapping("create_pay_order")
     public Response<String> createPayOrder(@RequestHeader("Authorization") String token, @RequestParam Integer productId) {
 
         try {
-            // 1.解析 token
+            // 1.解析 token,鉴权
             boolean success = authService.checkToken(token);
             if (!success) {
                 return Response.<String>builder()
@@ -84,7 +83,7 @@ public class SaleController {
             // 2. 获取 openid
             String openid = authService.getOpenId(token);
             assert null != openid;
-            log.info("用户商品下单,根据商品Id创建支付单开始 openid:{},productId:{}", openid, productId);
+            log.info("用户商品下单,根据商品Id 创建支付单开始 openid:{},productId:{}", openid, productId);
 
             // 3.创建购物车
             ShopCarEntity shopCarEntity = ShopCarEntity.builder()
@@ -102,6 +101,7 @@ public class SaleController {
                     .info(Constants.ResponseCode.SUCEESS.getInfo())
                     .data(payOrderEntity.getPayUrl())
                     .build();
+
         } catch (Exception e) {
             log.error("用户商品下单，根据商品ID创建支付单失败", e);
             return Response.<String>builder()
@@ -114,8 +114,7 @@ public class SaleController {
 
     /**
      * 查询商品列表
-     *
-     * @param token
+     * @param token 鉴权 token
      * @return
      */
     @GetMapping("query_product_list")
@@ -154,6 +153,8 @@ public class SaleController {
                     .info(Constants.ResponseCode.SUCEESS.getInfo())
                     .data(mallProductDTOS)
                     .build();
+
+
         } catch (Exception e) {
             log.error("商品查询失败", e);
             return Response.<List<SaleProductDTO>>builder()
@@ -167,10 +168,9 @@ public class SaleController {
 
     /**
      * 微信支付回调 方法
-     *
-     * @param requestBody
-     * @param request
-     * @param response
+     * @param requestBody 请求体
+     * @param request     请求对象
+     * @param response    返回对象
      */
     @PostMapping("pay_notify")
     public void payNotify(@RequestBody String requestBody, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -230,6 +230,7 @@ public class SaleController {
 
     /**
      * 支付宝支付的回调方法 - 沙箱
+     * @param request 请求对象
      */
     @PostMapping("/alipay/pay_notify")
     public String payNotify(HttpServletRequest request) {
@@ -250,14 +251,15 @@ public class SaleController {
                 String content = AlipaySignature.getSignCheckContentV1(params);
                 boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, alipayPublicKey, "UTF-8");
 
-                // 支付宝验签
+                // 2. 支付宝验签
                 if (checkSignature) {
-                    // 验签通过
+                    // 2.1. 验签通过
                     String orderId = params.get("out_trade_no");
                     String tradeNo = params.get("trade_no");
                     String payAmount = params.get("buyer_pay_amount");
                     String payTime = params.get("gmt_payment");
 
+                    // 2.2. 修改订单状态为支付成功,待发货
                     boolean success = orderService.changeOrderPaySuccess(orderId, tradeNo, new BigDecimal(payAmount), sdf.parse(payTime));
                     if (success) {
                         // 发布消息

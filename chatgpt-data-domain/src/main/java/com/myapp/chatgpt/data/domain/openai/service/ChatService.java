@@ -42,8 +42,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ChatService extends AbstractChatService {
 
-    @Resource
-    private ThreadPoolExecutor threadPoolExecutor;
 
     @Resource
     private OpenAiSession chatGLMOpenAiSession;
@@ -113,12 +111,16 @@ public class ChatService extends AbstractChatService {
     @Override
     protected RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate process, UserAccountQuotaEntity accountQuotaEntity, String... logics) {
 
+        // 1.获得所有的权限策略
         Map<String, ILogicFilter> groups = defaultLogicFilterFactory.getLogicFilterGroups();
 
         RuleLogicEntity<ChatProcessAggregate> entity = null;
         for (String logic : logics) {
+            // 2. 如果权限类型为 null ,枚举下一个
             if (DefaultLogicFilterFactory.LogicModel.NULL.getCode().equals(logic)) continue;
+            // 3. logic 不为 null , 获取权限校验的策略
             ILogicFilter logicFilter = groups.get(logic);
+            // 4. 进行权限的校验
             entity = logicFilter.filter(process, accountQuotaEntity);
             if (!LogicTypeVO.SUCCESS.getCode().equals(entity.getType().getCode())) return entity;
         }
@@ -132,6 +134,7 @@ public class ChatService extends AbstractChatService {
 
     @Override
     public CompletableFuture<String> completions(ChatProcessAggregate process) {
+
         List<ChatCompletionRequest.Prompt> messages = process.getMessages().stream()
                 .map((entity) -> ChatCompletionRequest.Prompt.builder()
                         .role(Role.getRole(entity.getRole()).getCode())

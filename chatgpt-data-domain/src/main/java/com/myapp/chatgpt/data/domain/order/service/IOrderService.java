@@ -19,30 +19,36 @@ public interface IOrderService {
 
     /**
      * 创建订单
-     *
-     * @param shopCarEntity
+     * @param shopCarEntity 购物车
      * @return
      */
     PayOrderEntity createOrder(ShopCarEntity shopCarEntity);
 
     /**
      * 修改订单状态:订单支付成功
+     * @param orderId 订单ID
+     * @param transactionId 交易单号
+     * @param payAmount 支付金额
+     * @param payTime   支付时间
+     * @return
      */
     boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal payAmount, Date payTime);
 
     /**
      * 查询订单信息
+     * @param orderId 订单ID
+     * @return
      */
     CreateOrderAggregate queryOrder(String orderId);
 
     /**
      * 订单商品发货
+     * @param orderId 订单ID
      */
     void deliverGoods(String orderId);
 
     /**
      * 查询待补货的订单
-     *
      * @return
      */
     List<String> queryReplenishmentOrder();
@@ -61,7 +67,7 @@ public interface IOrderService {
 
     /**
      * 更新订单的状态-修改为订单取消
-     * @param orderId
+     * @param orderId 订单ID
      * @return
      */
     boolean changeOrderClose(String orderId);

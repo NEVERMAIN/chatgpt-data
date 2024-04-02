@@ -23,6 +23,7 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+
     <insert id="insert" parameterType="com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO">
         INSERT INTO openai_order (openid, product_id, product_name, product_quota, product_model_types,
                                   order_id, order_time, order_status, total_amount, pay_type, pay_status, pay_time,
@@ -31,6 +32,7 @@
                 #{orderId}, #{orderTime}, #{orderStatus}, #{totalAmount}, #{payType}, #{payStatus}, #{payTime}, now(),
                 now())
     </insert>
+
 
     <update id="updateOrderPayInfo" parameterType="com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO">
         UPDATE openai_order
@@ -74,7 +76,7 @@
 
     <select id="queryUnpaidOrder" parameterType="com.myapp.chatgpt.data.infrastructure.po.OpenAiOrderPO"
             resultMap="openAiOrderMap">
-        SELECT order_id, product_name, pay_url, pay_status, total_amount,pay_type
+        SELECT order_id, product_name, pay_url, pay_status, total_amount, pay_type
         FROM openai_order
         WHERE openid = #{openid}
           AND product_id = #{productId}

@@ -17,7 +17,7 @@ public class UnsubscribeFilter implements LogicFilter {
     private Logger logger = LoggerFactory.getLogger(UnsubscribeFilter.class);
 
     @Override
-    public String fitler(BehaviorMatter behaviorMatter) {
+    public String filter(BehaviorMatter behaviorMatter) {
         logger.info("微信公众号 用户{},取消关注",behaviorMatter.getOpenId());
         return null;
     }

@@ -25,12 +25,17 @@ import java.util.concurrent.ExecutionException;
 @LogicStrategy(logicModel = DefaultLogicFilterFactory.LogicModel.ACCESS_FREQUENCY)
 public class AccessFrequencyFilter implements ILogicFilter<UserAccountQuotaEntity> {
 
+    /**
+     * 最大访问频率
+     */
     @Value("${app.config.maximum-access-frequency}")
     public Integer maxAccessCount;
 
     @Value("${app.config.white-list}")
     private String whiteList;
-
+    /**
+     * 过期时间为 3 分钟的缓存
+     */
     @Resource
     private Cache<String, Integer> frequencytCache;
 
@@ -49,6 +54,7 @@ public class AccessFrequencyFilter implements ILogicFilter<UserAccountQuotaEntit
 
             // 2. 获取 openId
             String openId = process.getOpenId();
+            // 3.增加访问次数
             Integer accessCount = frequencytCache.get(openId, () -> 0);
             if(accessCount < maxAccessCount){
                 frequencytCache.put(openId,accessCount+1);
@@ -59,7 +65,7 @@ public class AccessFrequencyFilter implements ILogicFilter<UserAccountQuotaEntit
                         .build();
             }
 
-            // 3.一分钟访问超过3次,拦截
+            // 4.一分钟访问超过3次,拦截
             return RuleLogicEntity.<ChatProcessAggregate>builder()
                     .type(LogicTypeVO.REFUCE)
                     .info("你访问的频率太快了,请您耐心等待一分钟")

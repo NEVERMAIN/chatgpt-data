@@ -29,7 +29,9 @@ public class SensitiveWordFilter implements ILogicFilter<UserAccountQuotaEntity>
 
     @Value("${app.config.white-list}")
     private String whiteList;
-
+    /**
+     * 敏感词库
+     */
     @Resource
     private SensitiveWordBs sensitiveWordBs;
 

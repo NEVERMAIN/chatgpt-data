@@ -9,7 +9,7 @@ public abstract class AbstractPayContextFactory<T> {
 
     /**
      * 获取策略
-     * @param payType
+     * @param payType 支付类型
      * @return
      */
     public abstract  T getContext(Integer payType);

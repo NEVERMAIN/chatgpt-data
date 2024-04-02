@@ -33,6 +33,11 @@ public class ChatProcessAggregate {
      */
     private List<MessageEntity> messages;
 
+    /**
+     * 属不属于白名单
+     * @param whiteList
+     * @return
+     */
     public boolean isWhiteList(String whiteList) {
         String[] list = whiteList.split(",");
         for (String userId : list) {
@@ -41,7 +46,10 @@ public class ChatProcessAggregate {
         return false;
     }
 
-
+    /**
+     * 根据模型类型调用模型对应的服务
+     * @return
+     */
     public OpenAiChannel getChannel() {
         return OpenAiChannel.getChannel(this.getModel());
     }

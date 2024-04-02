@@ -99,7 +99,13 @@ public abstract class AbstractChatService implements IChatService {
      */
     protected abstract void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter);
 
-
+    /**
+     * 权限校验
+     * @param process chat 请求的聚合对象
+     * @param accountQuotaEntity user 的账户信息
+     * @param logics 权限校验的类型
+     * @return
+     */
     protected abstract RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate process, UserAccountQuotaEntity accountQuotaEntity, String... logics);
 
 }

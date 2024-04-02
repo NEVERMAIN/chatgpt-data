@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import com.myapp.chatgpt.data.domain.openai.service.channel.OpenAiGroupService;
+import com.myapp.chatgpt.data.types.enums.SparkModel;
 import com.myapp.spark.executor.listener.ChatListener;
 import com.myapp.spark.executor.model.Model;
 import com.myapp.spark.executor.model.chat.ChatCompletionRequest;
@@ -55,7 +56,7 @@ public class SparkService implements OpenAiGroupService {
 
             ChatCompletionRequest.Header header = ChatCompletionRequest.Header.builder().app_id(appid).build();
             ChatCompletionRequest.Chat chat = ChatCompletionRequest.Chat.builder()
-                    .domain(Model.GENERALV_3_5.getCode())
+                    .domain(SparkModel.GENERALV_3_5.getCode())
                     .max_tokens(2048).top_k(4).temperature(0.5F).build();
             ChatCompletionRequest.Parameter parameter = ChatCompletionRequest.Parameter.builder().chat(chat).build();
             ChatCompletionRequest.Message message = ChatCompletionRequest.Message.builder().text(new ArrayList<ChatCompletionRequest.Text>() {{
