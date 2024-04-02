@@ -41,7 +41,7 @@ public class PayContextFactory extends AbstractPayContextFactory<PayContext>{
         if(payTypeVO == null){
             throw new RuntimeException("payType not supported");
         }
-        // 从Map中获取 payContext
+        // 从 Map 中获取 payContext
         return payContexts.get(payTypeVO.getCode());
     }
 }

@@ -47,6 +47,7 @@ public class AuthController {
                     .info(Constants.ResponseCode.SUCEESS.getInfo())
                     .data(authStateEntity.getToken())
                     .build();
+
         } catch (Exception e) {
             log.info("用户鉴权出现异常:【验证码:{},异常信息:{}】",code,e.getMessage());
             return Response.<String>builder()

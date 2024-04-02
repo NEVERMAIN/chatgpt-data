@@ -17,10 +17,25 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BehaviorMatter {
+    /**
+     * 用户微信的唯一ID
+     */
     private String openId;
+    /**
+     * 来自哪个微信用户的标识
+     */
     private String fromUserName;
+    /**
+     * 消息的类型
+     */
     private String msgType;
+    /**
+     * 消息文本
+     */
     private String content;
+    /**
+     * 事件类型
+     */
     private String event;
     private Date createTime;
 }

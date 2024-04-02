@@ -19,10 +19,16 @@ public class PayFacade {
     @Resource
     private PayContextFactory payContextFactory;
 
+    /**
+     * 支付方法
+     * @param prePayOrderEntity 预支付的订单对象
+     * @param payType 支付类型
+     * @return
+     */
     public String pay(PrePayOrderEntity prePayOrderEntity, Integer payType) {
-        // 获取 payContext 对象
+        // 1. 获取 payContext 对象
         PayContext context = payContextFactory.getContext(payType);
-        // 调用支付方法
+        // 2. 调用支付方法
         return context.execute(prePayOrderEntity);
     }
 

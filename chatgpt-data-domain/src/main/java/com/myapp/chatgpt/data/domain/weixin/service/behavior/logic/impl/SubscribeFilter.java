@@ -17,7 +17,7 @@ public class SubscribeFilter implements LogicFilter {
     private Logger logger = LoggerFactory.getLogger(SubscribeFilter.class);
 
     @Override
-    public String fitler(BehaviorMatter behaviorMessage) {
+    public String filter(BehaviorMatter behaviorMessage) {
         return "感谢关注";
     }
 }

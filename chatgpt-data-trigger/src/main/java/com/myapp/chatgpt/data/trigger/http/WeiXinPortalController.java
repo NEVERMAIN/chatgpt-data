@@ -23,9 +23,14 @@ import java.util.Date;
 @CrossOrigin("*")
 public class WeiXinPortalController {
 
+    /**
+     * 微信公众号鉴权服务
+     */
     @Resource
     private IWeiXinValidateService weiXinAuthService;
-
+    /**
+     * 微信公众号用户行为服务
+     */
     @Resource
     private IWeiXinBehaviorService weiXinBehaviorService;
 
@@ -51,6 +56,7 @@ public class WeiXinPortalController {
             if(StringUtils.isAnyBlank(signature,timestamp,nonce,echostr)){
                 throw new IllegalArgumentException("请求参数非法,请核实");
             }
+            // 验签
             boolean success = weiXinAuthService.checkValid(signature, timestamp, nonce);
             log.info("微信公众号验签信息{}完成 check：{}", appid, success);
             if(!success){
@@ -93,6 +99,7 @@ public class WeiXinPortalController {
                     .content(messageText.getContent())
                     .build();
 
+            // 3.处理用户的消息
             String result = weiXinBehaviorService.acceptUserBehavior(behaviorMessageEntity);
             log.info("接收微信公众号信息请求完成:【openId:{},result:{}】",openid,result);
             return result;

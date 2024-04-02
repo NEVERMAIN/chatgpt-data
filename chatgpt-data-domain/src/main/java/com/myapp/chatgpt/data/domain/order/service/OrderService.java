@@ -9,13 +9,9 @@ import com.myapp.chatgpt.data.domain.order.model.vo.OrderStatusVO;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayStatusVo;
 import com.myapp.chatgpt.data.domain.order.model.vo.PayTypeVO;
 import com.myapp.chatgpt.data.domain.order.repository.IOrderRepository;
-import com.myapp.chatgpt.data.domain.order.service.AbstractOrderService;
-import com.myapp.chatgpt.data.domain.order.service.pay.IPayStrategy;
 import com.myapp.chatgpt.data.domain.order.service.pay.facde.PayFacade;
-import com.myapp.chatgpt.data.domain.order.service.pay.factory.PayContextFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -40,13 +36,14 @@ public class OrderService extends AbstractOrderService {
 
 
     @Override
-    protected OrderEntity doSaveOrder(String openid, ProductEntity productEntity) {
+    protected OrderEntity doSaveOrder(String openid, Integer payType, ProductEntity productEntity) {
 
         OrderEntity orderEntity = new OrderEntity();
         // 1. 生成订单唯一ID,保证数据库的幂等性
         orderEntity.setOrderId(RandomStringUtils.randomNumeric(12));
         orderEntity.setOrderTime(new Date());
         orderEntity.setOrderStatus(OrderStatusVO.CREATE);
+        // todo: 等正式接入支付功能后,修改成根据 payType 选择支付类型
         orderEntity.setPayType(PayTypeVO.ALIPAY);
         orderEntity.setTotalAmount(productEntity.getPrice());
 
@@ -64,14 +61,14 @@ public class OrderService extends AbstractOrderService {
     @Override
     protected PayOrderEntity doPrepayOrder(Integer payType, String openid, String orderId, String productName, BigDecimal totalAmount) {
 
-        // 创建预支付的对象
+        // 1. 创建预支付的对象
         PrePayOrderEntity prePayOrder = PrePayOrderEntity.builder()
                 .openid(openid)
                 .orderId(orderId)
                 .totalAmount(totalAmount)
                 .productName(productName)
                 .build();
-        // 调用预支付服务,得到返回的结果
+        // 2. 调用预支付服务,得到返回的二维码
         String result = payFacade.pay(prePayOrder, payType);
         PayOrderEntity payOrderEntity = PayOrderEntity.builder()
                 .openid(openid)
@@ -79,14 +76,14 @@ public class OrderService extends AbstractOrderService {
                 .payUrl(result)
                 .payStatus(PayStatusVo.WAIT)
                 .build();
-        // 更新订单支付信息
+        // 3. 更新订单支付信息
         orderRepository.updateOrderPayInfo(payOrderEntity);
         return payOrderEntity;
     }
 
     @Override
-    public boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal totalAmount, Date payTime) {
-        return orderRepository.changeOrderPaySuccess(orderId, transactionId, totalAmount, payTime);
+    public boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal payAmount, Date payTime) {
+        return orderRepository.changeOrderPaySuccess(orderId, transactionId, payAmount, payTime);
     }
 
     @Override

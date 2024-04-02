@@ -29,8 +29,9 @@ public class UserAccountQuotaFilter implements ILogicFilter<UserAccountQuotaEnti
 
         String openid = data.getOpenid();
         Integer surplusQuota = data.getSurplusQuota();
-        // 剩余库存大于 0
+        // 剩余额度大于 0
         if (surplusQuota > 0) {
+            // 扣减额度
             Integer res = openAiRepository.subAccountQuota(openid);
             if (res != 0) {
                 return RuleLogicEntity.<ChatProcessAggregate>builder()
@@ -47,6 +48,7 @@ public class UserAccountQuotaFilter implements ILogicFilter<UserAccountQuotaEnti
                     .build();
         }
 
+        // 返回结果
         return RuleLogicEntity.<ChatProcessAggregate>builder()
                 .type(LogicTypeVO.REFUCE)
                 .info("当前账户可使用额度为 " + surplusQuota + " 请即时充值")

@@ -43,6 +43,7 @@ public class ChatGPTAIServiceController {
     public ResponseBodyEmitter completions(@RequestBody ChatGLMRequestDTO request,
                                            @RequestHeader("Authorization") String token,
                                            HttpServletResponse response) {
+
         log.info("流式问答请求开始,使用的模型:{},请求信息:{}", request.getModel(), JSON.toJSONString(request.getMessages()));
 
         try {
@@ -54,6 +55,7 @@ public class ChatGPTAIServiceController {
             // 2. 构建异步响应对象【对 Token 过期拦截】
             ResponseBodyEmitter emitter = new ResponseBodyEmitter(3 * 6 * 1000L);
 
+            // 3.鉴权
             boolean success = authService.checkToken(token);
             if (!success) {
                 try {
@@ -67,15 +69,15 @@ public class ChatGPTAIServiceController {
 
             // 构建聚合对象
             String openId = authService.getOpenId(token);
-            ChatProcessAggregate process = ChatProcessAggregate
-                    .builder()
+            ChatProcessAggregate process = ChatProcessAggregate.builder()
                     .openId(openId)
                     .Model(request.getModel())
-                    .messages(request.getMessages().stream().map((entity) -> MessageEntity.builder()
-                            .role(Role.getRole(entity.getRole()).getCode())
-                            .content(entity.getContent())
-                            .build()).collect(Collectors.toList()))
-                    .build();
+                    .messages(
+                            request.getMessages().stream().map((entity) -> MessageEntity.builder()
+                                    .role(Role.getRole(entity.getRole()).getCode())
+                                    .content(entity.getContent())
+                                    .build()).collect(Collectors.toList())
+                    ).build();
 
             // 调用 openAI 服务
             return chatService.completions(process, emitter);

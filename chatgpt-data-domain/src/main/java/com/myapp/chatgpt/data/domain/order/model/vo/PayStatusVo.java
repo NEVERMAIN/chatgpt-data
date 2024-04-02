@@ -28,6 +28,11 @@ public enum PayStatusVo {
     private Integer code;
     private String info;
 
+    /**
+     * 获取枚举类
+     * @param code
+     * @return
+     */
     public static PayStatusVo get(Integer code){
         PayStatusVo[] values = PayStatusVo.values();
         for (PayStatusVo value : values) {

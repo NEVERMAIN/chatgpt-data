@@ -8,6 +8,12 @@ app:
     api-version: v1
     # 跨域,开发阶段可以设置为 * 不限制
     cross-origin: "*"
+    # 访问次数控制
+    limit-count: 10
+    # 访问频率控制
+    maximum-access-frequency: 3
+    # 白名单
+    white-list: o6OsG6Z10yvXD2y2PIsRg
 
 # 线程池配置
 thread:
@@ -20,11 +26,29 @@ thread:
         block-queue-size: 5000
         policy: CallerRunsPolicy
 
+# 支付配置；如果你申请了支付渠道，则可以配置 enable = true，否则就配置 false 走流程测试
+wxpay:
+  config:
+    # 是否有支付渠道
+    enabled: false
+    # 申请支付主体的 appid
+    appid:
+    # 商户号
+    merchantId:
+    # 回调地址
+    notify-url:
+    # 商户API私钥路径
+    privateKeyPath:
+    # 商户证书序列号
+    merchantSerialNumber:
+    # 商户 APIV3 密钥
+    apiV3Key:
 
 # ChatGLM SDK Config
 chatglm:
   sdk:
     config:
+      enable: true
       api-host: https://open.bigmodel.cn/
       api-secret-key: 6fbc6c46a84a201fad03b6de40253619.2WNgqPQhA34dEEoq
 
@@ -42,3 +66,88 @@ logging:
   level:
     root: info
   config: classpath:logback-spring.xml
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://139.9.212.188:3307/openai?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+    hikari:
+      pool-name: Retail_HikariCP
+      minimum-idle: 15 # 最小空闲连接数量
+      idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+      maximum-pool-size: 25 # 连接池最大连接数,默认是 10
+      auto-commit: true # 此属性控制从池返回的连接的默认自动提交，默认值:true
+      max-lifetime: 1800000 # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      connection-timeout: 30000 # 数据库连接超时时间,默认30秒，即30000
+      connection-test-query: SELECT 1
+    type: com.zaxxer.hikari.HikariDataSource
+
+
+# mybatis 配置
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  config-location: classpath:/mybatis/config/mybatis-config.xml
+
+
+# 支付宝沙箱
+alipay:
+  enabled: true
+  appId: 9021000135657223
+  merchantPrivateKey: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQConDAEXKLT7dfDgHj/ALNWGlTwKvcVNCmjtJusrcflJqEtR+uBa+weJw9iJqU/cSXn1O8vPBuAbjR6frLpZt1wNDx2zsy6vVPz2GLBKPaImkiM1pkDBKH0+KvbVbU/zkhybVESPrglYxdjDDbU/9uJRwe4HaKvEzpw5hD9/cFINcoh7ySk/bjxHpa+J86BzaKxXm/lyXsf6eeglRqox72G2DjjfSG9YvQ1L9TGb9a1cPnMLAFUC3NlQCyBGv8ZWdcFiiiZQebUVtV3GCMgq9TjJjT+F1THBifDC1eSOaLoh3HBQIt6r7Itm2r3r7ag2LLoFQDs1ZcqhJBpTfdhikHHAgMBAAECggEBAI66cDcxB7Do1E2tUj9io2zOq3oGlNQBLQJkH6ekD+OduLBxAh2zctPvcqk+V4IF0PWXncVZV1p3b7sFx4OmTOrvfQOBeXLWU9vGH4qtl0v5dlKqUipo4IRTgH8R5XUWtOMQQKF2MEGNyT1SGJRj5b4mP5WOmKklWMI7LsUi6luptMKSuOkSa+3a5lxIhQF+kgpecZba/5alaTk/7eAFJ5n1yZWLk6tFr+16yj6XEErCNdgqZ+2YRllNExK6XxYwBnszSU/2Q8A0sF+4F1Nb8iCfEwUe3+SLnxqxPAS7B6cKWD3MSV2WUIuZb4sL6NXpF3Vf9Q/XG4LLZ5qz9s85XbkCgYEA2hkRFarzWfS8hrP8jQa+n6vyx/4S/ntg0CEXVZKWFaJP1uN/ywdq4fiXKvv1I+XZkmX4JZyrWc74HUCb5nt60exacILFdp4EUljVtMQpxI+OhyL682ad49EwxZB6l9Ep231zMsSXEkVs1jz7xV8Ysv7Hpc1iNYeFEjD3gRAdGu0CgYEAxel2nfj6RovLRwaK4Zmb1wuHJj/bViB9qrUhO/YyW+ZyK6vvbyU6av8O706XetU6Yau+B9JqYs/xUGMJ654s2slpXILt64iAF38R8QPTKpqH2S0Y/ReAAj3fNZLMjFuN7prK796xD2wGDQqlv6knEWchDfNSO8/Y03tuKPbDlQMCgYBgJSrF7Y3H+z7c9x1/ohiI1Ul65sPC0esU9XGO9McbFGmz5qigfU2d/nPNrDMeNyaaBj/FfPKA7d+tLZ1MluTHBDW+YbfhGbn3/1d+j/eFwm9nnYEZqgQyuTaR8aZJpRiZvQz6tXWPxXE8ZLftA4Yk6nJi4k7IIE0GfvWtPMhH5QKBgFR3GTq+ggINs4nyjt9NsacLsnhulGujnj5242I15rQ2G8/rp1pmJxJ3HKahgiDYU/xPUeEAuorFeJX4TsmSTk5p21+yOVxme1SL1Npp6XurTAMyLhIGL4nFYjf5GPdmM6L7yVSqVCLi1YpHWwn7ZUMWIpNTn2sLf9xyN0egWUSFAoGBAIx3MymVrXA5kWZQuFcWVXg2/uro9eAsNLYm7b4ogz1kzh0hBSMWqIt2sIRzszNcQXi2beqeMzcjOhDyVhp0Y05JdjTnYV+55ZEmZbaMfajib08JUy5E32ZKa6whHKkCZ+o+O5Glri3K6xMdQ3dwuIkEloFcxLUs3m1RrKPFCYVp
+  alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtMKnaarsj9tWbk/uS86eEjOEACDkiRynJBRXEhiCdJh2EAWE7uwJthLXZsL/2VZgec+571S0co/UjGrx4mle96neQl3gmDxQw2PpaIc+enuyVXY2zzp1+z0ooYKlC+0C9dfHYKV1qm/JXz1m2dx6McT5HLjV4/PoRxntrXpT+wJ+gPcby8wTlNIsOKgfOBMUegBMZ1jH1sfkq1u5GgUP9BXBEaX8CMGOZtgij8spsmcuR8Ci3Xf6iiGbiH+0NCkWvLgXdT/zzT6GAnH9OIpeQsrY3C4OrnDptEM3jnJNGERW3puM4EDhiSx9UXcNYU/mlfgP1tm9K/1bHcDcDAIvHQIDAQAB
+  notifyUrl: http://lotterycore.nat300.top/api/${app.config.api-version}/sale/alipay/pay_notify
+  returnUrl: https://gaga.plus/
+  gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+
+
+# 星火大模型 SDK 配置
+spark:
+  config:
+    enable: true
+    appid: dac4535e
+    api-key: d984fda9834da3c4786df752f9714266
+    api-secret: OTlmMTI4ZTlhZmM1NzY0YmViZWNmNzc0
+
+
+# Redis
+redis:
+  sdk:
+    config:
+      host: 139.9.212.188
+      port: 6379
+      pool-size: 10
+      min-idle-size: 5
+      idle-timeout: 30000
+      connect-timeout: 5000
+      retry-attempts: 3
+      retry-interval: 1000
+      ping-interval: 60000
+      keep-alive: true
+      password: 1234
+
+
+# 监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # 暴露所有端点，包括自定义端点
+  endpoint:
+    health:
+      show-details: always # 显示详细的健康检查信息
+  metrics:
+    export:
+      prometheus:
+        enabled: true # 启用Prometheus
+  prometheus:
+    enabled: true # 启用Prometheus端点
+  jmx:
+    enabled: true # 启用JMX监控
+  system:
+    cpu:
+      enabled: true # 启用CPU监控
+    memory:
+      enabled: true # 启用内存监控

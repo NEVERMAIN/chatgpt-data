@@ -7,7 +7,17 @@ package com.myapp.chatgpt.data.domain.atuth.repository;
  */
 public interface IAuthRepository {
 
+    /**
+     * 从缓存中获取验证码
+     * @param code
+     * @return
+     */
     String getCodeByOpenId(String code);
 
+    /**
+     * 删除缓存中的验证码
+     * @param code
+     * @param openId
+     */
     void removeCodeByOpenId(String code,String openId);
 }

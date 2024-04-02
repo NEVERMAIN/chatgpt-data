@@ -23,4 +23,10 @@ public class ShopCarEntity {
      * 商品Id
      */
     private Integer productId;
+    /**
+     * 支付类型
+     */
+    private Integer payType;
+
+
 }

@@ -24,6 +24,10 @@ public class GlobalGuavaCacheConfig {
                 .build();
     }
 
+    /**
+     * 12 小时之内只能访问 10 次
+     * @return
+     */
     @Bean
     public Cache<String, Integer> visitCache() {
         return CacheBuilder.newBuilder()

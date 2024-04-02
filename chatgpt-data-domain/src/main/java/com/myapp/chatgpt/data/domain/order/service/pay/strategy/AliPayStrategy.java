@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 /**
- * @description: 支付宝支付-沙箱测试
+ * @description: 支付宝支付-沙箱测试  具体策略雷
  * @author: 云奇迹
  * @date: 2024/3/24
  */
@@ -24,9 +24,15 @@ import java.math.BigDecimal;
 @Service(value = "aliPay")
 public class AliPayStrategy implements IPayStrategy {
 
+    /**
+     * 支付回调地址
+     */
     @Value("${alipay.notifyUrl}")
     private String notifyUrl;
 
+    /**
+     * 支付成功后的地址
+     */
     @Value("${alipay.returnUrl}")
     private String returnUrl;
 

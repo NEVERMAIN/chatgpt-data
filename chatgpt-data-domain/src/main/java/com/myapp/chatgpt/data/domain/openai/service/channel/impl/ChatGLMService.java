@@ -9,6 +9,7 @@ import com.myapp.chatglm.model.chat.ChatCompletionResponse;
 import com.myapp.chatglm.session.OpenAiSession;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.service.channel.OpenAiGroupService;
+import com.myapp.chatgpt.data.types.enums.ChatGLMModel;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
@@ -37,8 +38,9 @@ public class ChatGLMService implements OpenAiGroupService {
 
 
     @Override
-    public void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter){
+    public void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) {
         try {
+
 
             List<ChatCompletionRequest.Prompt> messages = chatProcess.getMessages().stream()
                     .map((entity) -> ChatCompletionRequest.Prompt.builder()
@@ -49,7 +51,7 @@ public class ChatGLMService implements OpenAiGroupService {
             // 准备参数
             ChatCompletionRequest chatCompletion = ChatCompletionRequest.builder()
                     .stream(true)
-                    .model(Model.getModel(chatProcess.getModel()).getCode())
+                    .model(ChatGLMModel.get(chatProcess.getModel()).getCode())
                     .messages(messages)
                     .build();
 
@@ -83,7 +85,6 @@ public class ChatGLMService implements OpenAiGroupService {
                         }
                     }
                 }
-
             });
 
         } catch (Exception e) {

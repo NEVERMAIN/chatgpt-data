@@ -26,7 +26,8 @@ public class ValidCodeFilter implements LogicFilter {
     private IWeiXinRepository weiXinRepository;
 
     @Override
-    public String fitler(BehaviorMatter behaviorMessage) {
+    public String filter(BehaviorMatter behaviorMessage) {
+        // 1.获取唯一ID
         String openId = behaviorMessage.getOpenId();
         // 生成验证码
         String code = weiXinRepository.getCode(openId);

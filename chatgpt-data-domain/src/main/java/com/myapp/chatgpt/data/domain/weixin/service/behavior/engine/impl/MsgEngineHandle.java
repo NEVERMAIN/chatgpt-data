@@ -32,7 +32,7 @@ public class MsgEngineHandle extends AbstractEngineBase {
         }
 
         // 3. 执行过滤器,获取处理后的结果
-        String result = filter.fitler(behaviorMatter);
+        String result = filter.filter(behaviorMatter);
         if(StringUtils.isBlank(result)){
             return "";
         }

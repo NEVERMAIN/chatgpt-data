@@ -18,16 +18,28 @@ import lombok.NoArgsConstructor;
 public class MessageTextEntity {
     @XStreamAlias("MsgId")
     private String msgId;
+    /**
+     * 微信公众号
+     */
     @XStreamAlias("ToUserName")
     private String toUserName;
+    /**
+     * 用户的唯一标识
+     */
     @XStreamAlias("FromUserName")
     private String fromUserName;
     @XStreamAlias("CreateTime")
     private String createTime;
+    /**
+     * 消息类型
+     */
     @XStreamAlias("MsgType")
     private String msgType;
     @XStreamAlias("Content")
     private String content;
+    /**
+     * 事件类型
+     */
     @XStreamAlias("Event")
     private String event;
     @XStreamAlias("EventKey")

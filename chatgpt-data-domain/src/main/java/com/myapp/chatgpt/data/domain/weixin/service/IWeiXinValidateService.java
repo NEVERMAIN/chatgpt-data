@@ -10,5 +10,5 @@ public interface IWeiXinValidateService {
     /**
      * 验签方法
      */
-    public boolean checkValid(String signature,String timestamp,String nonce);
+     boolean checkValid(String signature,String timestamp,String nonce);
 }

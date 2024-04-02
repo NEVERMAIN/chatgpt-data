@@ -119,11 +119,11 @@ public class OrderRepository implements IOrderRepository {
     }
 
     @Override
-    public boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal totalAmount, Date payTime) {
+    public boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal payAmount, Date payTime) {
         OpenAiOrderPO req = new OpenAiOrderPO();
         req.setOrderId(orderId);
         req.setTransactionId(transactionId);
-        req.setPayAmount(totalAmount);
+        req.setPayAmount(payAmount);
         req.setPayTime(payTime);
         Integer count = openAiOrderDao.changeOrderPaySuccess(req);
         return 1 == count;
@@ -158,7 +158,7 @@ public class OrderRepository implements IOrderRepository {
         // 0.查出订单的信息
         OpenAiOrderPO order = openAiOrderDao.queryOrder(orderId);
 
-        // 1. 变更发货状态
+        // 1. 变更发货状态-修改为发货成功
         // todo 这里如果出现异常,修改发货状态失败，必须要有补偿
         Integer count = openAiOrderDao.updateOrderStatusDeliverGoods(orderId);
         if (1 != count) {
@@ -174,8 +174,9 @@ public class OrderRepository implements IOrderRepository {
         req.setSurplusQuota(order.getProductQuota());
         req.setOpenid(order.getOpenid());
 
+        // 3. 判断用户是否已开户
         if (null != userAccountPo) {
-            // 修改用户可用的模型
+            // 3.1. 修改用户可用的模型
             String modelTypes = userAccountPo.getModelTypes();
             if (!modelTypes.contains(order.getProductModelTypes())) {
                 // 如果不存在,添加新的模型
@@ -186,11 +187,13 @@ public class OrderRepository implements IOrderRepository {
                 }
             }
             req.setModelTypes(modelTypes);
+
             // 增加用户额度
             Integer addAccountQuotaCount = userAccountDao.addAccountQuota(req);
             if (1 != addAccountQuotaCount) {
                 throw new RuntimeException("addAccountQuota update count is not equals 1");
             }
+
         } else {
             // 创建用户账户
             req.setModelTypes(order.getProductModelTypes());

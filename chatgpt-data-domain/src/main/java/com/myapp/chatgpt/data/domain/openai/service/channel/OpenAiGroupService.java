@@ -11,5 +11,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
  */
 public interface OpenAiGroupService {
 
+    /**
+     * 处理消息的方法
+     * @param aggregate 消息聚合对象
+     * @param emitter
+     * @throws JsonProcessingException
+     */
     void doMessageResponse(ChatProcessAggregate aggregate, ResponseBodyEmitter emitter) throws JsonProcessingException;
 }
