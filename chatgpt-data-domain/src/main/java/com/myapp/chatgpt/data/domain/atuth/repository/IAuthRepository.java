@@ -1,5 +1,8 @@
 package com.myapp.chatgpt.data.domain.atuth.repository;
 
+
+import com.myapp.chatgpt.data.domain.account.model.entity.UserAccountQuotaEntity;
+
 /**
  * @description: 认证仓储服务接口
  * @author: 云奇迹
@@ -20,4 +23,16 @@ public interface IAuthRepository {
      * @param openId
      */
     void removeCodeByOpenId(String code,String openId);
+
+
+    /**
+     * 查询用户账户
+     */
+    Integer queryUserAccountExist(String openid);
+
+    /**
+     * 创建用户账户
+     */
+    void createUserAccount(UserAccountQuotaEntity entity);
+
 }

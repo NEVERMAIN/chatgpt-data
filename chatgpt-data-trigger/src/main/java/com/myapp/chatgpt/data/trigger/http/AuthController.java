@@ -1,8 +1,15 @@
 package com.myapp.chatgpt.data.trigger.http;
 
+import com.myapp.chatgpt.data.domain.account.model.aggregates.UserAccountAggregate;
+import com.myapp.chatgpt.data.domain.account.model.entity.UserAccountEntity;
+import com.myapp.chatgpt.data.domain.account.model.entity.UserAccountQuotaEntity;
+import com.myapp.chatgpt.data.domain.account.service.UserAccountService;
 import com.myapp.chatgpt.data.domain.atuth.model.entity.AuthStateEntity;
 import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVO;
+import com.myapp.chatgpt.data.domain.atuth.repository.IAuthRepository;
 import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
+import com.myapp.chatgpt.data.domain.openai.model.vo.UserAccountStatusVO;
+import com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * @description: 处理登录权限
@@ -27,20 +35,34 @@ public class AuthController {
     @Resource
     private IAuthService authService;
 
+    @Resource
+    private IAuthRepository authRepository;
+
     @RequestMapping("/login")
-    public Response<String> doLogin(@RequestParam String code){
+    public Response<String> doLogin(@RequestParam String code) {
 
         log.info("鉴权登录校验开始，验证码: {}", code);
         try {
             // 验证用户
             AuthStateEntity authStateEntity = authService.doLogin(code);
             // 验证不通过
-            if(!AuthTypeVO.SUCCESS.getCode().equals(authStateEntity.getCode())){
+            if (!AuthTypeVO.SUCCESS.getCode().equals(authStateEntity.getCode())) {
                 return Response.<String>builder()
                         .code(Constants.ResponseCode.TOKEN_ERROR.getCode())
                         .info(Constants.ResponseCode.TOKEN_ERROR.getInfo())
                         .build();
             }
+
+            // 查询用户是否存在
+            String openid = authStateEntity.getOpenid();
+            Integer count = authRepository.queryUserAccountExist(openid);
+            if(count == 0){
+                // 如果不存在就创建默认账户
+                UserAccountQuotaEntity userAccountQuota = new UserAccountQuotaEntity();
+                userAccountQuota.setOpenid(openid);
+                authRepository.createUserAccount(userAccountQuota);
+            }
+
             // 验证通过
             return Response.<String>builder()
                     .code(Constants.ResponseCode.SUCEESS.getCode())
@@ -49,16 +71,13 @@ public class AuthController {
                     .build();
 
         } catch (Exception e) {
-            log.info("用户鉴权出现异常:【验证码:{},异常信息:{}】",code,e.getMessage());
+            log.info("用户鉴权出现异常:【验证码:{},异常信息:{}】", code, e.getMessage());
             return Response.<String>builder()
                     .code(Constants.ResponseCode.UN_ERROR.getCode())
                     .info(Constants.ResponseCode.UN_ERROR.getInfo())
                     .build();
         }
     }
-
-
-
 
 
 }

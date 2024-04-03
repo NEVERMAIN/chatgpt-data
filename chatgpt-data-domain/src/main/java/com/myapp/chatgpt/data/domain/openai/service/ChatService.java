@@ -14,9 +14,7 @@ import com.myapp.chatgpt.data.domain.openai.service.channel.impl.ChatGLMService;
 import com.myapp.chatgpt.data.domain.openai.service.channel.impl.SparkService;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
-import com.sun.xml.internal.ws.util.CompletedFuture;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Response;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +28,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**

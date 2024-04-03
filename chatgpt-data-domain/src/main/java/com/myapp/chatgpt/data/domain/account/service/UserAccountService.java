@@ -30,4 +30,9 @@ public class UserAccountService extends AbstractUserAccountService {
                 .info(AccountStatusVO.SUCCESS.getInfo())
                 .build();
     }
+
+    @Override
+    public Integer queryAccountIsExist(String openid) {
+        return userAccountRepository.queryAccountIsExist(openid);
+    }
 }

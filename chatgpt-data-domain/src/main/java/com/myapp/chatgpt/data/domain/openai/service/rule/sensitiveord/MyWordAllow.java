@@ -15,6 +15,6 @@ import java.util.List;
 public class MyWordAllow implements IWordAllow {
     @Override
     public List<String> allow() {
-        return Arrays.asList("五星红旗","算法","编程","小说");
+        return Arrays.asList("法","2B","五星红旗","算法","编程","小说","口","用户","咨询","资格证","色","性","床","执业");
     }
 }

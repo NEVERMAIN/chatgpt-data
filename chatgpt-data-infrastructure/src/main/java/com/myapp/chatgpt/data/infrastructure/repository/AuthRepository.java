@@ -1,10 +1,15 @@
 package com.myapp.chatgpt.data.infrastructure.repository;
 
+import com.myapp.chatgpt.data.domain.account.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.atuth.repository.IAuthRepository;
+import com.myapp.chatgpt.data.domain.openai.model.vo.UserAccountStatusVO;
+import com.myapp.chatgpt.data.infrastructure.dao.IUserAccountDao;
+import com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo;
 import com.myapp.chatgpt.data.infrastructure.redis.IRedisService;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * @description:
@@ -19,14 +24,36 @@ public class AuthRepository implements IAuthRepository {
     @Resource
     private IRedisService redisService;
 
+    @Resource
+    private IUserAccountDao userAccountDao;
+
+
     @Override
     public String getCodeByOpenId(String code) {
-        return redisService.getValue(key+"_"+code);
+        return redisService.getValue(key + "_" + code);
     }
 
     @Override
     public void removeCodeByOpenId(String code, String openId) {
-        redisService.remove(key+"_"+code);
-        redisService.remove(key+"_"+openId);
+        redisService.remove(key + "_" + code);
+        redisService.remove(key + "_" + openId);
+    }
+
+    @Override
+    public Integer queryUserAccountExist(String openid) {
+        return userAccountDao.count(openid);
+    }
+
+    @Override
+    public void createUserAccount(UserAccountQuotaEntity entity) {
+        UserAccountQuotaPo userAccount = UserAccountQuotaPo.builder()
+                .openid(entity.getOpenid())
+                .status(UserAccountStatusVO.AVAILABLE.getCode())
+                .modelTypes("glm-3-turbo,glm-4,glm-4v,cogview-3")
+                .totalQuota(10)
+                .surplusQuota(10)
+                .build();
+
+        userAccountDao.createAccount(userAccount);
     }
 }

@@ -16,4 +16,9 @@ public interface IUserAccountService {
      * @return
      */
     UserAccountEntity createUserAccount(UserAccountAggregate accountAggregate);
+
+    /**
+     * 判断用户是否存在
+     */
+    Integer queryAccountIsExist(String openid);
 }

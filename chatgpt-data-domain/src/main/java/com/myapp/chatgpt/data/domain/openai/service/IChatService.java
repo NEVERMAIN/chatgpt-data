@@ -1,7 +1,6 @@
 package com.myapp.chatgpt.data.domain.openai.service;
 
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
-import com.sun.xml.internal.ws.util.CompletedFuture;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
 import java.util.concurrent.CompletableFuture;

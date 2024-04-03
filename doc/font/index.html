@@ -74,13 +74,13 @@
 <script>
     document.getElementById('orderButton').addEventListener('click', function() {
         var productId = "2";
-        var url = 'http://lotterycore.nat300.top/api/v1/sale/create_pay_order?productId=' + productId;
+        var url = 'http://www.opendicu.top:80/api/v1/sale/create_pay_order?productId=' + productId;
 
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvNk9zRzZaMTB5dlhEMnkyUElzUlRnT2hCYmtnIiwib3BlbklkIjoibzZPc0c2WjEweXZYRDJ5MlBJc1JUZ09oQmJrZyIsImV4cCI6MTcxMjU0ODY5OCwiaWF0IjoxNzExOTQzODk4LCJqdGkiOiIwZWZiODdmMi04M2VmLTQ3NGItOWQ2Ni1kNDZlZjg0MTYyYTUifQ.mkGA-_i00MViIdwssPgGEcZ67mHUKR_YA6olw3DAcxY"
+                'Authorization': "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvNk9zRzZaMTB5dlhEMnkyUElzUlRnT2hCYmtnIiwib3BlbklkIjoibzZPc0c2WjEweXZYRDJ5MlBJc1JUZ09oQmJrZyIsImV4cCI6MTcxMjY3Mzc0MywiaWF0IjoxNzEyMDY4OTQzLCJqdGkiOiJmZTEzMGI4OC1lNmFmLTRiYWItYjE1MC03ZDI3NWM0ZTkwYTUifQ.NoGDyffd5JU_yKf4RFC5Q_uUAOcNPgm9kaQxiA-7IPw"
             }
         })
             .then(response => response.json()) // 解析JSON格式的响应
