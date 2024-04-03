@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @description:
+ * @description: Redis 客户端配置属性
  * @author: 云奇迹
  * @date: 2024/4/1
  */

@@ -12,7 +12,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "chatglm.sdk.config",
         ignoreInvalidFields = true)
 public class ChatGLMConfigProperties {
-
+    /**
+     * 是否有效
+     */
+    private String enable;
+    /**
+     * API 请求地址
+     */
     private String apiHost;
+    /**
+     * 密钥
+     */
     private String apiSecretKey;
 }

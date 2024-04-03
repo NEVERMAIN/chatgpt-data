@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * @description: Prometheus
+ * @description: Prometheus 数据采集
  * @author: 云奇迹
  * @date: 2024/4/1
  */

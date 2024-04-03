@@ -70,8 +70,8 @@ public class SensitiveWordConfig {
                 .enableEmailCheck(true)
                 .enableUrlCheck(true)
                 .enableWordCheck(true)
-                .wordAllow(WordAllows.chains(WordAllows.defaults(),myWordAllow))
-                .wordDeny(WordDenys.chains(WordDenys.defaults(),myWordDeny))
+                .wordAllow(WordAllows.chains(myWordAllow))
+                .wordDeny(WordDenys.chains(myWordDeny))
                 .numCheckLen(1024)
                 .init();
     }

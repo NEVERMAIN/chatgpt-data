@@ -8,8 +8,10 @@ import com.myapp.chatglm.model.chat.ChatCompletionRequest;
 import com.myapp.chatglm.model.chat.ChatCompletionResponse;
 import com.myapp.chatglm.session.OpenAiSession;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
+import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import com.myapp.chatgpt.data.domain.openai.service.channel.OpenAiGroupService;
 import com.myapp.chatgpt.data.types.enums.ChatGLMModel;
+import com.myapp.chatgpt.data.types.enums.ChatGLMRole;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
@@ -21,7 +23,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -42,17 +46,47 @@ public class ChatGLMService implements OpenAiGroupService {
         try {
 
 
-            List<ChatCompletionRequest.Prompt> messages = chatProcess.getMessages().stream()
-                    .map((entity) -> ChatCompletionRequest.Prompt.builder()
-                            .role(Role.getRole(entity.getRole()).getCode())
-                            .content(entity.getContent())
-                            .build()).collect(Collectors.toList());
+            ArrayList<ChatCompletionRequest.Prompt> prompts = new ArrayList<>();
+
+            List<MessageEntity> messages = chatProcess.getMessages();
+            MessageEntity messageEntity = messages.remove(messages.size() - 1);
+
+            for (MessageEntity message : messages) {
+                String role = message.getRole();
+                if (Objects.equals(role, ChatGLMRole.SYSTEM.getCode())) {
+                    prompts.add(ChatCompletionRequest.Prompt.builder()
+                            .role(ChatGLMRole.SYSTEM.getCode())
+                            .content(message.getContent())
+                            .build());
+
+                    prompts.add(ChatCompletionRequest.Prompt.builder()
+                            .role(ChatGLMRole.USER.getCode())
+                            .content("Okay")
+                            .build());
+
+                } else {
+                    prompts.add(ChatCompletionRequest.Prompt.builder()
+                            .role(ChatGLMRole.USER.getCode())
+                            .content(message.getContent())
+                            .build());
+
+                    prompts.add(ChatCompletionRequest.Prompt.builder()
+                            .role(ChatGLMRole.USER.getCode())
+                            .content("Okay")
+                            .build());
+                }
+            }
+
+            prompts.add(ChatCompletionRequest.Prompt.builder()
+                    .role(messageEntity.getRole())
+                    .content(messageEntity.getContent())
+                    .build());
 
             // 准备参数
             ChatCompletionRequest chatCompletion = ChatCompletionRequest.builder()
                     .stream(true)
                     .model(ChatGLMModel.get(chatProcess.getModel()).getCode())
-                    .messages(messages)
+                    .messages(prompts)
                     .build();
 
             // 调用服务
