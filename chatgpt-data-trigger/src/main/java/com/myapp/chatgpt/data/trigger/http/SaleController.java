@@ -15,6 +15,7 @@ import com.myapp.chatgpt.data.types.model.Response;
 import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +64,8 @@ public class SaleController {
 
     /**
      * 创建订单
-     * @param token  鉴权 token
+     *
+     * @param token     鉴权 token
      * @param productId 商品ID
      * @return
      */
@@ -114,6 +116,7 @@ public class SaleController {
 
     /**
      * 查询商品列表
+     *
      * @param token 鉴权 token
      * @return
      */
@@ -168,6 +171,7 @@ public class SaleController {
 
     /**
      * 微信支付回调 方法
+     *
      * @param requestBody 请求体
      * @param request     请求对象
      * @param response    返回对象
@@ -205,9 +209,16 @@ public class SaleController {
                 String transactionId = transaction.getTransactionId();
                 Integer total = transaction.getAmount().getTotal();
                 String successTime = transaction.getSuccessTime();
-                log.info("支付成功 orderId:{} total:{} successTime:{}", orderId, total, successTime);
+                Date payTime = null;
+                if (StringUtils.isBlank(successTime)) {
+                    payTime = new Date();
+                } else {
+                    payTime = dateFormat.parse(successTime);
+                }
+
+                log.info("支付成功 orderId:{} total:{} payTime:{}", orderId, total, payTime);
                 // 更新订单
-                boolean success = orderService.changeOrderPaySuccess(orderId, transactionId, new BigDecimal(total).divide(new BigDecimal(100), RoundingMode.HALF_UP), dateFormat.parse(successTime));
+                boolean success = orderService.changeOrderPaySuccess(orderId, transactionId, new BigDecimal(total).divide(new BigDecimal(100), RoundingMode.HALF_UP), payTime);
                 if (success) {
                     // 发布消息
                     eventBus.post(orderId);
@@ -230,6 +241,7 @@ public class SaleController {
 
     /**
      * 支付宝支付的回调方法 - 沙箱
+     *
      * @param request 请求对象
      */
     @PostMapping("/alipay/pay_notify")
@@ -257,13 +269,21 @@ public class SaleController {
                     String orderId = params.get("out_trade_no");
                     String tradeNo = params.get("trade_no");
                     String payAmount = params.get("buyer_pay_amount");
-                    String payTime = params.get("gmt_payment");
+                    String successTime = params.get("gmt_payment");
+                    // 支付时间
+                    Date payTime = null;
+                    if (StringUtils.isBlank(successTime)) {
+                        payTime = new Date();
+                    } else {
+                        payTime = sdf.parse(successTime);
+                    }
+
+                    log.info("支付成功,orderId:{},payTime:{}", orderId, payTime);
 
                     // 2.2. 修改订单状态为支付成功,待发货
-                    boolean success = orderService.changeOrderPaySuccess(orderId, tradeNo, new BigDecimal(payAmount), sdf.parse(payTime));
+                    boolean success = orderService.changeOrderPaySuccess(orderId, tradeNo, new BigDecimal(payAmount), payTime);
                     if (success) {
                         // 发布消息
-//                        eventBus.post(orderId);
                         payOrderSuccessTopic.publish(orderId);
                     }
                 }
