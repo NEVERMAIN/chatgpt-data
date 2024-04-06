@@ -70,16 +70,6 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
-        <!-- ChatGLM SDK-->
-        <dependency>
-            <groupId>com.myapp</groupId>
-            <artifactId>ChatGLM-starter</artifactId>
-        </dependency>
-        <!-- Spark SDK-->
-        <dependency>
-            <groupId>com.myapp</groupId>
-            <artifactId>spark-starter</artifactId>
-        </dependency>
         <!-- openai-sdk -->
         <dependency>
             <groupId>com.myapp</groupId>

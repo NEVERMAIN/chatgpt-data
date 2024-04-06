@@ -53,14 +53,17 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -78,17 +81,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-        <!-- ChatGLM SDK-->
-        <dependency>
-            <groupId>com.myapp</groupId>
-            <artifactId>ChatGLM-starter</artifactId>
-        </dependency>
-
-        <!-- Spark SDK-->
-        <dependency>
-            <groupId>com.myapp</groupId>
-            <artifactId>spark-starter</artifactId>
-        </dependency>
 
         <!-- openai-sdk -->
         <dependency>
@@ -100,6 +92,7 @@
             <groupId>com.github.wechatpay-apiv3</groupId>
             <artifactId>wechatpay-java</artifactId>
         </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>

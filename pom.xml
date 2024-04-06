@@ -64,25 +64,12 @@
                 <version>30.1-jre</version>
             </dependency>
 
-            <!-- 大模型 -->
-            <dependency>
-                <groupId>com.myapp</groupId>
-                <artifactId>ChatGLM-starter</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.myapp</groupId>
-                <artifactId>spark-starter</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
             <!-- openai-sdk -->
             <dependency>
                 <groupId>com.myapp</groupId>
                 <artifactId>openai-sdk-java</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
-
-
 
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
