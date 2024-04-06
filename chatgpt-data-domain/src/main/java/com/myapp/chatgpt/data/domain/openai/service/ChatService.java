@@ -1,6 +1,5 @@
 package com.myapp.chatgpt.data.domain.openai.service;
 
-import com.myapp.chatglm.model.Role;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
 import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
@@ -8,14 +7,17 @@ import com.myapp.chatgpt.data.domain.openai.model.valobj.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
 import com.myapp.chatgpt.data.types.enums.ChatGLMModel;
+import com.myapp.chatgpt.data.types.enums.Role;
 import com.myapp.openai.executor.parameter.Message;
 import com.myapp.openai.executor.parameter.request.CompletionRequest;
+import com.myapp.openai.session.OpenAiSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,7 @@ public class ChatService extends AbstractChatService {
 
 
     @Resource
-    private com.myapp.openai.session.OpenAiSession openAiSession;
+    private OpenAiSession openAiSession;
 
     @Resource
     private DefaultLogicFilterFactory defaultLogicFilterFactory;
@@ -66,7 +68,7 @@ public class ChatService extends AbstractChatService {
 
         List<Message> messageList = chatProcess.getMessages().stream()
                 .map((entity) -> Message.builder()
-                        .role(Role.getRole(entity.getRole()).getCode())
+                        .role(Objects.requireNonNull(Role.get(entity.getRole())).getCode())
                         .content(entity.getContent())
                         .build()).collect(Collectors.toList());
 
