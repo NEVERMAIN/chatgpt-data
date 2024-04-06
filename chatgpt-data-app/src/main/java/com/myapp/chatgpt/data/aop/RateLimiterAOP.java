@@ -3,6 +3,7 @@ package com.myapp.chatgpt.data.aop;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
+import com.myapp.chatgpt.data.infrastructure.redis.IRedisService;
 import com.myapp.chatgpt.data.types.annotation.AccessInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import javax.annotation.RegEx;
+import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +29,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Aspect
 public class RateLimiterAOP {
-
 
     /**
      * 个人限频记录1分钟
@@ -42,13 +44,20 @@ public class RateLimiterAOP {
             .expireAfterWrite(24, TimeUnit.HOURS)
             .build();
 
+    @Resource
+    private IRedisService redisService;
+
+    private static final String BLACK_LIST = "black_list";
+
+
     @Pointcut("@annotation(com.myapp.chatgpt.data.types.annotation.AccessInterceptor)")
     public void aopPoint() {
     }
 
     /**
      * 环绕通知
-     * @param joinPoint  切入点
+     *
+     * @param joinPoint         切入点
      * @param accessInterceptor 拦截器注解
      * @return
      * @throws Throwable
@@ -65,7 +74,7 @@ public class RateLimiterAOP {
         String keyAttr = getAttrValue(key, joinPoint.getArgs());
         log.info("aop attr:{}", keyAttr);
 
-        if (!"all".equals(keyAttr) && accessInterceptor.blacklistCount() != 0 && null != blacklist.getIfPresent(keyAttr) && blacklist.getIfPresent(keyAttr) > accessInterceptor.blacklistCount()) {
+        if (!"all".equals(keyAttr) && accessInterceptor.blacklistCount() != 0 && null != redisService.<Long>getValue(BLACK_LIST + "_" + keyAttr) && redisService.<Long>getValue(BLACK_LIST + "_" + keyAttr) > accessInterceptor.blacklistCount()) {
             log.info("限流-黑名单拦截(24h)：{}", keyAttr);
             return fallbackMethodResult(joinPoint, accessInterceptor.fallbackMethod());
         }
@@ -80,10 +89,13 @@ public class RateLimiterAOP {
         // 限流拦截
         if (!rateLimiter.tryAcquire()) {
             if (accessInterceptor.blacklistCount() != 0) {
-                if (null == blacklist.getIfPresent(keyAttr)) {
-                    blacklist.put(keyAttr, 1L);
+                if (null == redisService.<Long>getValue(BLACK_LIST + "_" + keyAttr)) {
+                    log.info("now:");
+                    redisService.setValue(BLACK_LIST + "_" + keyAttr, 1L, 24 * 60 * 60 * 1000);
                 } else {
-                    blacklist.put(keyAttr, blacklist.getIfPresent(keyAttr) + 1L);
+                    Long count = redisService.<Long>getValue(BLACK_LIST + "_" + keyAttr);
+                    log.info("add count:{}", count);
+                    redisService.setValue(BLACK_LIST + "_" + keyAttr, count + 1L, 24 * 60 * 60 * 1000);
                 }
             }
             log.info("限流-超频次拦截：{}", keyAttr);
