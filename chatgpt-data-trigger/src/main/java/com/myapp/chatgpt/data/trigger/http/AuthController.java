@@ -5,6 +5,7 @@ import com.myapp.chatgpt.data.domain.atuth.model.entity.AuthStateEntity;
 import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVO;
 import com.myapp.chatgpt.data.domain.atuth.repository.IAuthRepository;
 import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
+import com.myapp.chatgpt.data.types.annotation.AccessInterceptor;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -32,10 +33,12 @@ public class AuthController {
     @Resource
     private IAuthRepository authRepository;
 
-    @RequestMapping("/login")
-    public Response<String> doLogin(@RequestParam String code) {
 
-        log.info("鉴权登录校验开始，验证码: {}", code);
+    @AccessInterceptor(key = "fingerprint",fallbackMethod = "doLoginErr",permitsPerSecond = 1.0d,blacklistCount = 10)
+    @RequestMapping("/login")
+    public Response<String> doLogin(@RequestParam String code,@RequestParam String fingerprint) {
+
+        log.info("鉴权登录校验开始，验证码: {} 浏览器指纹:{}", code, fingerprint);
         try {
             // 验证用户
             AuthStateEntity authStateEntity = authService.doLogin(code);
@@ -71,6 +74,13 @@ public class AuthController {
                     .info(Constants.ResponseCode.UN_ERROR.getInfo())
                     .build();
         }
+    }
+
+    public Response<String> doLoginErr(@RequestParam String code,@RequestParam String fingerprint){
+        return Response.<String>builder()
+                .code(Constants.ResponseCode.UN_ERROR.getCode())
+                .info("频次限制，请勿恶意访问")
+                .build();
     }
 
 
