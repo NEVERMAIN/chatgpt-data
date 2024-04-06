@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @description: 图片生成
@@ -24,8 +27,17 @@ import java.util.List;
 @Slf4j
 public class ImageGenerativeModelServiceImpl implements IGenerativeModelService {
 
+    /**
+     * OpenAi 服务
+     */
     @Autowired(required = false)
     private OpenAiSession openAiSession;
+
+    /**
+     * 线程池
+     */
+    @Resource
+    private ThreadPoolExecutor threadPoolExecutor;
 
     @Override
     public void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) throws IOException {
@@ -35,39 +47,49 @@ public class ImageGenerativeModelServiceImpl implements IGenerativeModelService 
             return;
         }
 
-        try {
-            // 1.封装消息
-            StringBuilder prompt = new StringBuilder();
-            List<MessageEntity> messages = chatProcess.getMessages();
-            for (MessageEntity message : messages) {
-                String role = message.getRole();
-                if(Role.USER.getCode().equals(role)){
-                    prompt.append(message.getContent());
-                    prompt.append("\r\n");
+        // 1.封装消息
+        StringBuilder prompt = new StringBuilder();
+        List<MessageEntity> messages = chatProcess.getMessages();
+        for (MessageEntity message : messages) {
+            String role = message.getRole();
+            if (Role.USER.getCode().equals(role)) {
+                prompt.append(message.getContent());
+                prompt.append("\r\n");
+            }
+        }
+
+        // 2.会话请求信息
+        ImageRequest imageRequest = ImageRequest.builder()
+                .prompt(prompt.toString())
+                .model(chatProcess.getModel())
+                .build();
+
+        emitter.send("您的\uD83D\uDE0A图片正在生成中,请耐心等待....\r\n");
+
+        // 异步线程提交
+        threadPoolExecutor.execute(() -> {
+            ImageResponse imageResponse = null;
+            try {
+                // 3.调用服务
+                imageResponse = openAiSession.genImages(imageRequest);
+                List<ImageResponse.Item> data = imageResponse.getData();
+
+                for (ImageResponse.Item item : data) {
+                    String url = item.getUrl();
+                    log.info("url:{}", url);
+                    emitter.send("![](" + url + ")");
+                }
+                // 4.结束会话
+                emitter.complete();
+            } catch (Exception e) {
+                try {
+                    emitter.send("您的😭图片生成失败了，请调整说明... \r\n");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
+        });
 
-            // 2.会话请求信息
-            ImageRequest imageRequest = ImageRequest.builder()
-                    .prompt(prompt.toString())
-                    .model(chatProcess.getModel())
-                    .build();
-
-            // 3.调用服务
-            ImageResponse imageResponse = openAiSession.genImages(imageRequest);
-            List<ImageResponse.Item> data = imageResponse.getData();
-
-            for (ImageResponse.Item item : data) {
-                String url = item.getUrl();
-                log.info("url:{}",url);
-                emitter.send("![]("+url+")");
-            }
-            // 4.结束会话
-            emitter.complete();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
     }
 }
