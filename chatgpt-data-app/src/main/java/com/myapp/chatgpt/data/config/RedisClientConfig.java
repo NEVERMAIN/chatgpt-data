@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @description:
+ * @description: Redis 客户端配置
  * @author: 云奇迹
  * @date: 2024/4/1
  */

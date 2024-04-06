@@ -1,4 +1,4 @@
-package com.myapp.chatgpt.data.domain.openai.model.vo;
+package com.myapp.chatgpt.data.domain.openai.model.valobj;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

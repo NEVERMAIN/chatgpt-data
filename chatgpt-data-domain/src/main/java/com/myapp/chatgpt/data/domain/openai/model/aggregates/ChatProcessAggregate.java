@@ -2,6 +2,7 @@ package com.myapp.chatgpt.data.domain.openai.model.aggregates;
 
 import com.myapp.chatglm.model.Model;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
+import com.myapp.chatgpt.data.domain.openai.model.valobj.GenerativeModelVO;
 import com.myapp.chatgpt.data.types.enums.OpenAiChannel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,5 +53,15 @@ public class ChatProcessAggregate {
      */
     public OpenAiChannel getChannel() {
         return OpenAiChannel.getChannel(this.getModel());
+    }
+
+    public GenerativeModelVO getGenerativeModelVO(){
+        switch (this.Model) {
+            case "cogview-3":
+                return GenerativeModelVO.IMAGES;
+            default:
+                return GenerativeModelVO.TEXT;
+        }
+
     }
 }

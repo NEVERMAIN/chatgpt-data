@@ -5,15 +5,13 @@ import com.myapp.chatgpt.data.domain.openai.annotation.LogicStrategy;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
 import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
-import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
+import com.myapp.chatgpt.data.domain.openai.model.valobj.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.RegEx;
 import javax.annotation.Resource;
-import javax.security.auth.callback.CallbackHandler;
 import java.util.concurrent.ExecutionException;
 
 /**

@@ -11,7 +11,7 @@ public interface LogicFilter {
 
     /**
      * 处理消息类型的逻辑
-     * @param behaviorMessage
+     * @param behaviorMessage 行为消息对象
      * @return
      */
     String filter(BehaviorMatter behaviorMessage);

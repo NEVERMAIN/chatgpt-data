@@ -1,6 +1,6 @@
 package com.myapp.chatgpt.data.domain.openai.model.entity;
 
-import com.myapp.chatgpt.data.domain.openai.model.vo.UserAccountStatusVO;
+import com.myapp.chatgpt.data.domain.openai.model.valobj.UserAccountStatusVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

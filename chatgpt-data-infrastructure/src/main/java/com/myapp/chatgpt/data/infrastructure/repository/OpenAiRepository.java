@@ -1,7 +1,7 @@
 package com.myapp.chatgpt.data.infrastructure.repository;
 
 import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
-import com.myapp.chatgpt.data.domain.openai.model.vo.UserAccountStatusVO;
+import com.myapp.chatgpt.data.domain.openai.model.valobj.UserAccountStatusVO;
 import com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository;
 import com.myapp.chatgpt.data.infrastructure.dao.IUserAccountDao;
 import com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo;

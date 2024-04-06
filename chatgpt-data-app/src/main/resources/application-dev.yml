@@ -52,7 +52,16 @@ chatglm:
     config:
       enable: true
       api-host: https://open.bigmodel.cn/
-      api-secret-key: 6fbc6c46a84a201fad03b6de40253619.2WNgqPQhA34dEEoq
+      api-secret-key: 3f0db74a257814fc947956220653c07d.VILKOpsZTE2u4obh
+
+# 星火大模型 SDK 配置
+spark:
+  sdk:
+    config:
+      enable: true
+      appid: dac4535e
+      api-key: d984fda9834da3c4786df752f9714266
+      api-secret: OTlmMTI4ZTlhZmM1NzY0YmViZWNmNzc0
 
 
 # 微信公众号配置
@@ -105,14 +114,6 @@ alipay:
   returnUrl: https://gaga.plus/
   gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
 
-
-# 星火大模型 SDK 配置
-spark:
-  config:
-    enable: true
-    appid: dac4535e
-    api-key: d984fda9834da3c4786df752f9714266
-    api-secret: OTlmMTI4ZTlhZmM1NzY0YmViZWNmNzc0
 
 
 # Redis

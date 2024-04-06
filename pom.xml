@@ -75,6 +75,14 @@
                 <artifactId>spark-starter</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <!-- openai-sdk -->
+            <dependency>
+                <groupId>com.myapp</groupId>
+                <artifactId>openai-sdk-java</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+
 
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>

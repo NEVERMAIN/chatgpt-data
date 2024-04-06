@@ -2,14 +2,13 @@ package com.myapp.chatgpt.data.infrastructure.repository;
 
 import com.myapp.chatgpt.data.domain.account.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.atuth.repository.IAuthRepository;
-import com.myapp.chatgpt.data.domain.openai.model.vo.UserAccountStatusVO;
+import com.myapp.chatgpt.data.domain.openai.model.valobj.UserAccountStatusVO;
 import com.myapp.chatgpt.data.infrastructure.dao.IUserAccountDao;
 import com.myapp.chatgpt.data.infrastructure.po.UserAccountQuotaPo;
 import com.myapp.chatgpt.data.infrastructure.redis.IRedisService;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 
 /**
  * @description:

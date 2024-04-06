@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date: 2024/3/28
  */
 @Data
-@ConfigurationProperties(value = "spark.config", ignoreInvalidFields = true)
+@ConfigurationProperties(value = "spark.sdk.config", ignoreInvalidFields = true)
 public class SparkConfigProperties {
 
     /**

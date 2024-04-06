@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public enum ChatGLMRole {
+public enum Role {
 
     USER("user"),
     ASSISTANT("assistant"),
@@ -20,9 +20,9 @@ public enum ChatGLMRole {
 
     private String code;
 
-    public static ChatGLMRole get(String code) {
-        ChatGLMRole[] values = ChatGLMRole.values();
-        for (ChatGLMRole value : values) {
+    public static Role get(String code) {
+        Role[] values = Role.values();
+        for (Role value : values) {
             if (value.getCode().equals(code)) {
                 return value;
             }

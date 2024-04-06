@@ -1,15 +1,10 @@
 package com.myapp.chatgpt.data.trigger.http;
 
-import com.myapp.chatgpt.data.domain.account.model.aggregates.UserAccountAggregate;
-import com.myapp.chatgpt.data.domain.account.model.entity.UserAccountEntity;
 import com.myapp.chatgpt.data.domain.account.model.entity.UserAccountQuotaEntity;
-import com.myapp.chatgpt.data.domain.account.service.UserAccountService;
 import com.myapp.chatgpt.data.domain.atuth.model.entity.AuthStateEntity;
 import com.myapp.chatgpt.data.domain.atuth.model.vo.AuthTypeVO;
 import com.myapp.chatgpt.data.domain.atuth.repository.IAuthRepository;
 import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
-import com.myapp.chatgpt.data.domain.openai.model.vo.UserAccountStatusVO;
-import com.myapp.chatgpt.data.domain.openai.repository.IOpenAiRepository;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 
 /**
  * @description: 处理登录权限

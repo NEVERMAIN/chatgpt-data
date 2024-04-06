@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * @description:
+ * @description: 微信行为服务类
  * @author: 云奇迹
  * @date: 2024/3/18
  */

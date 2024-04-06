@@ -6,12 +6,15 @@ import com.myapp.chatglm.model.Model;
 import com.myapp.chatglm.model.Role;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
+import com.myapp.chatgpt.data.domain.openai.service.ChatService;
 import com.myapp.chatgpt.data.domain.openai.service.IChatService;
 import com.myapp.chatgpt.data.domain.weixin.model.entity.BehaviorMatter;
 import com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.LogicFilter;
+import com.myapp.openai.session.OpenAiSession;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,14 +32,14 @@ public class OpenAiFilter implements LogicFilter {
     private Logger logger = LoggerFactory.getLogger(OpenAiFilter.class);
 
     @Resource
-    private IChatService chatService;
-
-    @Resource
     private ThreadPoolExecutor gptTaskExecutor;
 
     private Cache<String, GPTTaskInfo> gptTaskCache = CacheBuilder.newBuilder()
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .build();
+
+    @Autowired
+    private IChatService chatService;
 
 
     /**

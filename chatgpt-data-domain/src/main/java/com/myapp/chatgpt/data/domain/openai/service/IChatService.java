@@ -24,7 +24,7 @@ public interface IChatService {
      * @param process
      * @return
      */
-    CompletableFuture<String> completions(ChatProcessAggregate process);
+    CompletableFuture<String> completions(ChatProcessAggregate process) throws Exception;
 
 
 

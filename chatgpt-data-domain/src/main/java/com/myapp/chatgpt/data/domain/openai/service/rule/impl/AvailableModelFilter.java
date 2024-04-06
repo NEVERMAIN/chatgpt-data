@@ -4,11 +4,9 @@ import com.myapp.chatgpt.data.domain.openai.annotation.LogicStrategy;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
 import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
-import com.myapp.chatgpt.data.domain.openai.model.vo.LogicTypeVO;
+import com.myapp.chatgpt.data.domain.openai.model.valobj.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
-import com.myapp.chatgpt.data.domain.weixin.model.vo.MsgTypeVO;
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
