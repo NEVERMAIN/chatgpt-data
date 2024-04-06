@@ -37,13 +37,6 @@ public class RateLimiterAOP {
             .expireAfterWrite(1, TimeUnit.MINUTES)
             .build();
 
-    /**
-     * 个人限频黑名单 24 h - 自身的分布式业务场景，可以记录到 Redis 中
-     */
-    private final Cache<String, Long> blacklist = CacheBuilder.newBuilder()
-            .expireAfterWrite(24, TimeUnit.HOURS)
-            .build();
-
     @Resource
     private IRedisService redisService;
 

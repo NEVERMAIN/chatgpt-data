@@ -113,6 +113,7 @@
                 <artifactId>wechatpay-java</artifactId>
                 <version>0.2.11</version>
             </dependency>
+
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
