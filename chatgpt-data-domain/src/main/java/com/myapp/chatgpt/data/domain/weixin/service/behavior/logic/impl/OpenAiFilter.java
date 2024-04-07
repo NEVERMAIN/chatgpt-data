@@ -2,15 +2,13 @@ package com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.impl;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.myapp.chatglm.model.Model;
-import com.myapp.chatglm.model.Role;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
-import com.myapp.chatgpt.data.domain.openai.service.ChatService;
 import com.myapp.chatgpt.data.domain.openai.service.IChatService;
 import com.myapp.chatgpt.data.domain.weixin.model.entity.BehaviorMatter;
 import com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.LogicFilter;
-import com.myapp.openai.session.OpenAiSession;
+import com.myapp.chatgpt.data.types.enums.OpenAiModel;
+import com.myapp.chatgpt.data.types.enums.OpenAiRole;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -102,13 +99,13 @@ public class OpenAiFilter implements LogicFilter {
             Future<CompletableFuture<String>> submit = gptTaskExecutor.submit(() -> {
                 ChatProcessAggregate process = ChatProcessAggregate.builder()
                         .openId(openId)
-                        .Model(Model.GLM_3_TURBO.getCode())
+                        .Model(OpenAiModel.GLM_3_TURBO.getCode())
                         .messages(new ArrayList<MessageEntity>() {
                             private static final long serialVersionUID = -7988151926241837899L;
 
                             {
                                 add(MessageEntity.builder()
-                                        .role(Role.USER.getCode())
+                                        .role(OpenAiRole.USER.getCode())
                                         .content(content)
                                         .build());
                             }

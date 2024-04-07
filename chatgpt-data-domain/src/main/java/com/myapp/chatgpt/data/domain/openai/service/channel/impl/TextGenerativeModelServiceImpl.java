@@ -1,10 +1,10 @@
 package com.myapp.chatgpt.data.domain.openai.service.channel.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.myapp.chatglm.model.Role;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import com.myapp.chatgpt.data.domain.openai.service.channel.IGenerativeModelService;
+import com.myapp.chatgpt.data.types.enums.OpenAiRole;
 import com.myapp.openai.executor.parameter.Message;
 import com.myapp.openai.executor.parameter.request.CompletionRequest;
 import com.myapp.openai.executor.parameter.response.ChatChoice;
@@ -73,7 +73,7 @@ public class TextGenerativeModelServiceImpl implements IGenerativeModelService {
                     for (ChatChoice choice : choices) {
                         Message delta = choice.getDelta();
                         // 判断是不是 assistant
-                        if (!Role.ASSISTANT.getCode().equals(delta.getRole())) continue;
+                        if (!OpenAiRole.ASSISTANT.getCode().equals(delta.getRole())) continue;
 
                         // 判断时是否结束
                         String finishReason = choice.getFinishReason();

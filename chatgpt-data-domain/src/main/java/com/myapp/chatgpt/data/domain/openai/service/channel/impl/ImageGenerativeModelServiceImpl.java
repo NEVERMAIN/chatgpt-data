@@ -3,7 +3,7 @@ package com.myapp.chatgpt.data.domain.openai.service.channel.impl;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import com.myapp.chatgpt.data.domain.openai.service.channel.IGenerativeModelService;
-import com.myapp.chatgpt.data.types.enums.Role;
+import com.myapp.chatgpt.data.types.enums.OpenAiRole;
 import com.myapp.openai.executor.parameter.request.ImageRequest;
 import com.myapp.openai.executor.parameter.response.ImageResponse;
 import com.myapp.openai.session.OpenAiSession;
@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -52,7 +51,7 @@ public class ImageGenerativeModelServiceImpl implements IGenerativeModelService 
         List<MessageEntity> messages = chatProcess.getMessages();
         for (MessageEntity message : messages) {
             String role = message.getRole();
-            if (Role.USER.getCode().equals(role)) {
+            if (OpenAiRole.USER.getCode().equals(role)) {
                 prompt.append(message.getContent());
                 prompt.append("\r\n");
             }
