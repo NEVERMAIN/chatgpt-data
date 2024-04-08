@@ -48,46 +48,48 @@ public class RateLimiterAOP {
     }
 
     /**
-     * 环绕通知
+     * 环绕通知，用于实现访问频率控制的拦截逻辑。
      *
-     * @param joinPoint         切入点
-     * @param accessInterceptor 拦截器注解
-     * @return
-     * @throws Throwable
+     * @param joinPoint         切入点，表示当前被拦截的方法。
+     * @param accessInterceptor 拦截器注解，用于获取注解上的配置信息。
+     * @return 返回被拦截方法的执行结果或者拦截后的替代结果。
+     * @throws Throwable 如果方法执行或拦截逻辑中发生异常，则抛出。
      */
     @Around("aopPoint() && @annotation(accessInterceptor)")
     public Object doRouter(ProceedingJoinPoint joinPoint, AccessInterceptor accessInterceptor) throws Throwable {
 
+        // 根据注解获取限流的key
         String key = accessInterceptor.key();
         if (StringUtils.isBlank(key)) {
             throw new RuntimeException("annotation RateLimiter key is null");
         }
 
-        // 获取拦截字段
+        // 解析并获取拦截字段的值
         String keyAttr = getAttrValue(key, joinPoint.getArgs());
         log.info("aop attr:{}", keyAttr);
 
+        // 检查是否在黑名单中，若在且达到一定数量，则拦截并返回后备方法的结果
         if (!"all".equals(keyAttr) && accessInterceptor.blacklistCount() != 0 && null != redisService.<Long>getValue(BLACK_LIST + "_" + keyAttr) && redisService.<Long>getValue(BLACK_LIST + "_" + keyAttr) > accessInterceptor.blacklistCount()) {
             log.info("限流-黑名单拦截(24h)：{}", keyAttr);
             return fallbackMethodResult(joinPoint, accessInterceptor.fallbackMethod());
         }
 
-        // 获取限流 -> Guava 缓存1分钟
+        // 从Guava缓存中获取或创建一个新的RateLimiter实例用于限流
         RateLimiter rateLimiter = loginRecord.getIfPresent(keyAttr);
         if (null == rateLimiter) {
             rateLimiter = RateLimiter.create(accessInterceptor.permitsPerSecond());
             loginRecord.put(keyAttr, rateLimiter);
         }
 
-        // 限流拦截
+        // 尝试获取许可，如果失败则表示访问频率过高，进行拦截
         if (!rateLimiter.tryAcquire()) {
+            // 频次过高时，检查是否加入黑名单，若未加入则加入，已加入则增加计数
             if (accessInterceptor.blacklistCount() != 0) {
                 if (null == redisService.<Long>getValue(BLACK_LIST + "_" + keyAttr)) {
                     log.info("now:");
                     redisService.setValue(BLACK_LIST + "_" + keyAttr, 1L, 24 * 60 * 60 * 1000);
                 } else {
                     Long count = redisService.<Long>getValue(BLACK_LIST + "_" + keyAttr);
-                    log.info("add count:{}", count);
                     redisService.setValue(BLACK_LIST + "_" + keyAttr, count + 1L, 24 * 60 * 60 * 1000);
                 }
             }
@@ -95,10 +97,11 @@ public class RateLimiterAOP {
             return fallbackMethodResult(joinPoint, accessInterceptor.fallbackMethod());
         }
 
-        // 返回结果
+        // 允许访问，执行被拦截的方法并返回结果
         return joinPoint.proceed();
 
     }
+
 
     /**
      * 调用用户配置的回调方法，当拦截后，返回回调结果。

@@ -35,51 +35,75 @@ public class OrderService extends AbstractOrderService {
     private PayFacade payFacade;
 
 
+    /**
+     * 保存订单信息
+     * @param openid 用户的唯一标识
+     * @param payType 支付类型（当前未使用，后期接入支付功能时使用）
+     * @param productEntity 商品实体，包含商品相关信息
+     * @return 返回创建的订单实体
+     */
     @Override
     protected OrderEntity doSaveOrder(String openid, Integer payType, ProductEntity productEntity) {
 
         OrderEntity orderEntity = new OrderEntity();
-        // 1. 生成订单唯一ID,保证数据库的幂等性
+        // 生成订单唯一ID,保证数据库的幂等性
         orderEntity.setOrderId(RandomStringUtils.randomNumeric(12));
         orderEntity.setOrderTime(new Date());
         orderEntity.setOrderStatus(OrderStatusVO.CREATE);
-        // todo: 等正式接入支付功能后,修改成根据 payType 选择支付类型
+        // 根据支付类型设置支付方式，当前默认为支付宝
         orderEntity.setPayType(PayTypeVO.ALIPAY);
+        // 设置订单总金额
         orderEntity.setTotalAmount(productEntity.getPrice());
 
-        // 2. 聚合信息
+        // 聚合订单相关信息
         CreateOrderAggregate aggregate = CreateOrderAggregate.builder()
                 .openid(openid)
                 .product(productEntity)
                 .order(orderEntity)
                 .build();
-        // 3. 保存订单
+        // 保存订单到数据库
         orderRepository.saveOrder(aggregate);
         return orderEntity;
     }
 
+
+    /**
+     * 创建预支付订单并进行预支付处理。
+     *
+     * @param payType 支付类型，例如：1代表支付宝，2代表微信支付。
+     * @param openid 用户的支付账号标识。
+     * @param orderId 订单的唯一标识。
+     * @param productName 订单产品名称。
+     * @param totalAmount 订单总金额。
+     * @return PayOrderEntity 支付订单实体，包含了支付的详细信息。
+     */
     @Override
     protected PayOrderEntity doPrepayOrder(Integer payType, String openid, String orderId, String productName, BigDecimal totalAmount) {
-
-        // 1. 创建预支付的对象
+        // 创建预支付订单对象，设置订单基本信息
         PrePayOrderEntity prePayOrder = PrePayOrderEntity.builder()
                 .openid(openid)
                 .orderId(orderId)
                 .totalAmount(totalAmount)
                 .productName(productName)
                 .build();
-        // 2. 调用预支付服务,得到返回的二维码
+
+        // 调用预支付服务，根据支付类型生成支付二维码
         String result = payFacade.pay(prePayOrder, payType);
+
+        // 构建支付订单实体，设置支付URL和支付状态
         PayOrderEntity payOrderEntity = PayOrderEntity.builder()
                 .openid(openid)
                 .orderId(orderId)
                 .payUrl(result)
                 .payStatus(PayStatusVo.WAIT)
                 .build();
-        // 3. 更新订单支付信息
+
+        // 更新订单的支付信息
         orderRepository.updateOrderPayInfo(payOrderEntity);
+
         return payOrderEntity;
     }
+
 
     @Override
     public boolean changeOrderPaySuccess(String orderId, String transactionId, BigDecimal payAmount, Date payTime) {

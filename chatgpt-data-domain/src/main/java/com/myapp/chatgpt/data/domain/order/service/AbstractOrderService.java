@@ -24,15 +24,22 @@ public abstract class AbstractOrderService implements IOrderService {
     @Resource
     private IOrderRepository orderRepository;
 
+    /**
+     * 创建订单并生成支付单。
+     *
+     * @param shopCarEntity 购物车实体，包含商品信息和用户信息
+     * @return PayOrderEntity 支付订单实体，包含支付链接、订单号等支付所需信息
+     */
     @Override
     public PayOrderEntity createOrder(ShopCarEntity shopCarEntity) {
-        // 0 - 基础信息
+
+        // 1. 根据用户openid和商品ID，尝试查询是否存在未支付的订单
         String openid = shopCarEntity.getOpenid();
         Integer productId = shopCarEntity.getProductId();
 
-        // 1. 查询是否有没有支付的订单
         UnpaidOrderEntity unpaidOrderEntity = orderRepository.queryUnpaidOrder(shopCarEntity);
 
+        // 2. 如果存在未支付的订单，并且该订单已经生成了支付链接，则直接返回这个订单的信息
         if (null != unpaidOrderEntity && PayStatusVo.WAIT.equals(unpaidOrderEntity.getPayStatus()) && null != unpaidOrderEntity.getPayUrl()) {
             log.info("创建订单-存在未支付的,但已生成微信支付的订单,返回 openid:{} orderId:{} payUrl:{}", openid, unpaidOrderEntity.getOrderId(), unpaidOrderEntity.getPayUrl());
             return PayOrderEntity.builder()
@@ -42,6 +49,7 @@ public abstract class AbstractOrderService implements IOrderService {
                     .payStatus(unpaidOrderEntity.getPayStatus())
                     .build();
 
+        // 3. 如果存在未支付的订单，但还未生成支付链接，则为其生成支付链接
         } else if (null != unpaidOrderEntity && null == unpaidOrderEntity.getPayUrl()) {
             log.info("创建订单-存在未生成支付的订单，返回 openid:{},orderId:{}", openid, unpaidOrderEntity.getOrderId());
             PayOrderEntity payOrderEntity = this.doPrepayOrder(unpaidOrderEntity.getPayType().getCode(), openid, unpaidOrderEntity.getOrderId(), unpaidOrderEntity.getProductName(), unpaidOrderEntity.getTotalAmount());
@@ -50,18 +58,17 @@ public abstract class AbstractOrderService implements IOrderService {
 
         }
 
-        // 2. 创建订单
-        // 2.1. 查询商品详细信息
+        // 4. 如果不存在未支付的订单，则开始创建新的订单
+        // 查询商品详细信息，确保商品有效
         ProductEntity productEntity = orderRepository.queryProduct(productId);
         if (!productEntity.isEnable()) {
             throw new ChatGPTException(Constants.ResponseCode.ORDER_PRODUCT_ERR.getCode(), Constants.ResponseCode.ORDER_PRODUCT_ERR.getInfo());
         }
 
-        // 3. 保存订单
-        // todo: 这里缺少一个支付类型字段,考虑用户选择不同支付类型支付
+        // 5. 保存新订单信息
         OrderEntity orderEntity = this.doSaveOrder(openid, shopCarEntity.getPayType(), productEntity);
 
-        // 4. 创建支付
+        // 6. 为新订单生成支付单
         PayOrderEntity payOrderEntity = this.doPrepayOrder(orderEntity.getPayType().getCode(), openid, orderEntity.getOrderId(), productEntity.getProductName(), orderEntity.getTotalAmount());
         log.info("创建订单-完成,生成支付单. openid:{},orderId:{},payUrl:{}", openid, orderEntity.getOrderId(), payOrderEntity.getPayUrl());
         return payOrderEntity;
