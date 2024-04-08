@@ -240,37 +240,43 @@ public class SaleController {
     private String alipayPublicKey;
 
     /**
-     * 支付宝支付的回调方法 - 沙箱
-     *
-     * @param request 请求对象
+     * 处理支付宝支付的回调通知（沙箱环境）。
+     * <p>
+     * 该方法用于接收支付宝支付完成后的通知回调，对支付结果进行验证，并根据验证结果更新订单状态。
+     * <p>
+     * @param request 请求对象，包含支付宝回调的通知信息。
+     * @return 返回字符串"success"表示处理成功，其他字符串表示处理失败。
      */
     @PostMapping("/alipay/pay_notify")
     public String payNotify(HttpServletRequest request) {
         try {
-
+            // 记录接收到的支付状态
             log.info("支付回调,消息接收 {}", request.getParameter("trade_status"));
 
+            // 验证支付状态是否为成功
             if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
 
-                // 1.取出请求体中的参数
+                // 1. 提取请求体中的参数
                 HashMap<String, String> params = new HashMap<>();
                 Map<String, String[]> requestParams = request.getParameterMap();
                 for (String name : requestParams.keySet()) {
                     params.put(name, request.getParameter(name));
                 }
 
+                // 2. 验签
                 String sign = params.get("sign");
                 String content = AlipaySignature.getSignCheckContentV1(params);
                 boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, alipayPublicKey, "UTF-8");
 
-                // 2. 支付宝验签
+                // 验签逻辑
                 if (checkSignature) {
-                    // 2.1. 验签通过
+                    // 验签通过，处理支付结果
                     String orderId = params.get("out_trade_no");
                     String tradeNo = params.get("trade_no");
                     String payAmount = params.get("buyer_pay_amount");
                     String successTime = params.get("gmt_payment");
-                    // 支付时间
+
+                    // 解析支付时间
                     Date payTime = null;
                     if (StringUtils.isBlank(successTime)) {
                         payTime = new Date();
@@ -278,24 +284,29 @@ public class SaleController {
                         payTime = sdf.parse(successTime);
                     }
 
+                    // 记录支付成功信息
                     log.info("支付成功,orderId:{},payTime:{}", orderId, payTime);
 
-                    // 2.2. 修改订单状态为支付成功,待发货
+                    // 更新订单状态为支付成功，并发布消息
                     boolean success = orderService.changeOrderPaySuccess(orderId, tradeNo, new BigDecimal(payAmount), payTime);
                     if (success) {
-                        // 发布消息
+                        // 发布订单支付成功的消息
                         payOrderSuccessTopic.publish(orderId);
                     }
                 }
             }
 
+            // 回复成功处理
             return "success";
         } catch (Exception e) {
+            // 记录处理失败的日志
             log.error("支付回调,处理失败", e);
+            // 返回失败标识
             return "false";
         }
 
     }
+
 
 
 }

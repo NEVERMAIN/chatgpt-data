@@ -36,13 +36,14 @@ public class WeiXinPortalController {
 
 
     /**
-     * 验签方法
-     * @param appid
-     * @param signature
-     * @param timestamp
-     * @param nonce
-     * @param echostr
-     * @return
+     * 验证微信公众号请求的真实性
+     *
+     * @param appid 公众号的APPID，用于标识不同的公众号
+     * @param signature 微信加密签名，用于验证请求的真实性
+     * @param timestamp 签名生成的时间戳
+     * @param nonce 随机数，用于防止网络重放攻击
+     * @param echostr 随机字符串，用于验证请求的真实性
+     * @return 如果验证成功，返回echostr参数的值；验证失败或参数非法，返回null
      */
     @GetMapping(produces = "text/plain;charset=utf-8")
     public String validate(@PathVariable String appid,
@@ -51,27 +52,41 @@ public class WeiXinPortalController {
                            @RequestParam(value = "nonce", required = false) String nonce,
                            @RequestParam(value = "echostr", required = false) String echostr) {
 
+        // 记录开始验签的日志
         log.info("微信公众号验签信息{}开始 [{}, {}, {}, {}]", appid, signature, timestamp, nonce, echostr);
         try {
+            // 检查参数是否为空
             if(StringUtils.isAnyBlank(signature,timestamp,nonce,echostr)){
                 throw new IllegalArgumentException("请求参数非法,请核实");
             }
-            // 验签
+            // 执行验签逻辑
             boolean success = weiXinAuthService.checkValid(signature, timestamp, nonce);
+            // 记录验签完成的日志
             log.info("微信公众号验签信息{}完成 check：{}", appid, success);
             if(!success){
                 return null;
             }
             return echostr;
         } catch (RuntimeException e) {
+            // 记录验签失败的日志
             log.error("微信公众号验签信息{}失败 [{}, {}, {}, {}]", appid, signature, timestamp, nonce, echostr, e);
             return null;
         }
     }
 
+
     /**
-     * 处理用户信息
-     * @return
+     * 处理用户发送的信息，用于微信公众号交互。
+     *
+     * @param appid 公众号的唯一标识。
+     * @param requestBody 用户发送的消息的XML字符串。
+     * @param signature 微信加密签名，用于验证消息的真实性。
+     * @param timestamp 时间戳，用于验证消息的真实性。
+     * @param nonce 随机数，用于验证消息的真实性。
+     * @param openid 用户的唯一标识。
+     * @param encType 加密类型，可选参数，表示消息是否加密。
+     * @param msgSignature 消息签名，用于验证消息的真实性。
+     * @return 返回处理后的响应信息，格式可以是XML。
      */
     @PostMapping(produces = "application/xml; charset=UTF-8")
     public String post(@PathVariable String appid,
@@ -83,13 +98,14 @@ public class WeiXinPortalController {
                        @RequestParam(name = "encrypt_type", required = false) String encType,
                        @RequestParam(name = "msg_signature", required = false) String msgSignature) {
 
-
         try {
+            // 记录接收到微信公众号信息的开始日志
             log.info("接收微信公众号信息请求{}开始 {}", openid, requestBody);
-            // 1. 将 xml 格式转成 Bean 对象
+
+            // 将接收到的XML格式消息转换为Bean对象
             MessageTextEntity messageText = XmlUtil.xmlToBean(requestBody, MessageTextEntity.class);
 
-            // 2.转成用户行为信息对象
+            // 将消息Bean对象转换为用户行为信息对象
             BehaviorMatter behaviorMessageEntity = BehaviorMatter.builder()
                     .event(messageText.getEvent())
                     .msgType(messageText.getMsgType())
@@ -99,14 +115,17 @@ public class WeiXinPortalController {
                     .content(messageText.getContent())
                     .build();
 
-            // 3.处理用户的消息
+            // 处理用户的行为信息，返回处理结果
             String result = weiXinBehaviorService.acceptUserBehavior(behaviorMessageEntity);
+            // 记录处理微信公众号信息请求完成的日志
             log.info("接收微信公众号信息请求完成:【openId:{},result:{}】",openid,result);
             return result;
         } catch (Exception e) {
+            // 记录处理微信公众号信息请求出现异常的日志
             log.info("微信公众号接收用户请求出现异常:【openId:{} , 异常信息:{}】",openid,e.getMessage());
             return "";
         }
     }
+
 
 }
