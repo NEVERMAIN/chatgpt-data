@@ -16,6 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MessageTextEntity {
+    /**
+     * 消息 id
+     */
     @XStreamAlias("MsgId")
     private String msgId;
     /**
@@ -28,6 +31,9 @@ public class MessageTextEntity {
      */
     @XStreamAlias("FromUserName")
     private String fromUserName;
+    /**
+     * 消息创建时间
+     */
     @XStreamAlias("CreateTime")
     private String createTime;
     /**
@@ -35,6 +41,9 @@ public class MessageTextEntity {
      */
     @XStreamAlias("MsgType")
     private String msgType;
+    /**
+     * 文本消息内容
+     */
     @XStreamAlias("Content")
     private String content;
     /**
@@ -42,6 +51,14 @@ public class MessageTextEntity {
      */
     @XStreamAlias("Event")
     private String event;
+    /**
+     * 事件 KEY 值
+     */
     @XStreamAlias("EventKey")
     private String eventKey;
+    /**
+     * 二维码的ticket，可用来换取二维码图片
+     */
+    @XStreamAlias("Ticket")
+    private String ticket;
 }

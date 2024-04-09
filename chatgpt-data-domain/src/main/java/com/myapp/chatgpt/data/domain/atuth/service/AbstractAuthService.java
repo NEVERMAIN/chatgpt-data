@@ -56,7 +56,7 @@ public abstract class AbstractAuthService implements IAuthService {
         String openid = authStateEntity.getOpenid();
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("openId", openid);
-        String token = encode(openid, 7 * 24 * 60 * 60 * 1000L, claims);
+        String token = jwtEncode(openid, 7 * 24 * 60 * 60 * 1000L, claims);
         authStateEntity.setToken(token);
 
         return authStateEntity;
@@ -85,7 +85,7 @@ public abstract class AbstractAuthService implements IAuthService {
      * iss：签发人，一般都是username或者userId
      * exp：过期时间
      */
-    protected String encode(String issuer, long ttlMillis, Map<String, Object> claims) {
+    protected String jwtEncode(String issuer, long ttlMillis, Map<String, Object> claims) {
         // iss签发人，ttlMillis生存时间，claims是指还想要在jwt中存储的一些非隐私信息
         if (claims == null) {
             claims = new HashMap<>();
@@ -118,7 +118,7 @@ public abstract class AbstractAuthService implements IAuthService {
      * @param jwtToken
      * @return
      */
-    protected Claims decode(String jwtToken) {
+    protected Claims jwtDecode(String jwtToken) {
         // 得到 DefaultJwtParser
         return Jwts.parser()
                 // 设置签名的秘钥

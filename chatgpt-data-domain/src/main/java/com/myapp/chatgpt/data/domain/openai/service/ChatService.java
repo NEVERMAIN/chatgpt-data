@@ -6,8 +6,8 @@ import com.myapp.chatgpt.data.domain.openai.model.entity.UserAccountQuotaEntity;
 import com.myapp.chatgpt.data.domain.openai.model.valobj.LogicTypeVO;
 import com.myapp.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.myapp.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFilterFactory;
-import com.myapp.chatgpt.data.types.enums.ChatGLMModel;
-import com.myapp.chatgpt.data.types.enums.Role;
+import com.myapp.chatgpt.data.types.enums.OpenAiModel;
+import com.myapp.chatgpt.data.types.enums.OpenAiRole;
 import com.myapp.openai.executor.parameter.Message;
 import com.myapp.openai.executor.parameter.request.CompletionRequest;
 import com.myapp.openai.session.OpenAiSession;
@@ -68,13 +68,13 @@ public class ChatService extends AbstractChatService {
 
         List<Message> messageList = chatProcess.getMessages().stream()
                 .map((entity) -> Message.builder()
-                        .role(Objects.requireNonNull(Role.get(entity.getRole())).getCode())
+                        .role(Objects.requireNonNull(OpenAiRole.get(entity.getRole())).getCode())
                         .content(entity.getContent())
                         .build()).collect(Collectors.toList());
 
         // 准备参数
         CompletionRequest completionRequest = CompletionRequest.builder()
-                .model(ChatGLMModel.GLM_3_TURBO.getCode())
+                .model(OpenAiModel.GLM_3_TURBO.getCode())
                 .messages(messageList)
                 .stream(true)
                 .build();

@@ -38,11 +38,11 @@ public class WeiXinPortalController {
     /**
      * 验证微信公众号请求的真实性
      *
-     * @param appid 公众号的APPID，用于标识不同的公众号
+     * @param appid     公众号的APPID，用于标识不同的公众号
      * @param signature 微信加密签名，用于验证请求的真实性
      * @param timestamp 签名生成的时间戳
-     * @param nonce 随机数，用于防止网络重放攻击
-     * @param echostr 随机字符串，用于验证请求的真实性
+     * @param nonce     随机数，用于防止网络重放攻击
+     * @param echostr   随机字符串，用于验证请求的真实性
      * @return 如果验证成功，返回echostr参数的值；验证失败或参数非法，返回null
      */
     @GetMapping(produces = "text/plain;charset=utf-8")
@@ -56,14 +56,14 @@ public class WeiXinPortalController {
         log.info("微信公众号验签信息{}开始 [{}, {}, {}, {}]", appid, signature, timestamp, nonce, echostr);
         try {
             // 检查参数是否为空
-            if(StringUtils.isAnyBlank(signature,timestamp,nonce,echostr)){
+            if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
                 throw new IllegalArgumentException("请求参数非法,请核实");
             }
             // 执行验签逻辑
             boolean success = weiXinAuthService.checkValid(signature, timestamp, nonce);
             // 记录验签完成的日志
             log.info("微信公众号验签信息{}完成 check：{}", appid, success);
-            if(!success){
+            if (!success) {
                 return null;
             }
             return echostr;
@@ -78,13 +78,13 @@ public class WeiXinPortalController {
     /**
      * 处理用户发送的信息，用于微信公众号交互。
      *
-     * @param appid 公众号的唯一标识。
-     * @param requestBody 用户发送的消息的XML字符串。
-     * @param signature 微信加密签名，用于验证消息的真实性。
-     * @param timestamp 时间戳，用于验证消息的真实性。
-     * @param nonce 随机数，用于验证消息的真实性。
-     * @param openid 用户的唯一标识。
-     * @param encType 加密类型，可选参数，表示消息是否加密。
+     * @param appid        公众号的唯一标识。
+     * @param requestBody  用户发送的消息的XML字符串。
+     * @param signature    微信加密签名，用于验证消息的真实性。
+     * @param timestamp    时间戳，用于验证消息的真实性。
+     * @param nonce        随机数，用于验证消息的真实性。
+     * @param openid       用户的唯一标识。
+     * @param encType      加密类型，可选参数，表示消息是否加密。
      * @param msgSignature 消息签名，用于验证消息的真实性。
      * @return 返回处理后的响应信息，格式可以是XML。
      */
@@ -113,16 +113,17 @@ public class WeiXinPortalController {
                     .createTime(new Date(System.currentTimeMillis() / 1000L))
                     .fromUserName(messageText.getFromUserName())
                     .content(messageText.getContent())
+                    .ticket(messageText.getTicket())
                     .build();
 
             // 处理用户的行为信息，返回处理结果
             String result = weiXinBehaviorService.acceptUserBehavior(behaviorMessageEntity);
             // 记录处理微信公众号信息请求完成的日志
-            log.info("接收微信公众号信息请求完成:【openId:{},result:{}】",openid,result);
+            log.info("接收微信公众号信息请求完成:【openId:{},result:{}】", openid, result);
             return result;
         } catch (Exception e) {
             // 记录处理微信公众号信息请求出现异常的日志
-            log.info("微信公众号接收用户请求出现异常:【openId:{} , 异常信息:{}】",openid,e.getMessage());
+            log.info("微信公众号接收用户请求出现异常:【openId:{} , 异常信息:{}】", openid, e.getMessage());
             return "";
         }
     }

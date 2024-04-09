@@ -68,6 +68,7 @@ wx:
     originalid: gh_cb7b526b4afe
     appid: wx5f3e89698e950ef7
     token: myapp
+    app-secret: 717e62ff640b6f8af2e06776817b3f1c
 
 # 日志
 logging:

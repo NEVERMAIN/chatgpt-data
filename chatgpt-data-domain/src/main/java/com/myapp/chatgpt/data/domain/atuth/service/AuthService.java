@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @description: 鉴权服务实现类
@@ -58,7 +59,14 @@ public class AuthService  extends AbstractAuthService{
 
     @Override
     public String getOpenId(String token) {
-        Claims claims = decode(token);
+        Claims claims = jwtDecode(token);
         return claims.get("openId").toString();
     }
+
+    @Override
+    public String genJwtToken(String issuer, long ttlMillis, Map<String, Object> claims) {
+        return jwtEncode(issuer,ttlMillis,claims);
+    }
+
+
 }

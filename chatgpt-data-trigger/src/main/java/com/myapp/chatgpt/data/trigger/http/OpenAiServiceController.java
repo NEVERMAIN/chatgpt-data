@@ -1,13 +1,13 @@
 package com.myapp.chatgpt.data.trigger.http;
 
 import com.alibaba.fastjson.JSON;
-import com.myapp.chatglm.model.Role;
 import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
 import com.myapp.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import com.myapp.chatgpt.data.domain.openai.service.IChatService;
 import com.myapp.chatgpt.data.trigger.http.dto.ChatGLMRequestDTO;
 import com.myapp.chatgpt.data.types.common.Constants;
+import com.myapp.chatgpt.data.types.enums.OpenAiRole;
 import com.myapp.chatgpt.data.types.exception.ChatGPTException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/${app.config.api-version}/chatgpt")
 @CrossOrigin("*")
-public class ChatGPTAIServiceController {
+public class OpenAiServiceController {
 
     @Resource
     private IChatService chatService;
@@ -70,7 +71,7 @@ public class ChatGPTAIServiceController {
                     .Model(request.getModel())
                     .messages(
                             request.getMessages().stream().map((entity) -> MessageEntity.builder()
-                                    .role(Role.getRole(entity.getRole()).getCode())
+                                    .role(Objects.requireNonNull(OpenAiRole.get(entity.getRole())).getCode())
                                     .content(entity.getContent())
                                     .build()).collect(Collectors.toList())
                     ).build();

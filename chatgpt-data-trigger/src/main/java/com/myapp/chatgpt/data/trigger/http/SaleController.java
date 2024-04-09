@@ -30,6 +30,7 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @description: 销售服务
@@ -114,60 +115,6 @@ public class SaleController {
 
     }
 
-    /**
-     * 查询商品列表
-     *
-     * @param token 鉴权 token
-     * @return
-     */
-    @GetMapping("query_product_list")
-    public Response<List<SaleProductDTO>> queryProductList(@RequestHeader("Authorization") String token) {
-        try {
-            // 1.Token 校验
-            boolean success = authService.checkToken(token);
-            if (!success) {
-                return Response.<List<SaleProductDTO>>builder()
-                        .code(Constants.ResponseCode.TOKEN_ERROR.getCode())
-                        .info(Constants.ResponseCode.UN_ERROR.getInfo())
-                        .build();
-            }
-            // 2.查询商品
-            List<ProductEntity> productList = orderService.queryProductList();
-            log.info("商品查询:{}", JSON.toJSONString(productList));
-
-            ArrayList<SaleProductDTO> mallProductDTOS = new ArrayList<>();
-            for (ProductEntity productEntity : productList) {
-
-                SaleProductDTO saleProductDTO = SaleProductDTO.builder()
-                        .productId(productEntity.getProductId())
-                        .productName(productEntity.getProductName())
-                        .productDesc(productEntity.getProductDesc())
-                        .productModelTypes(productEntity.getProductModelTypes())
-                        .quota(productEntity.getQuota())
-                        .price(productEntity.getPrice())
-                        .build();
-
-                mallProductDTOS.add(saleProductDTO);
-            }
-
-            // 3.返回结果
-            return Response.<List<SaleProductDTO>>builder()
-                    .code(Constants.ResponseCode.SUCEESS.getCode())
-                    .info(Constants.ResponseCode.SUCEESS.getInfo())
-                    .data(mallProductDTOS)
-                    .build();
-
-
-        } catch (Exception e) {
-            log.error("商品查询失败", e);
-            return Response.<List<SaleProductDTO>>builder()
-                    .code(Constants.ResponseCode.UN_ERROR.getCode())
-                    .info(Constants.ResponseCode.UN_ERROR.getInfo())
-                    .build();
-        }
-
-    }
-
 
     /**
      * 微信支付回调 方法
@@ -244,6 +191,7 @@ public class SaleController {
      * <p>
      * 该方法用于接收支付宝支付完成后的通知回调，对支付结果进行验证，并根据验证结果更新订单状态。
      * <p>
+     *
      * @param request 请求对象，包含支付宝回调的通知信息。
      * @return 返回字符串"success"表示处理成功，其他字符串表示处理失败。
      */
@@ -307,6 +255,71 @@ public class SaleController {
 
     }
 
+    /**
+     * 查询商品列表
+     *
+     * @param token 鉴权 token
+     * @return
+     */
+    @GetMapping("query_product_list")
+    public Response<List<SaleProductDTO>> queryProductList(@RequestHeader("Authorization") String token) {
+        try {
+            // 1.Token 校验
+            boolean success = authService.checkToken(token);
+            if (!success) {
+                return Response.<List<SaleProductDTO>>builder()
+                        .code(Constants.ResponseCode.TOKEN_ERROR.getCode())
+                        .info(Constants.ResponseCode.TOKEN_ERROR.getCode())
+                        .build();
+            }
+            // 2.查询商品
+            List<ProductEntity> productList = orderService.queryProductList();
+            if (productList == null) {
+                // 避免 null
+                productList = new ArrayList<>();
+            }
+            log.info("商品查询:{}", JSON.toJSONString(productList));
+
+            List<SaleProductDTO> mallProductDTOS = convertProductEntitiesToDTOs(productList);
+
+            // 3.返回结果
+            return Response.<List<SaleProductDTO>>builder()
+                    .code(Constants.ResponseCode.SUCEESS.getCode())
+                    .info(Constants.ResponseCode.SUCEESS.getInfo())
+                    .data(mallProductDTOS)
+                    .build();
+
+
+        } catch (Exception e) {
+            log.error("商品查询失败", e);
+            return Response.<List<SaleProductDTO>>builder()
+                    .code(Constants.ResponseCode.UN_ERROR.getCode())
+                    .info(Constants.ResponseCode.UN_ERROR.getCode())
+                    .build();
+        }
+
+    }
+
+
+    /**
+     * 将产品实体列表转换为DTO（数据传输对象）列表。
+     *
+     * @param productList 产品实体列表，不应为null。
+     * @return 转换后的SaleProductDTO列表，包含从产品实体中提取的所有信息。
+     */
+    private List<SaleProductDTO> convertProductEntitiesToDTOs(List<ProductEntity> productList) {
+        // 使用流将每个产品实体映射到SaleProductDTO，然后收集到一个列表中
+        return productList.stream()
+                .map(productEntity -> SaleProductDTO.builder()
+                        .productId(productEntity.getProductId())
+                        .productName(productEntity.getProductName())
+                        .productDesc(productEntity.getProductDesc())
+                        .productModelTypes(productEntity.getProductModelTypes())
+                        .quota(productEntity.getQuota())
+                        .price(productEntity.getPrice())
+                        .build())
+                .collect(Collectors.toList());
+    }
 
 
 }

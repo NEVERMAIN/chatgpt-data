@@ -37,5 +37,10 @@ public class BehaviorMatter {
      * 事件类型
      */
     private String event;
+
     private Date createTime;
+    /**
+     * 登录凭证
+     */
+    private String ticket;
 }

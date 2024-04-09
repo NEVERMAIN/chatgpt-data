@@ -24,6 +24,7 @@ public class Constants {
         ILLEGAL_PARAMETER("0002","非法参数"),
         TOKEN_ERROR("0003","权限拦截"),
         ORDER_PRODUCT_ERR("0004","所选购的产品已下线,请重新选择下单商品"),
+        NO_LOGIN("0005","未登录"),
         ;
         private String code;
         private String info;

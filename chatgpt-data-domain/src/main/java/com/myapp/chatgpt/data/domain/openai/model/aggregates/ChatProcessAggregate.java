@@ -1,6 +1,5 @@
 package com.myapp.chatgpt.data.domain.openai.model.aggregates;
 
-import com.myapp.chatglm.model.Model;
 import com.myapp.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import com.myapp.chatgpt.data.domain.openai.model.valobj.GenerativeModelVO;
 import com.myapp.chatgpt.data.types.enums.OpenAiChannel;

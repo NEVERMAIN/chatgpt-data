@@ -14,5 +14,12 @@ public interface IWeiXinRepository {
      */
     String getCode(String openId);
 
+    /**
+     * 保存 openid token 到 Redis
+     * @param ticket 登录凭证
+     * @param token  jwt token
+     */
+    void saveOpenidToken(String ticket,String token);
+
 
 }

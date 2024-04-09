@@ -24,21 +24,25 @@ public class EngineConfig {
     @Resource
     private LogicFilter validCode;
 
+    @Resource
+    private LogicFilter scan;
+
     @Resource(name = "openAi")
     private LogicFilter openAi;
 
-    protected static Map<String, Map<String,LogicFilter>> logicFilterMap = new HashMap<>();
+    protected static Map<String, Map<String, LogicFilter>> logicFilterMap = new HashMap<>();
 
     @PostConstruct
-    public void init(){
-        logicFilterMap.put("text",new HashMap<String,LogicFilter>(){{
-            put("验证码",validCode);
-            put("openAi",openAi);
+    public void init() {
+        logicFilterMap.put("text", new HashMap<String, LogicFilter>() {{
+            put("验证码", validCode);
+            put("openAi", openAi);
         }});
 
-        logicFilterMap.put("event",new HashMap<String,LogicFilter>(){{
-            put("subscribe",subscribe);
-            put("unsubscribe",unsubscribe);
+        logicFilterMap.put("event", new HashMap<String, LogicFilter>() {{
+            put("subscribe", subscribe);
+            put("unsubscribe", unsubscribe);
+            put("SCAN", scan);
         }});
 
     }

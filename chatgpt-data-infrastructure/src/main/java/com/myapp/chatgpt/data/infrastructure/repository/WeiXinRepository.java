@@ -1,5 +1,6 @@
 package com.myapp.chatgpt.data.infrastructure.repository;
 
+import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
 import com.myapp.chatgpt.data.domain.weixin.repository.IWeiXinRepository;
 import com.myapp.chatgpt.data.infrastructure.redis.IRedisService;
 import jodd.util.RandomString;
@@ -25,6 +26,9 @@ public class WeiXinRepository implements IWeiXinRepository {
 
     @Resource
     private IRedisService redisService;
+
+    private static final String WECHAT_LOGIN_SCAN_KEY = "wechat_login_scan_key";
+
 
     @Override
     public String getCode(String openId) {
@@ -67,4 +71,10 @@ public class WeiXinRepository implements IWeiXinRepository {
             lock.unlock();
         }
     }
+
+    @Override
+    public void saveOpenidToken(String ticket, String token) {
+        redisService.setValue(WECHAT_LOGIN_SCAN_KEY+"_"+ticket,token);
+    }
+
 }
