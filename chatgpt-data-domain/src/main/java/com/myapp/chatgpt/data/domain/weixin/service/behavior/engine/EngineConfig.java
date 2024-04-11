@@ -1,6 +1,8 @@
 package com.myapp.chatgpt.data.domain.weixin.service.behavior.engine;
 
+import com.myapp.chatgpt.data.domain.weixin.model.vo.MsgTypeVO;
 import com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.LogicFilter;
+import com.myapp.chatgpt.data.domain.weixin.model.vo.WechatEventVO;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -34,15 +36,15 @@ public class EngineConfig {
 
     @PostConstruct
     public void init() {
-        logicFilterMap.put("text", new HashMap<String, LogicFilter>() {{
+        logicFilterMap.put(MsgTypeVO.TEXT.getCode(), new HashMap<String, LogicFilter>() {{
             put("验证码", validCode);
             put("openAi", openAi);
         }});
 
-        logicFilterMap.put("event", new HashMap<String, LogicFilter>() {{
-            put("subscribe", subscribe);
-            put("unsubscribe", unsubscribe);
-            put("SCAN", scan);
+        logicFilterMap.put(MsgTypeVO.EVENT.getCode(), new HashMap<String, LogicFilter>() {{
+            put(WechatEventVO.SUBSCRIBE.getCode(), subscribe);
+            put(WechatEventVO.UNSUBSCRIBE.getCode(), unsubscribe);
+            put(WechatEventVO.SCAN.getCode(), scan);
         }});
 
     }

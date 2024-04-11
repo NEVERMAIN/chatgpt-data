@@ -1,4 +1,4 @@
-package com.myapp.chatgpt.data.types.enums;
+package com.myapp.chatgpt.data.domain.weixin.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
