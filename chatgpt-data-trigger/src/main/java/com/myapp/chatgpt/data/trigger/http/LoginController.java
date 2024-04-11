@@ -1,7 +1,6 @@
 package com.myapp.chatgpt.data.trigger.http;
 
-import com.myapp.chatgpt.data.domain.atuth.login.service.ILoginService;
-import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
+import com.myapp.chatgpt.data.domain.login.service.ILoginService;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +22,6 @@ public class LoginController {
 
     @Resource
     private ILoginService loginService;
-
-    @Resource
-    private IAuthService authService;
 
     /**
      * 获取微信凭证

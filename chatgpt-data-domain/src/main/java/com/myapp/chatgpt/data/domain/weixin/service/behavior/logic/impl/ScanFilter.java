@@ -1,6 +1,7 @@
 package com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.impl;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import com.google.common.cache.Cache;
 import com.myapp.chatgpt.data.domain.weixin.model.entity.BehaviorMatter;
 import com.myapp.chatgpt.data.domain.weixin.repository.IWeiXinRepository;
 import com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.LogicFilter;
@@ -30,8 +31,12 @@ public class ScanFilter implements LogicFilter {
 
     private final Logger logger = LoggerFactory.getLogger(SubscribeFilter.class);
 
+//    @Resource
+//    private IWeiXinRepository weiXinRepository;
+
     @Resource
-    private IWeiXinRepository weiXinRepository;
+    private Cache<String, String> openidToken;
+
 
     /**
      * SecretKey 要替换为你自己的，并且最好是通过配置的方式使用
@@ -50,7 +55,7 @@ public class ScanFilter implements LogicFilter {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("openId", openid);
         String token = jwtEncode(openid, 7 * 24 * 60 * 60 * 1000L, claims);
-        weiXinRepository.saveOpenidToken(ticket,token);
+        openidToken.put(ticket, token);
 
         return "";
     }

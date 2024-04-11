@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 /**
- * @description: Retrofit2配置
+ * @description: Retrofit2 配置
  * @author: 云奇迹
  * @date: 2024/4/9
  */

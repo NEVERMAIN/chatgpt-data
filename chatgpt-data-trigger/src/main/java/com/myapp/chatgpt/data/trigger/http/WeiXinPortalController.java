@@ -43,7 +43,7 @@ public class WeiXinPortalController {
      * @param timestamp 签名生成的时间戳
      * @param nonce     随机数，用于防止网络重放攻击
      * @param echostr   随机字符串，用于验证请求的真实性
-     * @return 如果验证成功，返回echostr参数的值；验证失败或参数非法，返回null
+     * @return 如果验证成功，返回 echostr 参数的值；验证失败或参数非法，返回null
      */
     @GetMapping(produces = "text/plain;charset=utf-8")
     public String validate(@PathVariable String appid,

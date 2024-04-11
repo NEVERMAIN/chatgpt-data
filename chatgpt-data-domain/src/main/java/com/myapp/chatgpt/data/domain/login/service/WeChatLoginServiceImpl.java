@@ -1,7 +1,7 @@
-package com.myapp.chatgpt.data.domain.atuth.login.service;
+package com.myapp.chatgpt.data.domain.login.service;
 
-import com.myapp.chatgpt.data.domain.atuth.login.adapter.ILoginAdapter;
-import com.myapp.chatgpt.data.domain.atuth.login.repository.ILoginRepository;
+import com.google.common.cache.Cache;
+import com.myapp.chatgpt.data.domain.login.adapter.ILoginAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +20,12 @@ public class WeChatLoginServiceImpl implements ILoginService{
     private ILoginAdapter loginAdapter;
 
     @Resource
-    private ILoginRepository loginRepository;
+    private Cache<String, String> openidToken;
 
     @Override
     public String createQrCodeTicket() {
         try {
-            String qrCodeTicket = loginAdapter.createQrCodeTicket();
-            if(qrCodeTicket != null){
-                return qrCodeTicket;
-            }else{
-               throw new RuntimeException("微信公众号扫码登录获取 ticket");
-            }
+            return loginAdapter.createQrCodeTicket();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -39,6 +34,6 @@ public class WeChatLoginServiceImpl implements ILoginService{
     @Override
     public String checkLogin(String ticket) {
         // 通过 ticket 判断,用户是否登录,如果登陆了,会在内存中写入信息
-        return loginRepository.checkLogin(ticket);
+        return openidToken.getIfPresent(ticket);
     }
 }

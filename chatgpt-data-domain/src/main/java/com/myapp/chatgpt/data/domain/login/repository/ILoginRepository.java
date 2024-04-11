@@ -1,4 +1,4 @@
-package com.myapp.chatgpt.data.domain.atuth.login.repository;
+package com.myapp.chatgpt.data.domain.login.repository;
 
 /**
  * @description: 登录鉴权的仓储服务

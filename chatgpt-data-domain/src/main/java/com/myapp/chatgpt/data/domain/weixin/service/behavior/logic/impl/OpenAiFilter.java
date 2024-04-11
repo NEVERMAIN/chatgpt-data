@@ -9,6 +9,9 @@ import com.myapp.chatgpt.data.domain.weixin.model.entity.BehaviorMatter;
 import com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.LogicFilter;
 import com.myapp.chatgpt.data.types.enums.OpenAiModel;
 import com.myapp.chatgpt.data.types.enums.OpenAiRole;
+import com.myapp.openai.executor.parameter.Message;
+import com.myapp.openai.executor.parameter.request.CompletionRequest;
+import com.myapp.openai.session.OpenAiSession;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +34,15 @@ public class OpenAiFilter implements LogicFilter {
     @Resource
     private ThreadPoolExecutor gptTaskExecutor;
 
-    private Cache<String, GPTTaskInfo> gptTaskCache = CacheBuilder.newBuilder()
+    private Cache<String, OpenAiTaskInfo> gptTaskCache = CacheBuilder.newBuilder()
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .build();
 
-    @Autowired
-    private IChatService chatService;
+//    @Autowired
+//    private IChatService chatService;
+
+    @Resource
+    private OpenAiSession openAiSession;
 
 
     /**
@@ -57,27 +63,28 @@ public class OpenAiFilter implements LogicFilter {
 
             // 获取GPT对话任务,如果不存在,就创建
             if (null == gptTaskCache.getIfPresent(openId)) {
-                GPTTaskInfo gptTaskInfo = new GPTTaskInfo();
-                gptTaskInfo.setFuture(submitGptTask(content, openId));
-                gptTaskInfo.setRetryTimes(0);
-                gptTaskCache.put(openId, gptTaskInfo);
+                OpenAiTaskInfo openAiTaskInfo = new OpenAiTaskInfo();
+                openAiTaskInfo.setFuture(submitGptTask(content));
+                openAiTaskInfo.setRetryTimes(0);
+                gptTaskCache.put(openId, openAiTaskInfo);
             }
 
             // 获取相应的结果
-            GPTTaskInfo gptTaskInfo = gptTaskCache.getIfPresent(openId);
+            OpenAiTaskInfo openAiTaskInfo = gptTaskCache.getIfPresent(openId);
             try {
                 // 重试次数 + 1
-                gptTaskInfo.addRetryTimes();
-                Future<String> future = gptTaskInfo.getFuture();
+                assert openAiTaskInfo != null;
+                openAiTaskInfo.addRetryTimes();
+                Future<String> future = openAiTaskInfo.getFuture();
                 // 获取响应的结果
                 response = future.get(4, TimeUnit.SECONDS);
                 logger.info("AI 回复用户信息:【openId:{},content:{}】", openId, response);
                 gptTaskCache.invalidate(openId);
             } catch (TimeoutException e) {
                 // 利用公众号的重试机制,保证 3 次重试内回复消息即可
-                if (gptTaskInfo.getRetryTimes() == 3) {
+                if (openAiTaskInfo.getRetryTimes() == 3) {
                     response = "AI 仍在思考中，请发送任意消息重新获取答案";
-                } else if (gptTaskInfo.getRetryTimes() == 6) {
+                } else if (openAiTaskInfo.getRetryTimes() == 6) {
                     response = "AI 被你的问题难倒了,请你换一个问题.";
                     gptTaskCache.invalidate(openId);
                 } else {
@@ -90,28 +97,27 @@ public class OpenAiFilter implements LogicFilter {
             gptTaskCache.invalidate(openId);
         }
 
-
         return response;
     }
 
-    private Future<String> submitGptTask(String content, String openId) throws InterruptedException {
+    private Future<String> submitGptTask(String content) throws InterruptedException {
         try {
             Future<CompletableFuture<String>> submit = gptTaskExecutor.submit(() -> {
-                ChatProcessAggregate process = ChatProcessAggregate.builder()
-                        .openId(openId)
-                        .Model(OpenAiModel.GLM_3_TURBO.getCode())
-                        .messages(new ArrayList<MessageEntity>() {
+
+                CompletionRequest completionRequest = CompletionRequest.builder()
+                        .stream(true)
+                        .model(OpenAiModel.GLM_3_TURBO.getCode())
+                        .messages(new ArrayList<Message>() {
                             private static final long serialVersionUID = -7988151926241837899L;
 
                             {
-                                add(MessageEntity.builder()
+                                add(Message.builder()
                                         .role(OpenAiRole.USER.getCode())
                                         .content(content)
                                         .build());
                             }
                         }).build();
-
-                return chatService.completions(process);
+                return openAiSession.completions(completionRequest);
             });
             // 返回异步请求的结果
             return submit.get();
@@ -122,7 +128,7 @@ public class OpenAiFilter implements LogicFilter {
 
 
     @Data
-    public static class GPTTaskInfo {
+    public static class OpenAiTaskInfo {
         private Future<String> future;
         private Integer retryTimes;
 

@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8081
   # 1核2G内存,线程经验数200,4核8G,线程经验数800【accept-count=1000、max-threads=800、max-connections=10000】,线程池过大,cpu调度会消耗大量时间
   tomcat:
     mbeanregistry:
@@ -68,7 +68,7 @@ wx:
     originalid: gh_cb7b526b4afe
     appid: wx5f3e89698e950ef7
     token: myapp
-    app-secret: 717e62ff640b6f8af2e06776817b3f1c
+    app-secret: 655dd1f1d32a46036d44b3dc511b3af7
 
 # 日志
 logging:

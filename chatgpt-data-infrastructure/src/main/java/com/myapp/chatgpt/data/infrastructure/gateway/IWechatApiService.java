@@ -32,15 +32,18 @@ public interface IWechatApiService {
 
     /**
      * 创建二维码
-     * @param access_token   调用接口凭证
-     * @param weChatQrCodeRequestDTO  请求参数
-     * @return              响应结果
+     * 本方法用于通过提供的接口凭证和请求参数，在微信平台上创建二维码。
+     *
+     * @param accessToken   调用接口凭证，用于验证请求的合法性。
+     * @param weChatQrCodeRequestDTO  请求参数，包含了创建二维码所需的全部信息。
+     * @return              响应结果，包含了创建二维码后的相关信息。
      */
     @POST("cgi-bin/qrcode/create")
     Call<WeChatQrCodeResponseDTO> createQrCode(
-            @Query("access_token") String access_token,
+            @Query("access_token") String accessToken,
             @Body WeChatQrCodeRequestDTO weChatQrCodeRequestDTO
     );
+
 
 
 

@@ -1,6 +1,6 @@
 package com.myapp.chatgpt.data.infrastructure.repository;
 
-import com.myapp.chatgpt.data.domain.atuth.login.repository.ILoginRepository;
+import com.myapp.chatgpt.data.domain.login.repository.ILoginRepository;
 import com.myapp.chatgpt.data.infrastructure.redis.IRedisService;
 import org.springframework.stereotype.Repository;
 

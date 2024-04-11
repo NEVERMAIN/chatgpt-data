@@ -1,4 +1,4 @@
-package com.myapp.chatgpt.data.domain.atuth.login.adapter;
+package com.myapp.chatgpt.data.domain.login.adapter;
 
 /**
  * @description: 登录接口的适配

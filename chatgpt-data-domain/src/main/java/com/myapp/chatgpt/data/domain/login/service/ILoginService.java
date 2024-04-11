@@ -1,4 +1,4 @@
-package com.myapp.chatgpt.data.domain.atuth.login.service;
+package com.myapp.chatgpt.data.domain.login.service;
 
 /**
  * @description: 微信登录服务

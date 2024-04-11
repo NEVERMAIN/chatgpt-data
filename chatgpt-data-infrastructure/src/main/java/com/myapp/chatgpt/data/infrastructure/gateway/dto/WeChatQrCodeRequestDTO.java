@@ -19,10 +19,10 @@ public class WeChatQrCodeRequestDTO {
     private Integer expire_seconds;
     /**
      * 二维码类型:
-     * QR_SCENE为临时的整型参数值，
-     * QR_STR_SCENE为临时的字符串参数值，
-     * QR_LIMIT_SCENE为永久的整型参数值，
-     * QR_LIMIT_STR_SCENE为永久的字符串参数值
+     * QR_SCENE 为临时的整型参数值，
+     * QR_STR_SCENE 为临时的字符串参数值，
+     * QR_LIMIT_SCENE 为永久的整型参数值，
+     * QR_LIMIT_STR_SCENE 为永久的字符串参数值
      */
     private  String action_name;
     /**
@@ -54,21 +54,33 @@ public class WeChatQrCodeRequestDTO {
             private String scene_str;
         }
 
-
     }
 
+    /**
+     * ActionNameTypeVO 枚举类，用于定义二维码场景类型
+     * @@Getter 提供自动生成功能的get方法
+     * @NoArgsConstructor 提供无参构造方法
+     * @AllArgsConstructor 提供全参数构造方法
+     */
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public enum ActionNameTypeVO{
+        // 临时二维码，整型参数
         QR_SCENE("QR_SCENE","临时的整型参数值"),
+        // 临时二维码，字符串参数
         QR_STR_SCENE("QR_STR_SCENE","临时的字符串参数值"),
+        // 永久二维码，整型参数
         QR_LIMIT_SCENE("QR_LIMIT_SCENE","永久的整型参数值"),
+        // 永久二维码，字符串参数
         QR_LIMIT_STR_SCENE("QR_LIMIT_STR_SCENE","永久的字符串参数值"),
-
         ;
+
+        // 枚举类型的属性：代码和信息
         private String code;
         private String info;
+
+
     }
 
 

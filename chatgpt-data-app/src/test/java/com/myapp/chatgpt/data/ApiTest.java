@@ -46,26 +46,5 @@ public class ApiTest {
     }
 
 
-    @Test
-    public void test_func(){
-        String modelTypes = "glm-3-turbo,glm-4,glm-4v,cogview-3";
-        String newModel = "glm-3.5-turbo";
-//        String[] models = modelTypes.split(",");
-//        List<String> list = new ArrayList<>(Arrays.asList(models));
-//        if(!list.contains(newModel)){
-//            list.add(newModel);
-//        }
-//        String join = String.join(",", list);
-//        System.out.println(join);
 
-        if(!modelTypes.contains(newModel)){
-            if(modelTypes.isEmpty()){
-                modelTypes = newModel;
-            }else{
-                modelTypes += ","+newModel;
-            }
-        }
-        System.out.println(modelTypes);
-
-    }
 }

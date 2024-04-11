@@ -57,4 +57,20 @@ public class GlobalGuavaCacheConfig {
         eventBus.register(listener);
         return eventBus;
     }
+
+    @Bean(name = "weixinAccessToken")
+    public Cache<String, String> weixinAccessToken() {
+        return CacheBuilder.newBuilder()
+                .expireAfterWrite(2, TimeUnit.HOURS)
+                .build();
+    }
+
+    @Bean(name = "openidToken")
+    public Cache<String, String> openidToken() {
+        return CacheBuilder.newBuilder()
+                .expireAfterWrite(1, TimeUnit.HOURS)
+                .build();
+    }
+
+
 }
