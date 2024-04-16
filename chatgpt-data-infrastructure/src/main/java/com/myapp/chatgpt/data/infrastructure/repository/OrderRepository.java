@@ -96,7 +96,7 @@ public class OrderRepository implements IOrderRepository {
                 .orderStatus(order.getOrderStatus().getCode())
                 .totalAmount(order.getTotalAmount())
                 .payStatus(PayStatusVo.WAIT.getCode())
-                .payType(PayTypeVO.ALIPAY.getCode())
+                .payType(order.getPayType().getCode())
                 .productId(product.getProductId())
                 .productName(product.getProductName())
                 .productQuota(product.getQuota())

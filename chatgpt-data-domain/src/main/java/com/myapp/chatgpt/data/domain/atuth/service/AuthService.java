@@ -22,9 +22,6 @@ import java.util.Map;
 public class AuthService  extends AbstractAuthService{
 
     @Resource
-    private Cache<String,String> codeCache;
-
-    @Resource
     private IAuthRepository authRepository;
 
     @Override

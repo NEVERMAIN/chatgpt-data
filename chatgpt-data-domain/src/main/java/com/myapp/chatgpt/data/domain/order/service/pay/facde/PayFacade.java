@@ -20,16 +20,17 @@ public class PayFacade {
     private PayContextFactory payContextFactory;
 
     /**
-     * 支付方法
-     * @param prePayOrderEntity 预支付的订单对象
-     * @param payType 支付类型
-     * @return
+     * 执行支付操作的方法。
+     * @param prePayOrderEntity 预支付订单实体，包含支付所需详细信息。
+     * @param payType 支付类型，决定使用哪种支付方式。
+     * @return 返回支付结果，通常为支付成功或失败的提示信息。
      */
     public String pay(PrePayOrderEntity prePayOrderEntity, Integer payType) {
-        // 1. 获取 payContext 对象
+        // 根据支付类型获取相应的支付上下文
         PayContext context = payContextFactory.getContext(payType);
-        // 2. 调用支付方法
+        // 使用获取的支付上下文执行支付操作
         return context.execute(prePayOrderEntity);
     }
+
 
 }

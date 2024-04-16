@@ -135,6 +135,16 @@ alipay:
   gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
 
 
+# 蓝兔支付 SDK
+ltzf:
+  sdk:
+    config:
+      enabled: true
+      appId: 1106772
+      merchantId: 1674036351
+      partnerKey: 8a30b9d0ef2a83a9b8de60d2e5817818
+      notifyUrl: http://lotterycore.nat300.top/api/v1/sale/ltzf/pay_notify
+
 
 # Redis
 redis:
@@ -150,6 +160,8 @@ redis:
       retry-interval: 1000
       ping-interval: 60000
       keep-alive: true
+
+
 
 
 # 监控

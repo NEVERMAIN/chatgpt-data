@@ -28,9 +28,9 @@ public abstract class AbstractAuthService implements IAuthService {
     /**
      * SecretKey 要替换为你自己的，并且最好是通过配置的方式使用
      */
-    private static final String defaultBase64EncodedSecretKey = "B*B^D%fe";
-    private final String base64EncodedSecretKey = Base64.encodeBase64String(defaultBase64EncodedSecretKey.getBytes());
-    private final Algorithm algorithm = Algorithm.HMAC256(Base64.decodeBase64(Base64.encodeBase64String(defaultBase64EncodedSecretKey.getBytes())));
+    private static final String DEFAULT_BASE64_ENCODED_SECRET_KEY = "B*B^D%fe";
+    private final String base64EncodedSecretKey = Base64.encodeBase64String(DEFAULT_BASE64_ENCODED_SECRET_KEY.getBytes());
+    private final Algorithm algorithm = Algorithm.HMAC256(Base64.decodeBase64(Base64.encodeBase64String(DEFAULT_BASE64_ENCODED_SECRET_KEY.getBytes())));
 
 
     @Override

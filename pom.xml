@@ -140,6 +140,13 @@
                 <version>1.9.4</version>
             </dependency>
 
+            <!-- 蓝兔支付 SDK-->
+            <dependency>
+                <groupId>com.openicu</groupId>
+                <artifactId>ltzf-sdk-java</artifactId>
+                <version>1.0</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

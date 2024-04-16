@@ -50,8 +50,8 @@ public class OrderService extends AbstractOrderService {
         orderEntity.setOrderId(RandomStringUtils.randomNumeric(12));
         orderEntity.setOrderTime(new Date());
         orderEntity.setOrderStatus(OrderStatusVO.CREATE);
-        // 根据支付类型设置支付方式，当前默认为支付宝
-        orderEntity.setPayType(PayTypeVO.ALIPAY);
+        // 根据支付类型设置支付方式，当前默认为 扫码支付
+        orderEntity.setPayType(PayTypeVO.get(payType));
         // 设置订单总金额
         orderEntity.setTotalAmount(productEntity.getPrice());
 
@@ -79,6 +79,7 @@ public class OrderService extends AbstractOrderService {
      */
     @Override
     protected PayOrderEntity doPrepayOrder(Integer payType, String openid, String orderId, String productName, BigDecimal totalAmount) {
+        log.info("创建预支付订单，支付类型：{}，订单ID：{}，订单金额：{}", payType, orderId, totalAmount);
         // 创建预支付订单对象，设置订单基本信息
         PrePayOrderEntity prePayOrder = PrePayOrderEntity.builder()
                 .openid(openid)

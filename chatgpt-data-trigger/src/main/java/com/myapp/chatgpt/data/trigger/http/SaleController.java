@@ -7,11 +7,15 @@ import com.myapp.chatgpt.data.domain.atuth.service.IAuthService;
 import com.myapp.chatgpt.data.domain.order.model.entity.PayOrderEntity;
 import com.myapp.chatgpt.data.domain.order.model.entity.ProductEntity;
 import com.myapp.chatgpt.data.domain.order.model.entity.ShopCarEntity;
+import com.myapp.chatgpt.data.domain.order.model.vo.PayTypeVO;
 import com.myapp.chatgpt.data.domain.order.service.IOrderService;
 import com.myapp.chatgpt.data.trigger.http.dto.SaleProductDTO;
 import com.myapp.chatgpt.data.trigger.mq.RedisTopicListener;
 import com.myapp.chatgpt.data.types.common.Constants;
 import com.myapp.chatgpt.data.types.model.Response;
+import com.openicu.ltzf.payments.nativepay.NativePayService;
+import com.openicu.ltzf.payments.nativepay.model.QueryOrderByOutTradeNoRequest;
+import com.openicu.ltzf.payments.nativepay.model.QueryOrderByOutTradeNoResponse;
 import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +23,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -59,6 +65,10 @@ public class SaleController {
     private RTopic payOrderSuccessTopic;
 
 
+    @Resource
+    private NativePayService nativePayService;
+
+
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -92,6 +102,7 @@ public class SaleController {
             ShopCarEntity shopCarEntity = ShopCarEntity.builder()
                     .openid(openid)
                     .productId(productId)
+                    .payType(PayTypeVO.NATIVE.getCode())
                     .build();
 
             // 4.创建订单
@@ -182,7 +193,6 @@ public class SaleController {
 
     }
 
-
     @Value("${alipay.alipayPublicKey}")
     private String alipayPublicKey;
 
@@ -255,6 +265,67 @@ public class SaleController {
 
     }
 
+    @Value("${ltzf.sdk.config.merchantId}")
+    private String merchantId;
+
+    @PostMapping("/ltzf/pay_notify")
+    public ResponseEntity<String> payNotify(
+            @RequestParam String code,
+            @RequestParam String timestamp,
+            @RequestParam("mch_id") String mchId,
+            @RequestParam("order_no") String orderNo,
+            @RequestParam("out_trade_no") String outTradeNo,
+            @RequestParam("pay_no") String payNo,
+            @RequestParam("total_fee") String totalFee,
+            @RequestParam("sign") String sign,
+            @RequestParam("pay_channel") String payChannel,
+            @RequestParam("trade_type") String tradeType,
+            @RequestParam("success_time") String successTime,
+            @RequestParam("attach") String attach,
+            @RequestParam("openid") String openid
+    ) {
+
+        try {
+
+            log.info("收到支付回调: 支付结果:{} 商户订单号:{} 支付金额:{} 支付渠道:{} 支付类型:{} 支付者信息:{} ", code, outTradeNo, totalFee, payChannel, tradeType, openid);
+
+            // 1. 查看是否支付成功
+            QueryOrderByOutTradeNoRequest queryRequest = new QueryOrderByOutTradeNoRequest();
+            queryRequest.setMchId(merchantId);
+            queryRequest.setOutTradeNo(outTradeNo);
+            QueryOrderByOutTradeNoResponse response = nativePayService.queryOrderByOutTradeNo(queryRequest);
+
+            // 支付成功
+            if (0 == response.getCode()) {
+
+                // 解析支付时间
+                Date payTime = null;
+                if (StringUtils.isBlank(successTime)) {
+                    payTime = new Date();
+                } else {
+                    payTime = sdf.parse(successTime);
+                }
+
+                // 更新订单状态为支付成功，并发布消息
+                boolean success = orderService.changeOrderPaySuccess(outTradeNo, payNo, new BigDecimal(totalFee), payTime);
+                // 发布订单支付成功的消息
+                if (success) {
+                    payOrderSuccessTopic.publish(outTradeNo);
+                }
+                return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+            }
+
+            return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            log.error("处理扫码支付 消息回调,出现异常",e);
+            return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
+        }
+
+
+    }
+
+
     /**
      * 查询商品列表
      *
@@ -278,7 +349,7 @@ public class SaleController {
                 // 避免 null
                 productList = new ArrayList<>();
             }
-            log.info("商品查询:{}", JSON.toJSONString(productList));
+            log.info("商品列表查询:{}", JSON.toJSONString(productList));
 
             List<SaleProductDTO> mallProductDTOS = convertProductEntitiesToDTOs(productList);
 

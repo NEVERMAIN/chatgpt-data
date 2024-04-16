@@ -46,8 +46,6 @@ public class TextGenerativeModelServiceImpl implements IGenerativeModelService {
         }
         try {
             // 1.请求参数
-            ArrayList<Message> prompts = new ArrayList<>();
-
             List<MessageEntity> messages = chatProcess.getMessages();
             List<Message> list = messages.stream().map(entity -> {
                 return Message.builder()

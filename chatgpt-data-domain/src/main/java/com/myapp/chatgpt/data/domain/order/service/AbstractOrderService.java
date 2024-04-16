@@ -33,7 +33,7 @@ public abstract class AbstractOrderService implements IOrderService {
     @Override
     public PayOrderEntity createOrder(ShopCarEntity shopCarEntity) {
 
-        // 1. 根据用户openid和商品ID，尝试查询是否存在未支付的订单
+        // 1. 根据用户 openid 和商品 ID，尝试查询是否存在未支付的订单
         String openid = shopCarEntity.getOpenid();
         Integer productId = shopCarEntity.getProductId();
 

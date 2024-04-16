@@ -9,7 +9,8 @@ import com.myapp.chatgpt.data.domain.order.service.pay.IPayStrategy;
  * @date: 2024/3/25
  */
 public class PayContext extends AbstractPayContext {
-    private IPayStrategy payStrategy;
+
+    private final IPayStrategy payStrategy;
 
     public PayContext(IPayStrategy payStrategy){
         this.payStrategy = payStrategy;

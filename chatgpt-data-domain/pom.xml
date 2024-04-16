@@ -88,6 +88,12 @@
             <artifactId>alipay-sdk-java</artifactId>
         </dependency>
 
+        <!-- 蓝兔支付 SDK-->
+        <dependency>
+            <groupId>com.openicu</groupId>
+            <artifactId>ltzf-sdk-java</artifactId>
+        </dependency>
+
 
         <!--自定义模块 begin-->
         <dependency>

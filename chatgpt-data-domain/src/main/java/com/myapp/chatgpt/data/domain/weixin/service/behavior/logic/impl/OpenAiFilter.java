@@ -29,7 +29,8 @@ import java.util.concurrent.*;
  */
 @Service("openAi")
 public class OpenAiFilter implements LogicFilter {
-    private Logger logger = LoggerFactory.getLogger(OpenAiFilter.class);
+
+    private final Logger logger = LoggerFactory.getLogger(OpenAiFilter.class);
 
     @Resource
     private ThreadPoolExecutor gptTaskExecutor;
@@ -38,9 +39,6 @@ public class OpenAiFilter implements LogicFilter {
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .build();
 
-//    @Autowired
-//    private IChatService chatService;
-
     @Resource
     private OpenAiSession openAiSession;
 
@@ -48,8 +46,8 @@ public class OpenAiFilter implements LogicFilter {
     /**
      * 考虑到生成式服务响应比较慢,需要根据公众号三次重试的机制设计策略
      *
-     * @param behaviorMessage
-     * @return
+     * @param behaviorMessage 用户行为实体对象
+     * @return 响应结果
      */
     @Override
     public String filter(BehaviorMatter behaviorMessage) {

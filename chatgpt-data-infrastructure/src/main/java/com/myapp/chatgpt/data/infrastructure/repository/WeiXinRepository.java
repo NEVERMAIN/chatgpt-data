@@ -74,6 +74,7 @@ public class WeiXinRepository implements IWeiXinRepository {
 
     @Override
     public void saveOpenidToken(String ticket, String token) {
+
         redisService.setValue(WECHAT_LOGIN_SCAN_KEY+"_"+ticket,token);
     }
 

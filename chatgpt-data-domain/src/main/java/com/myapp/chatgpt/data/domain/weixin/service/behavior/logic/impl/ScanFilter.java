@@ -31,12 +31,8 @@ public class ScanFilter implements LogicFilter {
 
     private final Logger logger = LoggerFactory.getLogger(SubscribeFilter.class);
 
-//    @Resource
-//    private IWeiXinRepository weiXinRepository;
-
     @Resource
     private Cache<String, String> openidToken;
-
 
     /**
      * SecretKey 要替换为你自己的，并且最好是通过配置的方式使用
@@ -44,7 +40,6 @@ public class ScanFilter implements LogicFilter {
     private static final String DEFAULT_BASE64_ENCODED_SECRET_KEY = "B*B^D%fe";
     private final String base64EncodedSecretKey = Base64.encodeBase64String(DEFAULT_BASE64_ENCODED_SECRET_KEY.getBytes());
     private final Algorithm algorithm = Algorithm.HMAC256(Base64.decodeBase64(Base64.encodeBase64String(DEFAULT_BASE64_ENCODED_SECRET_KEY.getBytes())));
-
 
     @Override
     public String filter(BehaviorMatter behaviorMessage) {
@@ -54,7 +49,8 @@ public class ScanFilter implements LogicFilter {
 
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("openId", openid);
-        String token = jwtEncode(openid, 7 * 24 * 60 * 60 * 1000L, claims);
+        final long JWT_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;
+        String token = jwtEncode(openid, JWT_EXPIRE_TIME, claims);
         openidToken.put(ticket, token);
 
         return "";

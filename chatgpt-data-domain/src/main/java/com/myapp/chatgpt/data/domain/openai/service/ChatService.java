@@ -62,23 +62,4 @@ public class ChatService extends AbstractChatService {
                         .info(LogicTypeVO.SUCCESS.getInfo()).build();
     }
 
-
-    @Override
-    public CompletableFuture<String> completions(ChatProcessAggregate chatProcess) throws Exception {
-
-        List<Message> messageList = chatProcess.getMessages().stream()
-                .map((entity) -> Message.builder()
-                        .role(Objects.requireNonNull(OpenAiRole.get(entity.getRole())).getCode())
-                        .content(entity.getContent())
-                        .build()).collect(Collectors.toList());
-
-        // 准备参数
-        CompletionRequest completionRequest = CompletionRequest.builder()
-                .model(OpenAiModel.GLM_3_TURBO.getCode())
-                .messages(messageList)
-                .stream(true)
-                .build();
-
-        return this.openAiSession.completions(completionRequest);
-    }
 }

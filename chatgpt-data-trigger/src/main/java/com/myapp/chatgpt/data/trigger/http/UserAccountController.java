@@ -39,7 +39,7 @@ public class UserAccountController {
                         .openid(openid)
                         .totalQuota(10)
                         .surplusQuota(10)
-                        .availModes(Arrays.asList("glm-3-turbo")).build())
+                        .availModes(Arrays.asList("glm-3-turbo,glm-4,glm-4v,cogview-3,generalv3.5")).build())
                 .build();
 
         UserAccountEntity accountEntity = userAccountService.createUserAccount(userAccountAggregate);

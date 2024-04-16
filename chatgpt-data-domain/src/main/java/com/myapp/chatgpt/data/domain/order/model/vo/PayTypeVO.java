@@ -19,6 +19,7 @@ public enum PayTypeVO {
      */
     WEIXIN_NATIVE(0,"微信NATIVE支付"),
     ALIPAY(1,"支付宝支付-沙箱"),
+    NATIVE(2,"扫码支付")
 
     ;
     private Integer code;

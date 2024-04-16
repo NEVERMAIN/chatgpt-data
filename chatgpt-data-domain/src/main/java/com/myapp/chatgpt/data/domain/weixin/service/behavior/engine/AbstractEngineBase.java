@@ -1,6 +1,7 @@
 package com.myapp.chatgpt.data.domain.weixin.service.behavior.engine;
 
 import com.myapp.chatgpt.data.domain.weixin.model.entity.BehaviorMatter;
+import com.myapp.chatgpt.data.domain.weixin.model.vo.MsgTypeVO;
 import com.myapp.chatgpt.data.domain.weixin.service.behavior.logic.LogicFilter;
 
 import java.util.Map;
@@ -26,12 +27,12 @@ public abstract class AbstractEngineBase extends EngineConfig implements Engine{
         Map<String, LogicFilter> logicGroup = logicFilterMap.get(behaviorMatter.getMsgType());
 
         // 处理事件
-        if("event".equals(behaviorMatter.getMsgType())){
+        if(MsgTypeVO.EVENT.getCode().equals(behaviorMatter.getMsgType())){
             return logicGroup.get(behaviorMatter.getEvent());
         }
 
         // 内容处理
-        if("text".equals(behaviorMatter.getMsgType())){
+        if(MsgTypeVO.TEXT.getCode().equals(behaviorMatter.getMsgType())){
             LogicFilter logicFilter = logicGroup.get(behaviorMatter.getContent().trim());
             if(logicFilter != null){
                 return logicFilter;

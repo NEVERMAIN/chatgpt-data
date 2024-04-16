@@ -28,7 +28,7 @@ public interface IAuthService {
 
     /**
      * 获取 token 中的 openId
-     * @param token
+     * @param token jwt 令牌
      * @return
      */
     String getOpenId(String token);

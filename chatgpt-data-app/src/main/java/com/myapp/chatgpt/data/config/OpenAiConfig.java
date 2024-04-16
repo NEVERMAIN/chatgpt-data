@@ -5,6 +5,7 @@ import com.myapp.openai.executor.model.spark.config.SparkConfig;
 import com.myapp.openai.session.OpenAiConfiguration;
 import com.myapp.openai.session.OpenAiSession;
 import com.myapp.openai.session.defaults.DefaultOpenAiSessionFactory;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @author: 云奇迹
  * @date: 2024/4/5
  */
+@Slf4j
 @Configuration
 @EnableConfigurationProperties(value = {ChatGLMConfigProperties.class,SparkConfigProperties.class})
 public class OpenAiConfig {
@@ -43,6 +45,7 @@ public class OpenAiConfig {
         DefaultOpenAiSessionFactory factory = new DefaultOpenAiSessionFactory(openAiConfiguration);
 
         // 5.创建会话
+        log.info("OpenAi SDK 启动成功, openAiSession 会话成功装配");
         return factory.openSession();
     }
 

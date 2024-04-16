@@ -19,12 +19,6 @@ public interface IChatService {
      */
     ResponseBodyEmitter completions(ChatProcessAggregate process,ResponseBodyEmitter emitter);
 
-    /**
-     * 异步处理返回的结果
-     * @param process
-     * @return
-     */
-    CompletableFuture<String> completions(ChatProcessAggregate process) throws Exception;
 
 
 

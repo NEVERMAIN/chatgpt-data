@@ -20,7 +20,8 @@ import javax.annotation.Resource;
  */
 @Service("validCode")
 public class ValidCodeFilter implements LogicFilter {
-    private Logger logger = LoggerFactory.getLogger(ValidCodeFilter.class);
+
+    private final Logger logger = LoggerFactory.getLogger(ValidCodeFilter.class);
 
     @Resource
     private IWeiXinRepository weiXinRepository;

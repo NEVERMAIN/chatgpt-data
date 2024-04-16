@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 @Repository
 public class AuthRepository implements IAuthRepository {
 
-    private static final String key = "wechat_code";
+    private static final String KEY = "wechat_code";
 
     @Resource
     private IRedisService redisService;
@@ -29,13 +29,13 @@ public class AuthRepository implements IAuthRepository {
 
     @Override
     public String getCodeByOpenId(String code) {
-        return redisService.getValue(key + "_" + code);
+        return redisService.getValue(KEY + "_" + code);
     }
 
     @Override
     public void removeCodeByOpenId(String code, String openId) {
-        redisService.remove(key + "_" + code);
-        redisService.remove(key + "_" + openId);
+        redisService.remove(KEY + "_" + code);
+        redisService.remove(KEY + "_" + openId);
     }
 
     @Override

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service("unsubscribe")
 public class UnsubscribeFilter implements LogicFilter {
 
-    private Logger logger = LoggerFactory.getLogger(UnsubscribeFilter.class);
+    private final Logger logger = LoggerFactory.getLogger(UnsubscribeFilter.class);
 
     @Override
     public String filter(BehaviorMatter behaviorMatter) {
